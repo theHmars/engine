@@ -59,6 +59,7 @@ def parse_markdown(filepath):
 
     title_match = re.search(r'^title:\s*(?:"(.*)"|\'(.*)\'|(.*))', content, re.MULTILINE)
     desc_match = re.search(r'^description:\s*(?:"(.*)"|\'(.*)\'|(.*))', content, re.MULTILINE)
+    img_match = re.search(r'^image:\s*(?:"(.*)"|\'(.*)\'|(.*))', content, re.MULTILINE)
     
     title = ""
     if title_match:
@@ -69,6 +70,14 @@ def parse_markdown(filepath):
     if desc_match:
         description = desc_match.group(1) or desc_match.group(2) or desc_match.group(3)
         if description: description = description.strip()
+        
+    image = ""
+    if img_match:
+        image = img_match.group(1) or img_match.group(2) or img_match.group(3)
+        if image: image = image.strip()
+        
+    if "fallback.webp" in image:
+        return None
 
     filename = os.path.basename(filepath)
     slug = filename.replace(".md", "")
@@ -244,10 +253,20 @@ def main():
         all_unshared_slugs[scope] = unshared_slugs
         
         tmp_queue = []
+        modified_shared_pre_render = False
         for slug in unshared_slugs:
             filepath = os.path.join(content_markdown_dir, f"{slug}.md")
             if os.path.exists(filepath):
-                tmp_queue.append(parse_markdown(filepath))
+                parsed = parse_markdown(filepath)
+                if parsed:
+                    tmp_queue.append(parsed)
+                else:
+                    print(f"  [-] Skipping Facebook post for {slug} (uses fallback image)")
+                    shared_list.append(slug)
+                    modified_shared_pre_render = True
+                    
+        if modified_shared_pre_render:
+            save_json(shared_file, shared_list)
                 
         all_tmp_queues[scope] = {"tmp": tmp_queue, "pending": pending_queue}
         total_articles_to_schedule += len(tmp_queue) + len(pending_queue)

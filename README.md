@@ -29,7 +29,7 @@ Orchestrated by `.github/workflows/pipeline.yml`, the pipeline runs 3 times a da
 4. **`Pre-Flight Markdown Validation`** (`validate_markdown.py` runs Astro checks on new files; corrupted files sent to `quarantine/local/`).
 5. **`Sync & Handoff`** (Files synced to `content` repo, `update_indices.py` generates `articles.json`).
 6. **`Commit & Push`** (Pushes to `content` remote).
-7. **`Publisher & Render Trigger`** (`facebook_publisher.py` handles Render deployment. If Render fails 3x, it physically moves files to `quarantine/render/`, reverts index, and pushes self-healing Git revert).
+7. **`Publisher & Render Trigger`** (`facebook_publisher.py` handles Render deployment. If Render fails 3x, it physically moves files to `quarantine/render/`, reverts index, and pushes self-healing Git revert. Also filters out articles with `fallback.webp` from Facebook queue (UNTESTED)).
 
 ---
 
