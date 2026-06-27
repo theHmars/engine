@@ -60,10 +60,7 @@ def check_queue():
 
 if __name__ == "__main__":
     # If script runs locally in developer workspace, try to load .env automatically
-    env_path = ".env"
-    if not os.path.exists(env_path) and os.path.exists("../.env"):
-        env_path = "../.env"
-        
+    env_path = "/home/phxlm/Work/websites/theHmars/frontend/.env"
     if os.path.exists(env_path):
         with open(env_path) as f:
             for line in f:

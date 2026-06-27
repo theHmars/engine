@@ -324,7 +324,9 @@ def main():
     # 4. Process Facebook Scheduling Queue
     latest_fb_time = get_latest_scheduled_time()
     now_ts = int(time.time())
-    last_scheduled_slot = latest_fb_time if (latest_fb_time and latest_fb_time > now_ts) else now_ts
+    
+    is_queue_empty = (latest_fb_time is None or latest_fb_time < now_ts)
+    last_scheduled_slot = latest_fb_time if not is_queue_empty else now_ts
     
     for scope in scopes:
         if scope not in all_tmp_queues:
@@ -347,22 +349,31 @@ def main():
         updated_pending = []
         modified = False
         
-        # Scheduling logic...
         for article in total_queue:
-            next_slot = last_scheduled_slot + (30 * 60)
-            if next_slot < now_ts + (15 * 60):
-                next_slot = now_ts + (15 * 60)
-                
-            if next_slot <= now_ts + (60 * 60 * 60):
-                print(f"  - Scheduling '{article['title'][:30]}' at slot {time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(next_slot))} UTC")
-                if publish_facebook_post(article, publish_time=next_slot):
+            if is_queue_empty:
+                print(f"  - Publishing IMMEDIATELY: '{article['title'][:30]}'")
+                if publish_facebook_post(article, publish_time=None):
                     shared_list.append(article["slug"])
-                    last_scheduled_slot = next_slot
                     modified = True
+                    is_queue_empty = False
+                    last_scheduled_slot = now_ts
                 else:
                     updated_pending.append(article)
             else:
-                updated_pending.append(article)
+                next_slot = last_scheduled_slot + (30 * 60)
+                if next_slot < now_ts + (15 * 60):
+                    next_slot = now_ts + (15 * 60)
+                    
+                if next_slot <= now_ts + (60 * 60 * 60):
+                    print(f"  - Scheduling '{article['title'][:30]}' at slot {time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(next_slot))} UTC")
+                    if publish_facebook_post(article, publish_time=next_slot):
+                        shared_list.append(article["slug"])
+                        last_scheduled_slot = next_slot
+                        modified = True
+                    else:
+                        updated_pending.append(article)
+                else:
+                    updated_pending.append(article)
                 
         save_json(pending_file, updated_pending)
         if modified:
