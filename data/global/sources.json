@@ -1,1 +1,14 @@
-{}
+{
+  "guardian": {
+    "name": "The Guardian",
+    "url": "https://www.theguardian.com/world/rss",
+    "category": "International",
+    "cleaner_filename": "extract_guardian.py"
+  },
+  "independent": {
+    "name": "The Independent",
+    "url": "https://www.independent.co.uk/news/world/rss",
+    "category": "International",
+    "cleaner_filename": "extract_independent.py"
+  }
+}

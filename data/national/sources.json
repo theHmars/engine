@@ -1,1 +1,20 @@
-{}
+{
+  "thehindu": {
+    "name": "The Hindu",
+    "url": "https://www.thehindu.com/news/national/feeder/default.rss",
+    "category": "National",
+    "cleaner_filename": "extract_thehindu.py"
+  },
+  "indianexpress": {
+    "name": "Indian Express",
+    "url": "https://indianexpress.com/section/india/feed/",
+    "category": "National",
+    "cleaner_filename": "extract_indianexpress.py"
+  },
+  "theprint": {
+    "name": "The Print",
+    "url": "https://theprint.in/category/india/feed/",
+    "category": "National",
+    "cleaner_filename": "extract_theprint.py"
+  }
+}

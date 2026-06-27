@@ -119,7 +119,10 @@ def process_candidate(candidate, start_time):
     final_title = meta_res.get("title") or candidate.get("title")
     final_desc = meta_res.get("description") or candidate.get("short_intro") or ""
     
-    category = candidate.get("category", "Local")
+    category = meta_res.get("category") or candidate.get("category", "Local")
+    # Normalize global to international for frontend compatibility
+    if category.lower() == "global":
+        category = "International"
     if category in ["National", "International", "Global"]:
         final_region = "N/A"
     else:
@@ -169,7 +172,7 @@ def process_candidate(candidate, start_time):
     produced_article = {
         "title": final_title,
         "description": final_desc,
-        "category": candidate.get("category", "Local"),
+        "category": category,
         "region": final_region,
         "majorTag": final_tag,
         "featured_image": featured_image,
