@@ -1,0 +1,121 @@
+name: Unified News Pipeline
+
+on:
+  schedule:
+    # Runs at 00:23, 08:23, 16:23 UTC
+    - cron: '23 0,8,16 * * *'
+  workflow_dispatch:
+
+jobs:
+  run-pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Engine Repository
+        uses: actions/checkout@v4
+        with:
+          path: engine
+          token: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Checkout Content Repository
+        uses: actions/checkout@v4
+        with:
+          repository: theHmars/content
+          path: content
+          token: ${{ secrets.PAT_TOKEN }}
+          
+      - name: Checkout Frontend Repository
+        uses: actions/checkout@v4
+        with:
+          repository: theHmars/frontend
+          path: frontend
+          token: ${{ secrets.PAT_TOKEN }}
+          
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+          cache-dependency-path: engine/requirements.txt
+          
+      - name: Install Engine Dependencies
+        run: |
+          cd engine
+          python -m venv .venv
+          .venv/bin/pip install -r requirements.txt
+          
+      - name: run LOC pipeline
+        env:
+          SCOUT_WORKSPACE: ${{ github.workspace }}/engine
+          WEBSITE_REPO_PATH: ${{ github.workspace }}/content
+          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+        run: |
+          cd engine
+          .venv/bin/python3 main.py --scope local
+          
+      - name: run NAT pipeline
+        env:
+          SCOUT_WORKSPACE: ${{ github.workspace }}/engine
+          WEBSITE_REPO_PATH: ${{ github.workspace }}/content
+          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+        run: |
+          cd engine
+          .venv/bin/python3 main.py --scope national
+          
+      - name: run GLO pipeline
+        env:
+          SCOUT_WORKSPACE: ${{ github.workspace }}/engine
+          WEBSITE_REPO_PATH: ${{ github.workspace }}/content
+          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+        run: |
+          cd engine
+          .venv/bin/python3 main.py --scope global
+          
+      - name: Pre-Flight Markdown Validation
+        env:
+          SCOUT_WORKSPACE: ${{ github.workspace }}/engine
+          FRONTEND_REPO_PATH: ${{ github.workspace }}/frontend
+        run: |
+          cd frontend
+          npm ci
+          cd ../engine
+          python3 scripts/utils/validate_markdown.py
+
+      - name: Sync Generated Markdown to Content Repo
+        run: |
+          # Safely copy any generated articles from the engine's push directories over to the content repository
+          mkdir -p content/markdown/local content/markdown/national content/markdown/global
+          cp -r engine/push/local/* content/markdown/local/ 2>/dev/null || true
+          cp -r engine/push/national/* content/markdown/national/ 2>/dev/null || true
+          cp -r engine/push/global/* content/markdown/global/ 2>/dev/null || true
+          
+          # Also sync any locally quarantined files so they are saved for review
+          mkdir -p content/quarantine/local
+          cp -r engine/quarantine/local/* content/quarantine/local/ 2>/dev/null || true
+
+      - name: Update Content Indices (articles.json, covered.json)
+        run: |
+          cd content
+          # Update indices using the python script in the content repo
+          python3 scripts/update_indices.py
+
+      - name: Commit & Push to Content Repo
+        run: |
+          cd content
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add markdown/ history/ quarantine/
+          git commit -m "Auto-published new articles & indices" || echo "No changes to commit"
+          git push origin
+
+      - name: Run Facebook Publisher & Render Trigger
+        env:
+          SCOUT_WORKSPACE: ${{ github.workspace }}/engine
+          WEBSITE_REPO_PATH: ${{ github.workspace }}/content
+          RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
+          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
+          RENDER_SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}
+          FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
+          FB_PAGE_ACCESS_TOKEN: ${{ secrets.FB_PAGE_ACCESS_TOKEN }}
+        run: |
+          cd engine
+          .venv/bin/python3 scripts/social/facebook_publisher.py

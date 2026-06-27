@@ -1,0 +1,1116 @@
+run-pipeline	UNKNOWN STEP	﻿2026-06-27T12:38:28.9077774Z Current runner version: '2.335.1'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:28.9111111Z ##[group]Runner Image Provisioner
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:28.9112484Z Hosted Compute Agent
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:28.9113518Z Version: 20260611.554
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:28.9115363Z Commit: 5e0782fdc9014723d3be820dd114dd31555c2bd1
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:28.9116689Z Build Date: 2026-06-11T21:40:46Z
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:28.9117858Z Worker ID: {6612f200-23a6-40f7-a87e-6eba836ac990}
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:28.9119195Z Azure Region: eastus
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:28.9120173Z ##[endgroup]
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:28.9122427Z ##[group]Operating System
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:28.9123573Z Ubuntu
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:28.9124909Z 24.04.4
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:28.9125778Z LTS
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:28.9126640Z ##[endgroup]
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:28.9127850Z ##[group]Runner Image
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:28.9128921Z Image: ubuntu-24.04
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:28.9129945Z Version: 20260622.220.1
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:28.9132089Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260622.220/images/ubuntu/Ubuntu2404-Readme.md
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:28.9135196Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260622.220
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:28.9137029Z ##[endgroup]
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:28.9139180Z ##[group]GITHUB_TOKEN Permissions
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:28.9142163Z Contents: read
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:28.9143212Z Metadata: read
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:28.9144475Z Packages: read
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:28.9145439Z ##[endgroup]
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:28.9148311Z Secret source: Actions
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:28.9150004Z Prepare workflow directory
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:28.9613562Z Prepare all required actions
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:28.9669442Z Getting action download info
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.1493104Z Download action repository 'actions/checkout@v4' (SHA:34e114876b0b11c390a56381ad16ebd13914f8d5)
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.2269923Z Download action repository 'actions/setup-python@v5' (SHA:a26af69be951a213d495a4c3e4e4022e16d87065)
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.4203362Z Complete job name: run-pipeline
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.4964889Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.4974000Z ##[group]Run actions/checkout@v4
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.4975122Z with:
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.4975587Z   path: engine
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.4979929Z   token: ***
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.4980408Z   repository: theHmars/engine
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.4980948Z   ssh-strict: true
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.4981414Z   ssh-user: git
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.4981888Z   persist-credentials: true
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.4982405Z   clean: true
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.4982878Z   sparse-checkout-cone-mode: true
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.4983427Z   fetch-depth: 1
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.4983887Z   fetch-tags: false
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.4984522Z   show-progress: true
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.4985054Z   lfs: false
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.4985493Z   submodules: false
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.4985955Z   set-safe-directory: true
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.4986726Z ##[endgroup]
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.5919281Z Syncing repository: theHmars/engine
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.5921079Z ##[group]Getting Git version info
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.5922012Z Working directory is '/home/runner/work/engine/engine/engine'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.5923080Z [command]/usr/bin/git version
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.5995846Z git version 2.54.0
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.6048576Z ##[endgroup]
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.6061118Z Temporarily overriding HOME='/home/runner/work/_temp/c8cba947-d8f5-412a-89b5-d3c973e8cc6c' before making global git config changes
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.6065940Z Adding repository directory to the temporary git global config as a safe directory
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.6067919Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/engine/engine/engine
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.6110610Z ##[group]Initializing the repository
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.6116138Z [command]/usr/bin/git init /home/runner/work/engine/engine/engine
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.6223459Z hint: Using 'master' as the name for the initial branch. This default branch name
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.6225551Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.6226604Z hint: to use in all of your new repositories, which will suppress this warning,
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.6227525Z hint: call:
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.6227969Z hint:
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.6228698Z hint: 	git config --global init.defaultBranch <name>
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.6229887Z hint:
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.6230838Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.6232379Z hint: 'development'. The just-created branch can be renamed via this command:
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.6233706Z hint:
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.6234593Z hint: 	git branch -m <name>
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.6235435Z hint:
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.6236125Z hint: Disable this message with "git config set advice.defaultBranchName false"
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.6237222Z Initialized empty Git repository in /home/runner/work/engine/engine/engine/.git/
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.6239785Z [command]/usr/bin/git remote add origin https://github.com/theHmars/engine
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.6282118Z ##[endgroup]
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.6282936Z ##[group]Disabling automatic garbage collection
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.6285666Z [command]/usr/bin/git config --local gc.auto 0
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.6313277Z ##[endgroup]
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.6314051Z ##[group]Setting up auth
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.6319822Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.6352406Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.6687867Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.6719195Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.6933223Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.6962456Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.7177445Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.7209916Z ##[endgroup]
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.7218511Z ##[group]Fetching the repository
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.7219955Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +d7f38e7994bb0d1cec384aeb08cb41f4043e94a8:refs/remotes/origin/master
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.9126677Z From https://github.com/theHmars/engine
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.9127941Z  * [new ref]         d7f38e7994bb0d1cec384aeb08cb41f4043e94a8 -> origin/master
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.9191686Z ##[endgroup]
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.9193494Z ##[group]Determining the checkout info
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.9195736Z ##[endgroup]
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.9202050Z [command]/usr/bin/git sparse-checkout disable
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.9251855Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.9279415Z ##[group]Checking out the ref
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.9284742Z [command]/usr/bin/git checkout --progress --force -B master refs/remotes/origin/master
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.9399425Z Reset branch 'master'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.9403534Z branch 'master' set up to track 'origin/master'.
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.9414862Z ##[endgroup]
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.9478251Z [command]/usr/bin/git log -1 --format=%H
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.9509733Z d7f38e7994bb0d1cec384aeb08cb41f4043e94a8
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.9869972Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.9873533Z ##[group]Run actions/checkout@v4
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.9874135Z with:
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.9874927Z   repository: theHmars/content
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.9875512Z   path: content
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.9876209Z   token: ***
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.9876723Z   ssh-strict: true
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.9877217Z   ssh-user: git
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.9877713Z   persist-credentials: true
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.9878265Z   clean: true
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.9878774Z   sparse-checkout-cone-mode: true
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.9879358Z   fetch-depth: 1
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.9879833Z   fetch-tags: false
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.9880334Z   show-progress: true
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.9880869Z   lfs: false
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.9881348Z   submodules: false
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.9881872Z   set-safe-directory: true
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:29.9882413Z ##[endgroup]
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.0691564Z Syncing repository: theHmars/content
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.0699118Z ##[group]Getting Git version info
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.0700706Z Working directory is '/home/runner/work/engine/engine/content'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.0734737Z [command]/usr/bin/git version
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.0770857Z git version 2.54.0
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.0823366Z ##[endgroup]
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.0837575Z Temporarily overriding HOME='/home/runner/work/_temp/21f48747-e3c6-4532-a686-feb18f0b30dc' before making global git config changes
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.0840570Z Adding repository directory to the temporary git global config as a safe directory
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.0843133Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/engine/engine/content
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.0873568Z ##[group]Initializing the repository
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.0878961Z [command]/usr/bin/git init /home/runner/work/engine/engine/content
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.0915428Z hint: Using 'master' as the name for the initial branch. This default branch name
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.0917881Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.0920068Z hint: to use in all of your new repositories, which will suppress this warning,
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.0921750Z hint: call:
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.0922722Z hint:
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.0923808Z hint: 	git config --global init.defaultBranch <name>
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.0925409Z hint:
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.0926646Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.0928709Z hint: 'development'. The just-created branch can be renamed via this command:
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.0929635Z hint:
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.0930143Z hint: 	git branch -m <name>
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.0930716Z hint:
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.0931484Z hint: Disable this message with "git config set advice.defaultBranchName false"
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.0932630Z Initialized empty Git repository in /home/runner/work/engine/engine/content/.git/
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.0936398Z [command]/usr/bin/git remote add origin https://github.com/theHmars/content
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.0960632Z ##[endgroup]
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.0962240Z ##[group]Disabling automatic garbage collection
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.0964834Z [command]/usr/bin/git config --local gc.auto 0
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.0992528Z ##[endgroup]
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.0993381Z ##[group]Setting up auth
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.0999200Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.1029143Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.1241607Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.1272326Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.1486971Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.1515987Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.1728725Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.1761506Z ##[endgroup]
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.1762940Z ##[group]Determining the default branch
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.1764879Z Retrieving the default branch name
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.4157773Z Default branch 'master'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.4160497Z ##[endgroup]
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.4166220Z ##[group]Fetching the repository
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.4169332Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +refs/heads/master:refs/remotes/origin/master
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.6463689Z From https://github.com/theHmars/content
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.6466040Z  * [new branch]      master     -> origin/master
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.6489727Z ##[endgroup]
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.6492220Z ##[group]Determining the checkout info
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.6495136Z ##[endgroup]
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.6497763Z [command]/usr/bin/git sparse-checkout disable
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.6547007Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.6578973Z ##[group]Checking out the ref
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.6582194Z [command]/usr/bin/git checkout --progress --force -B master refs/remotes/origin/master
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.6840210Z Reset branch 'master'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.6844168Z branch 'master' set up to track 'origin/master'.
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.6852228Z ##[endgroup]
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.6893135Z [command]/usr/bin/git log -1 --format=%H
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.6921155Z eb8ceb3fe5ddbd4a65b39981a17f129dde5e81b7
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.7230862Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.7236449Z ##[group]Run actions/setup-python@v5
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.7237662Z with:
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.7238565Z   python-version: 3.10
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.7239588Z   cache: pip
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.7240690Z   cache-dependency-path: engine/requirements.txt
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.7242135Z   check-latest: false
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.7254071Z   token: ***
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.7255161Z   update-environment: true
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.7256313Z   allow-prereleases: false
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.7257413Z   freethreaded: false
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.7258425Z ##[endgroup]
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:30.8667394Z ##[group]Installed versions
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:31.3206993Z (node:2372) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:31.3211116Z Successfully set up CPython (3.10.20)
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:31.3213950Z (Use `node --trace-deprecation ...` to show where the warning was created)
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:31.3218180Z ##[endgroup]
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:31.3822675Z [command]/opt/hostedtoolcache/Python/3.10.20/x64/bin/pip cache dir
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:31.7532929Z /home/runner/.cache/pip
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:31.8356861Z pip cache is not found
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:31.8481555Z ##[group]Run cd engine
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:31.8481910Z ^[[36;1mcd engine^[[0m
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:31.8482178Z ^[[36;1mpython -m venv .venv^[[0m
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:31.8482542Z ^[[36;1m.venv/bin/pip install -r requirements.txt^[[0m
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:31.8682199Z shell: /usr/bin/bash -e {0}
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:31.8682523Z env:
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:31.8682823Z   pythonLocation: /opt/hostedtoolcache/Python/3.10.20/x64
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:31.8683329Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.10.20/x64/lib/pkgconfig
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:31.8683826Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.20/x64
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:31.8684528Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.20/x64
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:31.8685273Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.20/x64
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:31.8685710Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.10.20/x64/lib
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:31.8686080Z ##[endgroup]
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:36.0778909Z Collecting beautifulsoup4
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:36.1124125Z   Downloading beautifulsoup4-4.15.0-py3-none-any.whl (109 kB)
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:36.1306379Z      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 109.9/109.9 kB 6.8 MB/s eta 0:00:00
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:36.1842198Z Collecting requests
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:36.1956318Z   Downloading requests-2.34.2-py3-none-any.whl (73 kB)
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:36.2035385Z      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 73.1/73.1 kB 10.9 MB/s eta 0:00:00
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:36.3850512Z Collecting openai
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:36.3889556Z   Downloading openai-2.44.0-py3-none-any.whl (1.4 MB)
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:36.4207180Z      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.4/1.4 MB 46.1 MB/s eta 0:00:00
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:36.4566088Z Collecting python-dotenv
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:36.4603496Z   Downloading python_dotenv-1.2.2-py3-none-any.whl (22 kB)
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:36.5009301Z Collecting soupsieve>=1.6.1
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:36.5048451Z   Downloading soupsieve-2.8.4-py3-none-any.whl (37 kB)
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:36.5413527Z Collecting typing-extensions>=4.0.0
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:36.5450780Z   Downloading typing_extensions-4.15.0-py3-none-any.whl (44 kB)
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:36.5495444Z      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 44.6/44.6 kB 14.9 MB/s eta 0:00:00
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:36.5824080Z Collecting idna<4,>=2.5
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:36.5858983Z   Downloading idna-3.18-py3-none-any.whl (65 kB)
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:36.5903503Z      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 65.5/65.5 kB 22.2 MB/s eta 0:00:00
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:36.6287030Z Collecting certifi>=2023.5.7
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:36.6327789Z   Downloading certifi-2026.6.17-py3-none-any.whl (133 kB)
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:36.6387943Z      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 133.3/133.3 kB 32.2 MB/s eta 0:00:00
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:36.8809672Z Collecting charset_normalizer<4,>=2
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:36.8848385Z   Downloading charset_normalizer-3.4.7-cp310-cp310-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (216 kB)
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:36.8900171Z      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 216.9/216.9 kB 71.3 MB/s eta 0:00:00
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:36.9652991Z Collecting urllib3<3,>=1.26
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:36.9692990Z   Downloading urllib3-2.7.0-py3-none-any.whl (131 kB)
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:36.9741514Z      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 131.1/131.1 kB 49.9 MB/s eta 0:00:00
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:37.0065972Z Collecting sniffio
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:37.0111769Z   Downloading sniffio-1.3.1-py3-none-any.whl (10 kB)
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:37.0544449Z Collecting anyio<5,>=3.5.0
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:37.0580911Z   Downloading anyio-4.14.1-py3-none-any.whl (124 kB)
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:37.0630337Z      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 124.9/124.9 kB 42.8 MB/s eta 0:00:00
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:37.1026558Z Collecting httpx<1,>=0.23.0
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:37.1063599Z   Downloading httpx-0.28.1-py3-none-any.whl (73 kB)
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:37.1101323Z      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 73.5/73.5 kB 34.9 MB/s eta 0:00:00
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:37.3288245Z Collecting jiter<1,>=0.10.0
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:37.3328122Z   Downloading jiter-0.15.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (349 kB)
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:37.3399142Z      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 349.6/349.6 kB 69.7 MB/s eta 0:00:00
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:37.3589095Z Collecting distro<2,>=1.7.0
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:37.3624035Z   Downloading distro-1.9.0-py3-none-any.whl (20 kB)
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:37.6847370Z Collecting pydantic<3,>=1.9.0
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:37.6886962Z   Downloading pydantic-2.13.4-py3-none-any.whl (472 kB)
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:37.6972907Z      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 472.3/472.3 kB 73.7 MB/s eta 0:00:00
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:37.7768105Z Collecting tqdm>4
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:37.7806348Z   Downloading tqdm-4.68.3-py3-none-any.whl (78 kB)
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:37.7846132Z      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 78.3/78.3 kB 36.1 MB/s eta 0:00:00
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:37.8272388Z Collecting exceptiongroup>=1.0.2
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:37.8314561Z   Downloading exceptiongroup-1.3.1-py3-none-any.whl (16 kB)
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:37.8888561Z Collecting httpcore==1.*
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:37.8929246Z   Downloading httpcore-1.0.9-py3-none-any.whl (78 kB)
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:37.8972536Z      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 78.8/78.8 kB 30.6 MB/s eta 0:00:00
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:37.9211151Z Collecting h11>=0.16
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:37.9244270Z   Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:37.9558843Z Collecting typing-inspection>=0.4.2
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:37.9593356Z   Downloading typing_inspection-0.4.2-py3-none-any.whl (14 kB)
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:37.9779075Z Collecting annotated-types>=0.6.0
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:37.9813783Z   Downloading annotated_types-0.7.0-py3-none-any.whl (13 kB)
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:39.8007907Z Collecting pydantic-core==2.46.4
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:39.8050917Z   Downloading pydantic_core-2.46.4-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.1 MB)
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:39.8266288Z      ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.1/2.1 MB 108.0 MB/s eta 0:00:00
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:40.0497788Z Installing collected packages: urllib3, typing-extensions, tqdm, soupsieve, sniffio, python-dotenv, jiter, idna, h11, distro, charset_normalizer, certifi, annotated-types, typing-inspection, requests, pydantic-core, httpcore, exceptiongroup, beautifulsoup4, pydantic, anyio, httpx, openai
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:41.8576919Z Successfully installed annotated-types-0.7.0 anyio-4.14.1 beautifulsoup4-4.15.0 certifi-2026.6.17 charset_normalizer-3.4.7 distro-1.9.0 exceptiongroup-1.3.1 h11-0.16.0 httpcore-1.0.9 httpx-0.28.1 idna-3.18 jiter-0.15.0 openai-2.44.0 pydantic-2.13.4 pydantic-core-2.46.4 python-dotenv-1.2.2 requests-2.34.2 sniffio-1.3.1 soupsieve-2.8.4 tqdm-4.68.3 typing-extensions-4.15.0 typing-inspection-0.4.2 urllib3-2.7.0
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:41.9735638Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:41.9736100Z [notice] A new release of pip is available: 23.0.1 -> 26.1.2
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:41.9736732Z [notice] To update, run: python -m pip install --upgrade pip
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:42.1461231Z ##[group]Run cd engine
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:42.1461539Z ^[[36;1mcd engine^[[0m
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:42.1461822Z ^[[36;1m.venv/bin/python3 main.py --scope local^[[0m
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:42.1495047Z shell: /usr/bin/bash -e {0}
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:42.1495329Z env:
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:42.1495606Z   pythonLocation: /opt/hostedtoolcache/Python/3.10.20/x64
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:42.1496067Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.10.20/x64/lib/pkgconfig
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:42.1496528Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.20/x64
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:42.1496930Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.20/x64
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:42.1497333Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.20/x64
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:42.1497733Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.10.20/x64/lib
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:42.1498130Z   SCOUT_WORKSPACE: /home/runner/work/engine/engine/engine
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:42.1498531Z   WEBSITE_REPO_PATH: /home/runner/work/engine/engine/content
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:42.1499393Z   LLM_API_KEY: ***
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:42.1499620Z ##[endgroup]
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:43.3249750Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:43.3250403Z >>> Running Step 1/1: Feed Discovery (RSS Pull & Log)
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:43.3251045Z [*] Target scope configured: local
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:43.3251553Z   - Fetching RSS for: EastMojo...
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:43.3275135Z     [+] Found 5 fresh articles for EastMojo.
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:43.3275618Z   - Fetching RSS for: The Shillong Times...
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:43.3276115Z     [+] Found 9 fresh articles for The Shillong Times.
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:43.3276682Z   - Fetching RSS for: Nagaland Post...
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:43.3277468Z     [!] Error checking RSS for nagalandpost: 403 Client Error: Forbidden for url: https://nagalandpost.com/feed/
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:43.3278279Z   - Fetching RSS for: Arunachal Times...
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:43.3278778Z     [+] Found 20 fresh articles for Arunachal Times.
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:43.3279305Z >>> Step 1/1 Complete. Discovered 34 fresh URLs.
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:55.1658326Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:55.1658987Z >>> Running Job 1.2: Candidate Pre-Cleaning & Backlog Compilation
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:55.1659672Z [*] Found 34 new URLs to clean.
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:55.1660234Z   - Cleaning: 'Assam: Two ULFA(I) cadres held in Tinsukia...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:55.1661002Z   - Cleaning: 'Who is indigenous to Nagaland? CM Rio explains...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:55.1662287Z   - Cleaning: 'Nagaland BJP observes ‘Black Days of Emergency’...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:55.1662864Z   - Cleaning: 'Meghalaya CM defends lifting ban on chemical ferti...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:55.1663437Z   - Cleaning: 'Manipur: Living through conflict, holding on to ho...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:55.1664004Z   - Cleaning: 'President Trump holds PM Modi and India in highest...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:55.1664868Z   - Cleaning: 'India emerges as world’s leading ship recycling na...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:55.1665436Z   - Cleaning: 'Over 8 lakh devotees visited Kamakhya Temple durin...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:55.1665975Z   - Cleaning: 'Man held from Assam for stealing money from Trinam...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:55.1666548Z   - Cleaning: 'DGS withdraws restrictions on movement of Indian s...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:55.1667158Z   - Cleaning: 'Ketan Agarwal murder: Siya’s brother says family w...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:55.1667782Z   - Cleaning: '‘This is why people don’t want to see them in powe...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:55.1668363Z   - Cleaning: 'Lashkar terrorist seen attending funeral of Shoaib...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:55.1668920Z   - Cleaning: 'UN chief calls for harnessing technology to stop d...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:55.1669484Z   - Cleaning: 'Search intensifies for four people missing in flas...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:55.1670037Z   - Cleaning: 'DoT enables intra-circle roaming facility in four ...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:55.1670592Z   - Cleaning: 'F&CS dept prioritises improved public service deli...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:55.1671091Z   - Cleaning: 'Defunct school to reopen soon...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:55.1671517Z   - Cleaning: 'Army subedar dies in road accident...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:55.1672338Z   - Cleaning: 'International Day Against Drug Abuse observed...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:55.1672882Z   - Cleaning: 'Sanitary supervisor held for allegedly filming wom...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:55.1673346Z   - Cleaning: '14 stolen two-wheelers recovered, 4 minors taken i...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:55.1673800Z   - Cleaning: 'KDS member Bomju Riram selected for diploma course...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:55.1674376Z   - Cleaning: 'DCC, DLRC meeting reviews banking performance...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:55.1674831Z   - Cleaning: 'Aya, Rokpo and Dodo segments declared community la...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:55.1675301Z   - Cleaning: 'Planning authority reviews draft GIS-based master ...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:55.1675708Z   - Cleaning: 'Prog under Khet Bachao Abhiyan held...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:55.1676112Z   - Cleaning: 'Miss Universe Arunachal 1st runner-up Peyang welco...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:55.1676573Z   - Cleaning: 'Forum places grievances before land mgmt commissio...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:55.1677023Z   - Cleaning: 'Vocational trg prog on scientific poultry farming...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:55.1677640Z   - Cleaning: 'Miao power sub-station set for commissioning by Ju...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:55.1678152Z   - Cleaning: 'Libang reviews NABARD-funded projects...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:55.1678502Z   - Cleaning: 'Lessons from the past...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:55.1678820Z   - Cleaning: 'Time for strategy not fallacy...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:38:55.1679185Z >>> Job 1.2 Complete. Newly Sourced: 34 | Archive Backlog: 33
+run-pipeline	UNKNOWN STEP	2026-06-27T12:40:48.4089655Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T12:40:48.4093050Z >>> Running Job 2.1: Curation & Target Triage Selection
+run-pipeline	UNKNOWN STEP	2026-06-27T12:40:48.4093504Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T12:40:48.4093848Z --- Running Relevance Filter (LOCAL Scope check) ---
+run-pipeline	UNKNOWN STEP	2026-06-27T12:40:48.4094898Z   - Relevance filter attempt 1/3...
+run-pipeline	UNKNOWN STEP	2026-06-27T12:40:48.4095709Z     [+] Validation Passed. Filtering out 11 irrelevant candidates.
+run-pipeline	UNKNOWN STEP	2026-06-27T12:40:48.4096638Z   [+] Relevance Triage Complete. Passed: 56 candidates.
+run-pipeline	UNKNOWN STEP	2026-06-27T12:40:48.4097161Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T12:40:48.4097534Z --- Running Senior Curation (LOCAL Scope, curating top 10) ---
+run-pipeline	UNKNOWN STEP	2026-06-27T12:40:48.4098410Z   - Senior curation selection attempt 1/3...
+run-pipeline	UNKNOWN STEP	2026-06-27T12:40:48.4099211Z     [+] Validation Passed. Selected 10 story groups.
+run-pipeline	UNKNOWN STEP	2026-06-27T12:40:48.4100054Z       [+] Merging 2 similar sources into a multi-source post...
+run-pipeline	UNKNOWN STEP	2026-06-27T12:40:48.4101392Z >>> Job 2.1 Complete. Wrote 10 selected candidates to '/home/runner/work/engine/engine/engine/tmp/local/chosen_articles.json'.
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0854269Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0855419Z >>> Starting Phase 3: Deduplication & Queue Compilation
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0856052Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0856287Z --- Running Intra-Batch Deduplication & Grouping ---
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0857052Z   - Grouping query attempt 1/3...
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0857928Z     [+] Validation Passed. Identified 10 unique news events from 10 sources.
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0858660Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0859173Z >>> Running Phase 3: Deduplication check for 'Assam: Two ULFA(I) cadres held in Tinsukia...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0860271Z     - Checking Deduplication for: 'Assam: Two ULFA(I) cadres held in Tinsukia...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0861362Z       [!] No published articles found in covered.json. Skipping deduplication check.
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0862353Z   [+] Article 'Assam: Two ULFA(I) cadres held in Tinsuk' verified as UNIQUE.
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0862944Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0863832Z >>> Running Phase 3: Deduplication check for 'Nagaland BJP observes ‘Black Days of Emergency’...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0865538Z     - Checking Deduplication for: 'Nagaland BJP observes ‘Black Days of Emergency’...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0866446Z       [!] No published articles found in covered.json. Skipping deduplication check.
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0867160Z   [+] Article 'Nagaland BJP observes ‘Black Days of Eme' verified as UNIQUE.
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0867538Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0867900Z >>> Running Phase 3: Deduplication check for 'Meghalaya CM defends lifting ban on chemical ferti...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0868693Z     - Checking Deduplication for: 'Meghalaya CM defends lifting ban on chemical ferti...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0869685Z       [!] No published articles found in covered.json. Skipping deduplication check.
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0870229Z   [+] Article 'Meghalaya CM defends lifting ban on chem' verified as UNIQUE.
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0870541Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0870827Z >>> Running Phase 3: Deduplication check for 'Manipur: Living through conflict, holding on to ho...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0871459Z     - Checking Deduplication for: 'Manipur: Living through conflict, holding on to ho...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0872024Z       [!] No published articles found in covered.json. Skipping deduplication check.
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0872539Z   [+] Article 'Manipur: Living through conflict, holdin' verified as UNIQUE.
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0872832Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0873113Z >>> Running Phase 3: Deduplication check for 'Over 8 lakh devotees visited Kamakhya Temple durin...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0874050Z     - Checking Deduplication for: 'Over 8 lakh devotees visited Kamakhya Temple durin...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0875037Z       [!] No published articles found in covered.json. Skipping deduplication check.
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0875547Z   [+] Article 'Over 8 lakh devotees visited Kamakhya Te' verified as UNIQUE.
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0875843Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0876123Z >>> Running Phase 3: Deduplication check for 'Man held from Assam for stealing money from Trinam...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0876735Z     - Checking Deduplication for: 'Man held from Assam for stealing money from Trinam...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0877279Z       [!] No published articles found in covered.json. Skipping deduplication check.
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0877779Z   [+] Article 'Man held from Assam for stealing money f' verified as UNIQUE.
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0878063Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0878346Z >>> Running Phase 3: Deduplication check for 'Search intensifies for four people missing in flas...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0878961Z     - Checking Deduplication for: 'Search intensifies for four people missing in flas...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0879525Z       [!] No published articles found in covered.json. Skipping deduplication check.
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0880029Z   [+] Article 'Search intensifies for four people missi' verified as UNIQUE.
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0880327Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0880548Z >>> Running Phase 3: Deduplication check for 'Army subedar dies in road accident...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0881072Z     - Checking Deduplication for: 'Army subedar dies in road accident...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0881754Z       [!] No published articles found in covered.json. Skipping deduplication check.
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0882272Z   [+] Article 'Army subedar dies in road accident' verified as UNIQUE.
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0882544Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0882838Z >>> Running Phase 3: Deduplication check for 'Sanitary supervisor held for allegedly filming wom...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0883465Z     - Checking Deduplication for: 'Sanitary supervisor held for allegedly filming wom...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0884024Z       [!] No published articles found in covered.json. Skipping deduplication check.
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0884919Z   [+] Article 'Sanitary supervisor held for allegedly f' verified as UNIQUE.
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0885272Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0885663Z >>> Running Phase 3: Deduplication check for 'Meghalaya: Elephant attacks damage homes in Mawsyn...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0886289Z     - Checking Deduplication for: 'Meghalaya: Elephant attacks damage homes in Mawsyn...'
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0886838Z       [!] No published articles found in covered.json. Skipping deduplication check.
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0887344Z   [+] Article 'Meghalaya: Elephant attacks damage homes' verified as UNIQUE.
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0887633Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T12:41:01.0888039Z >>> Phase 3 Complete. Final unique queue size: 10 (Saved to '/home/runner/work/engine/engine/engine/tmp/local/triaged_candidates.json')
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1486902Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1487781Z >>> Starting Phase 4: Production & Critic Validation Loop (Elapsed time: 2.33 mins)
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1488391Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1489077Z --- Processing Candidate: 'Assam: Two ULFA(I) cadres held in Tinsukia...' ---
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1489917Z     - Rewrite/Validation attempt 1/3...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1490419Z     - Querying Writer Agent to rewrite content body...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1491037Z     - Querying Validator Agent to check content body accuracy...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1491640Z       [+] Validation Passed (Confidence: 100%).
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1492127Z     - Generating metadata parameters...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1492732Z     - Querying Metadata Agent to generate frontmatter parameters...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1493199Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1493902Z --- Processing Candidate: 'Nagaland BJP observes ‘Black Days of Emergency’...' ---
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1494860Z     - Rewrite/Validation attempt 1/3...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1495383Z     - Querying Writer Agent to rewrite content body...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1495989Z     - Querying Validator Agent to check content body accuracy...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1496560Z       [+] Validation Passed (Confidence: 100%).
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1497290Z     - Generating metadata parameters...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1497857Z     - Querying Metadata Agent to generate frontmatter parameters...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1498294Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1498746Z --- Processing Candidate: 'Meghalaya CM defends lifting ban on chemical ferti...' ---
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1499469Z     - Rewrite/Validation attempt 1/3...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1499961Z     - Querying Writer Agent to rewrite content body...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1500556Z     - Querying Validator Agent to check content body accuracy...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1505430Z       [!] Validation Failed: The rewritten article introduces minor rephrasing and emphasis, but does not alter the original facts. However, the bolded and italicized text in the rewritten article introduces a slightly different tone and emphasis not present in the original source. To maintain 100% authenticity, the writer should avoid adding emphasis or tone not present in the original text.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1507909Z     - Rewrite/Validation attempt 2/3...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1508623Z     - Querying Corrector Agent to revise incorrect details...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1509447Z     - Querying Validator Agent to check content body accuracy...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1510318Z       [+] Validation Passed (Confidence: 100%).
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1510940Z     - Generating metadata parameters...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1511687Z     - Querying Metadata Agent to generate frontmatter parameters...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1512320Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1512801Z --- Processing Candidate: 'Manipur: Living through conflict, holding on to ho...' ---
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1513623Z     - Rewrite/Validation attempt 1/3...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1573196Z     - Querying Writer Agent to rewrite content body...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1573831Z     - Querying Validator Agent to check content body accuracy...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1574646Z       [+] Validation Passed (Confidence: 100%).
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1575146Z     - Generating metadata parameters...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1575809Z     - Querying Metadata Agent to generate frontmatter parameters...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1576228Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1576597Z --- Processing Candidate: 'Over 8 lakh devotees visited Kamakhya Temple durin...' ---
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1577280Z     - Rewrite/Validation attempt 1/3...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1577783Z     - Querying Writer Agent to rewrite content body...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1578369Z     - Querying Validator Agent to check content body accuracy...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1578951Z       [+] Validation Passed (Confidence: 100%).
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1579426Z     - Generating metadata parameters...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1579995Z     - Querying Metadata Agent to generate frontmatter parameters...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1580412Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1580806Z --- Processing Candidate: 'Man held from Assam for stealing money from Trinam...' ---
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1581483Z     - Rewrite/Validation attempt 1/3...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1581970Z     - Querying Writer Agent to rewrite content body...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1582928Z     - Querying Validator Agent to check content body accuracy...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1583524Z       [+] Validation Passed (Confidence: 98%).
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1583992Z     - Generating metadata parameters...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1584759Z     - Querying Metadata Agent to generate frontmatter parameters...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1585191Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1585569Z --- Processing Candidate: 'Search intensifies for four people missing in flas...' ---
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1586266Z     - Rewrite/Validation attempt 1/3...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1586740Z     - Querying Writer Agent to rewrite content body...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1587316Z     - Querying Validator Agent to check content body accuracy...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1590412Z       [!] Validation Failed: The rewritten article omits several key details from the original source, including the number of households affected, the extent of damage to homes and infrastructure, and the specific actions taken by the government to respond to the disaster. Additionally, the rewritten article does not mention the date of the flash flood, which was specified as June 24 in the original source. To ensure 100% authenticity and zero hallucinations, the writer should include these details in the rewritten article.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1593617Z     - Rewrite/Validation attempt 2/3...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1594134Z     - Querying Corrector Agent to revise incorrect details...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1594967Z       [!] Corrector LLM Client Error: Request timed out.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1595671Z       [!] Corrector agent execution failed: Request timed out.. Returning original draft.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1596441Z     - Querying Validator Agent to check content body accuracy...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1599718Z       [!] Validation Failed: The rewritten article is missing several key details from the original source text, including the number of households affected, the number of houses damaged or washed away, and the specifics of the relief efforts. Additionally, the rewritten article does not mention the role of the Indian Air Force helicopter and the state Civil Aviation Department in airlifting additional SDRF personnel and rescue equipment. To ensure 100% authenticity and zero hallucinations, the writer should include these details in the rewritten article.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1602893Z     - Rewrite/Validation attempt 3/3...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1603425Z     - Querying Corrector Agent to revise incorrect details...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1604059Z     - Querying Validator Agent to check content body accuracy...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1604803Z       [+] Validation Passed (Confidence: 100%).
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1605293Z     - Generating metadata parameters...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1605858Z     - Querying Metadata Agent to generate frontmatter parameters...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1607259Z     [+] Discovered alternative featured image in text: https://arunachaltimes.in/wp-content/uploads/2026/06/Search-intensifies-for-four-people-missing-in-flash-flood-696x392.webp
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1608410Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1608709Z --- Processing Candidate: 'Army subedar dies in road accident...' ---
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1609535Z     [!] Over 22-minute global threshold. Operating in 1-Shot 'Fast-Fail' mode.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1610165Z     - Rewrite/Validation attempt 1/1...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1610658Z     - Querying Writer Agent to rewrite content body...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1611259Z     - Querying Validator Agent to check content body accuracy...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1612784Z       [!] Validation Failed: Remove the last sentence 'The incident is a reminder of the risks and dangers faced by military personnel, even in non-combat situations.' as it introduces a new implication not present in the source text.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1614690Z     [!] Failed to validate draft for 'Army subedar dies in road accident' after 1 attempts. Dropping candidate.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1615316Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1615696Z --- Processing Candidate: 'Sanitary supervisor held for allegedly filming wom...' ---
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1616781Z     [!] Over 22-minute global threshold. Operating in 1-Shot 'Fast-Fail' mode.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1617423Z     - Rewrite/Validation attempt 1/1...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1617912Z     - Querying Writer Agent to rewrite content body...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1618498Z     - Querying Validator Agent to check content body accuracy...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1619941Z       [!] Validation Failed: Remove the sentence 'The incident has raised concerns about the safety and security of patients and staff at the hospital.' as it introduces a new implication not present in the source text.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1621689Z     [!] Failed to validate draft for 'Sanitary supervisor held for allegedly filming wom' after 1 attempts. Dropping candidate.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1622437Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1622847Z >>> Elapsed time exceeded 30-minute processing window threshold. Stopping new article starts.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1623431Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.1624099Z >>> Phase 4 Complete. Successfully produced 7 articles. (Saved to '/home/runner/work/engine/engine/engine/tmp/local/produced_articles.json')
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3136825Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3137697Z >>> Starting Phase 5: Sync, Cleanup & Callback
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3138781Z   [+] Assembled and Saved: 2026-06-27-assam-2-ulfai-cadres-arrested-in-tinsukia.md
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3140051Z   [+] Assembled and Saved: 2026-06-27-nagaland-bjp-observes-black-days-of-emergency.md
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3141470Z   [+] Assembled and Saved: 2026-06-27-meghalaya-cm-defends-lifting-ban-on-chemical-fertilisers.md
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3143117Z   [+] Assembled and Saved: 2026-06-27-manipurs-unseen-suffering-living-through-conflict.md
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3144767Z   [+] Assembled and Saved: 2026-06-27-over-8-lakh-devotees-visit-kamakhya-temple-during-ambubachi-mahayog.md
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3146281Z   [+] Assembled and Saved: 2026-06-27-man-arrested-for-stealing-from-trinamool-mps-bank-account.md
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3147779Z   [+] Assembled and Saved: 2026-06-27-search-intensifies-for-4-missing-in-keyi-panyor-flash-flood.md
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3149540Z   [!] Logged failed/abandoned article in history: https://arunachaltimes.in/index.php/2026/06/27/army-subedar-dies-in-road-accident/
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3151607Z   [!] Logged failed/abandoned article in history: https://arunachaltimes.in/index.php/2026/06/27/sanitary-supervisor-held-for-allegedly-filming-women-in-hospital/
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3153689Z   [!] Logged failed/abandoned article in history: https://eastmojo.com/meghalaya/2026/06/26/meghalaya-elephant-attacks-damage-homes-in-mawsynram/
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3155378Z   [+] Updated persistent backlog archive with 70 items.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3156205Z   - Cleaning up temporary raw crawl directory...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3156939Z   [+] Cleaned raw HTML cache.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3157560Z   - Pruning old history entries...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3157985Z   [+] Pruning complete.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3158154Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3158570Z >>> Phase 5 Complete. Status summary written to '/home/runner/work/engine/engine/engine/tmp/local/sync_summary.json'
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3177899Z ========================================
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3178513Z  NEWS AUTOMATION PIPELINE - STARTED
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3179135Z  Workspace: /home/runner/work/engine/engine/engine
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3179771Z  Scope:     LOCAL
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3180164Z  2026-06-27 12:38:42
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3180582Z ========================================
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3180942Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3180950Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3181819Z >> Executing: /home/runner/work/engine/engine/engine/.venv/bin/python3 /home/runner/work/engine/engine/engine/scripts/phases/get_rss.py
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3182922Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3183779Z >> Executing: /home/runner/work/engine/engine/engine/.venv/bin/python3 /home/runner/work/engine/engine/engine/scripts/utils/clean_html.py
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3185143Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3185984Z >> Executing: /home/runner/work/engine/engine/engine/.venv/bin/python3 /home/runner/work/engine/engine/engine/scripts/phases/triage.py
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3187025Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3188209Z >> Executing: /home/runner/work/engine/engine/engine/.venv/bin/python3 /home/runner/work/engine/engine/engine/scripts/phases/deduplicate.py
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3189094Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3189950Z >> Executing: /home/runner/work/engine/engine/engine/.venv/bin/python3 /home/runner/work/engine/engine/engine/scripts/phases/produce.py --start-time 1782563922.181644
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3190936Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3191615Z >> Executing: /home/runner/work/engine/engine/engine/.venv/bin/python3 /home/runner/work/engine/engine/engine/scripts/phases/cleanup.py
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3192709Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3192892Z ========================================
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3193458Z  PIPELINE COMPLETE (Duration: 30.12 mins)
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3194037Z ========================================
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3281959Z ##[group]Run cd engine
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3282241Z ^[[36;1mcd engine^[[0m
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3282512Z ^[[36;1m.venv/bin/python3 main.py --scope national^[[0m
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3314819Z shell: /usr/bin/bash -e {0}
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3315086Z env:
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3315358Z   pythonLocation: /opt/hostedtoolcache/Python/3.10.20/x64
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3315807Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.10.20/x64/lib/pkgconfig
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3316244Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.20/x64
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3316634Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.20/x64
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3317020Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.20/x64
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3317408Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.10.20/x64/lib
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3317790Z   SCOUT_WORKSPACE: /home/runner/work/engine/engine/engine
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3318173Z   WEBSITE_REPO_PATH: /home/runner/work/engine/engine/content
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3318804Z   LLM_API_KEY: ***
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.3319017Z ##[endgroup]
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.5212055Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.5212637Z >>> Running Step 1/1: Feed Discovery (RSS Pull & Log)
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.5213069Z [*] Target scope configured: national
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.5213394Z >>> Step 1/1 Complete. Discovered 0 fresh URLs.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.7359112Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.7360021Z >>> Running Job 1.2: Candidate Pre-Cleaning & Backlog Compilation
+run-pipeline	UNKNOWN STEP	2026-06-27T13:08:49.7360859Z >>> Job 1.2 Complete. Newly Sourced: 0 | Archive Backlog: 56
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:07.8591522Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:07.8592236Z >>> Running Job 2.1: Curation & Target Triage Selection
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:07.8592553Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:07.8592738Z --- Running Relevance Filter (NATIONAL Scope check) ---
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:07.8593138Z   - Relevance filter attempt 1/3...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:07.8593542Z     [+] Validation Passed. Filtering out 3 irrelevant candidates.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:07.8594003Z   [+] Relevance Triage Complete. Passed: 53 candidates.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:07.8594477Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:07.8594684Z --- Running Senior Curation (NATIONAL Scope, curating top 10) ---
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:07.8595123Z   - Senior curation selection attempt 1/3...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:07.8595515Z     [+] Validation Passed. Selected 10 story groups.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:07.8596222Z >>> Job 2.1 Complete. Wrote 10 selected candidates to '/home/runner/work/engine/engine/engine/tmp/national/chosen_articles.json'.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9192819Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9193570Z >>> Starting Phase 3: Deduplication & Queue Compilation
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9193957Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9194220Z --- Running Intra-Batch Deduplication & Grouping ---
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9195561Z   - Grouping query attempt 1/3...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9196366Z     [+] Validation Passed. Identified 10 unique news events from 10 sources.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9197038Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9197751Z >>> Running Phase 3: Deduplication check for 'India emerges as world’s leading ship recycling na...'
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9198728Z     - Checking Deduplication for: 'India emerges as world’s leading ship recycling na...'
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9199492Z       [!] No published articles found in covered.json. Skipping deduplication check.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9200286Z   [+] Article 'India emerges as world’s leading ship re' verified as UNIQUE.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9200691Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9201079Z >>> Running Phase 3: Deduplication check for 'DGS withdraws restrictions on movement of Indian s...'
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9201925Z     - Checking Deduplication for: 'DGS withdraws restrictions on movement of Indian s...'
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9202655Z       [!] No published articles found in covered.json. Skipping deduplication check.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9203240Z   [+] Article 'DGS withdraws restrictions on movement o' verified as UNIQUE.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9203580Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9203985Z >>> Running Phase 3: Deduplication check for 'Ketan Agarwal murder: Siya’s brother says family w...'
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9205600Z     - Checking Deduplication for: 'Ketan Agarwal murder: Siya’s brother says family w...'
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9206295Z       [!] No published articles found in covered.json. Skipping deduplication check.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9207131Z   [+] Article 'Ketan Agarwal murder: Siya’s brother say' verified as UNIQUE.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9207480Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9207886Z >>> Running Phase 3: Deduplication check for '‘This is why people don’t want to see them in powe...'
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9208682Z     - Checking Deduplication for: '‘This is why people don’t want to see them in powe...'
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9209327Z       [!] No published articles found in covered.json. Skipping deduplication check.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9209986Z   [+] Article '‘This is why people don’t want to see th' verified as UNIQUE.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9210322Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9210635Z >>> Running Phase 3: Deduplication check for 'CM Adhikari announces setting up Vande Mataram Mus...'
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9211362Z     - Checking Deduplication for: 'CM Adhikari announces setting up Vande Mataram Mus...'
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9211995Z       [!] No published articles found in covered.json. Skipping deduplication check.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9212598Z   [+] Article 'CM Adhikari announces setting up Vande M' verified as UNIQUE.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9212930Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9213231Z >>> Running Phase 3: Deduplication check for 'PIL in SC seeks uniform national fire safety stand...'
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9213821Z     - Checking Deduplication for: 'PIL in SC seeks uniform national fire safety stand...'
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9214668Z       [!] No published articles found in covered.json. Skipping deduplication check.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9215174Z   [+] Article 'PIL in SC seeks uniform national fire sa' verified as UNIQUE.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9215460Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9215766Z >>> Running Phase 3: Deduplication check for 'President Trump holds PM Modi and India in highest...'
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9216381Z     - Checking Deduplication for: 'President Trump holds PM Modi and India in highest...'
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9216929Z       [!] No published articles found in covered.json. Skipping deduplication check.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9217430Z   [+] Article 'President Trump holds PM Modi and India ' verified as UNIQUE.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9217727Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9217993Z >>> Running Phase 3: Deduplication check for '14 stolen two-wheelers recovered, 4 minors taken i...'
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9218589Z     - Checking Deduplication for: '14 stolen two-wheelers recovered, 4 minors taken i...'
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9219122Z       [!] No published articles found in covered.json. Skipping deduplication check.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9219624Z   [+] Article '14 stolen two-wheelers recovered, 4 mino' verified as UNIQUE.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9219940Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9220212Z >>> Running Phase 3: Deduplication check for 'KDS member Bomju Riram selected for diploma course...'
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9220816Z     - Checking Deduplication for: 'KDS member Bomju Riram selected for diploma course...'
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9221358Z       [!] No published articles found in covered.json. Skipping deduplication check.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9221851Z   [+] Article 'KDS member Bomju Riram selected for dipl' verified as UNIQUE.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9222138Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9222412Z >>> Running Phase 3: Deduplication check for 'DCC, DLRC meeting reviews banking performance...'
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9222994Z     - Checking Deduplication for: 'DCC, DLRC meeting reviews banking performance...'
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9223523Z       [!] No published articles found in covered.json. Skipping deduplication check.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9224011Z   [+] Article 'DCC, DLRC meeting reviews banking perfor' verified as UNIQUE.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9224516Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:09:11.9224939Z >>> Phase 3 Complete. Final unique queue size: 10 (Saved to '/home/runner/work/engine/engine/engine/tmp/national/triaged_candidates.json')
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6630418Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6631697Z >>> Starting Phase 4: Production & Critic Validation Loop (Elapsed time: 0.39 mins)
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6634362Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6640833Z --- Processing Candidate: 'India emerges as world’s leading ship recycling na...' ---
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6641889Z     - Rewrite/Validation attempt 1/3...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6642394Z     - Querying Writer Agent to rewrite content body...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6643012Z     - Querying Validator Agent to check content body accuracy...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6643607Z       [+] Validation Passed (Confidence: 100%).
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6644091Z     - Generating metadata parameters...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6644948Z     - Querying Metadata Agent to generate frontmatter parameters...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6645389Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6645760Z --- Processing Candidate: 'DGS withdraws restrictions on movement of Indian s...' ---
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6646471Z     - Rewrite/Validation attempt 1/3...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6646974Z     - Querying Writer Agent to rewrite content body...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6647593Z     - Querying Validator Agent to check content body accuracy...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6648173Z       [+] Validation Passed (Confidence: 98%).
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6648637Z     - Generating metadata parameters...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6649219Z     - Querying Metadata Agent to generate frontmatter parameters...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6649641Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6650135Z --- Processing Candidate: 'Ketan Agarwal murder: Siya’s brother says family w...' ---
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6650814Z     - Rewrite/Validation attempt 1/3...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6651313Z     - Querying Writer Agent to rewrite content body...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6651907Z     - Querying Validator Agent to check content body accuracy...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6655331Z       [!] Validation Failed: The rewritten article omits several key details from the original source, including Ketan Agarwal's role as Director and Chief Marketing Officer of his family's real estate firm, Success Group, and the fact that Siya had repeatedly persuaded Ketan to visit Lohagad Fort in the weeks leading up to the incident. Additionally, the rewritten article does not mention Vishal Agarwal's statement about Ketan's use of a toupee. To ensure 100% authenticity, the writer should include these details in the rewritten article.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6658524Z     - Rewrite/Validation attempt 2/3...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6659059Z     - Querying Corrector Agent to revise incorrect details...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6659704Z     - Querying Validator Agent to check content body accuracy...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6660274Z       [+] Validation Passed (Confidence: 100%).
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6660735Z     - Generating metadata parameters...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6661304Z     - Querying Metadata Agent to generate frontmatter parameters...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6661749Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6662252Z --- Processing Candidate: '‘This is why people don’t want to see them in powe...' ---
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6662962Z     - Rewrite/Validation attempt 1/3...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6663450Z     - Querying Writer Agent to rewrite content body...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6664066Z     - Querying Validator Agent to check content body accuracy...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6666478Z       [!] Validation Failed: The rewritten article incorrectly states that Khera claimed BJP leaders will be confined to their homes. According to the source text, Khera said BJP leaders will not be able to step out on the streets without security, implying they will need protection to come out in public, not that they will be confined to their homes.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6668576Z     - Rewrite/Validation attempt 2/3...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6669101Z     - Querying Corrector Agent to revise incorrect details...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6669748Z     - Querying Validator Agent to check content body accuracy...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6670312Z       [+] Validation Passed (Confidence: 98%).
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6670775Z     - Generating metadata parameters...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6671345Z     - Querying Metadata Agent to generate frontmatter parameters...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6671788Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6672366Z --- Processing Candidate: 'CM Adhikari announces setting up Vande Mataram Mus...' ---
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6673053Z     - Rewrite/Validation attempt 1/3...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6673741Z     - Querying Writer Agent to rewrite content body...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6674532Z     - Querying Validator Agent to check content body accuracy...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6678272Z       [!] Validation Failed: Remove the additional sentences and phrases that are not present in the source text, such as 'The proposed Vande Mataram Museum is expected to be a significant addition to the state's cultural landscape.', 'The Chief Minister's announcement was met with enthusiasm, and the museum is expected to be a tribute to the writer of India's National Song.', and 'The event was a significant step towards recognizing the contributions of Rishi Bankim Chandra Chattopadhyay to Indian literature and culture.' These sentences introduce new information and implications not present in the source text.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6681908Z     - Rewrite/Validation attempt 2/3...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6682443Z     - Querying Corrector Agent to revise incorrect details...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6683086Z     - Querying Validator Agent to check content body accuracy...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6685386Z       [!] Validation Failed: The rewritten article incorrectly refers to the Chief Minister as Suvendu Adhikari, whereas the source text mentions the Chief Minister's name as CM Adhikari without the first name. The correct first name is not provided in the source text, so it should not be included in the rewritten article.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6687353Z     - Rewrite/Validation attempt 3/3...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6687878Z     - Querying Corrector Agent to revise incorrect details...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6688515Z     - Querying Validator Agent to check content body accuracy...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6690589Z       [!] Validation Failed: The rewritten article incorrectly refers to the Chief Minister as 'Adhikari' without specifying the first name 'Suvendu'. The original source text mentions 'Suvendu Adhikari' as the Chief Minister. To maintain authenticity, the rewritten article should include the full name 'Suvendu Adhikari'.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6693009Z     [!] Failed to validate draft for 'CM Adhikari announces setting up Vande Mataram Mus' after 3 attempts. Dropping candidate.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6693736Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6694111Z --- Processing Candidate: 'PIL in SC seeks uniform national fire safety stand...' ---
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6694948Z     - Rewrite/Validation attempt 1/3...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6695445Z     - Querying Writer Agent to rewrite content body...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6696042Z     - Querying Validator Agent to check content body accuracy...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6696619Z       [+] Validation Passed (Confidence: 98%).
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6697082Z     - Generating metadata parameters...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6697648Z     - Querying Metadata Agent to generate frontmatter parameters...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6698052Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6698435Z --- Processing Candidate: 'President Trump holds PM Modi and India in highest...' ---
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6699131Z     - Rewrite/Validation attempt 1/3...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6699612Z     - Querying Writer Agent to rewrite content body...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6700199Z     - Querying Validator Agent to check content body accuracy...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6702975Z       [!] Validation Failed: The rewritten article introduces a new fact not present in the source text: 'Amazon announced a 40-plus billion-dollar deal in India this week.' This information is not mentioned in the original interview. Additionally, the rewritten article condenses and rephrases some of the original content, which may lead to minor inaccuracies. The writer should ensure that all information is accurately represented and sourced from the original text.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6705810Z     - Rewrite/Validation attempt 2/3...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6706329Z     - Querying Corrector Agent to revise incorrect details...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6707221Z     - Querying Validator Agent to check content body accuracy...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6707809Z       [+] Validation Passed (Confidence: 98%).
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6708290Z     - Generating metadata parameters...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6709002Z     - Querying Metadata Agent to generate frontmatter parameters...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6709428Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6709779Z --- Processing Candidate: '14 stolen two-wheelers recovered, 4 minors taken i...' ---
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6710460Z     - Rewrite/Validation attempt 1/3...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6710948Z     - Querying Writer Agent to rewrite content body...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6711539Z     - Querying Validator Agent to check content body accuracy...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6712116Z       [+] Validation Passed (Confidence: 100%).
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6712572Z     - Generating metadata parameters...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6713105Z     - Querying Metadata Agent to generate frontmatter parameters...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6713532Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6713914Z --- Processing Candidate: 'KDS member Bomju Riram selected for diploma course...' ---
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6714939Z     [!] Over 22-minute global threshold. Operating in 1-Shot 'Fast-Fail' mode.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6715569Z     - Rewrite/Validation attempt 1/1...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6716068Z     - Querying Writer Agent to rewrite content body...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6716654Z     - Querying Validator Agent to check content body accuracy...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6717223Z       [+] Validation Passed (Confidence: 100%).
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6717682Z     - Generating metadata parameters...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6718230Z     - Querying Metadata Agent to generate frontmatter parameters...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6719546Z     [+] Discovered alternative featured image in text: https://arunachaltimes.in/wp-content/uploads/2026/06/KDS-member-Bomju-Riram-selected-for-diploma-course-at-NSD.webp
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6720562Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6720902Z --- Processing Candidate: 'DCC, DLRC meeting reviews banking performance...' ---
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6721716Z     [!] Over 22-minute global threshold. Operating in 1-Shot 'Fast-Fail' mode.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6722330Z     - Rewrite/Validation attempt 1/1...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6722818Z     - Querying Writer Agent to rewrite content body...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6723416Z     - Querying Validator Agent to check content body accuracy...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6723976Z       [+] Validation Passed (Confidence: 100%).
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6724623Z     - Generating metadata parameters...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6725177Z     - Querying Metadata Agent to generate frontmatter parameters...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6725590Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.6726267Z >>> Phase 4 Complete. Successfully produced 9 articles. (Saved to '/home/runner/work/engine/engine/engine/tmp/national/produced_articles.json')
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.7923220Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.7923881Z >>> Starting Phase 5: Sync, Cleanup & Callback
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.7925162Z   [+] Assembled and Saved: 2026-06-27-india-becomes-worlds-leading-ship-recycling-nation.md
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.7926670Z   [+] Assembled and Saved: 2026-06-27-india-lifts-restrictions-on-ships-through-strait-of-hormuz.md
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.7928542Z   [+] Assembled and Saved: 2026-06-27-ketan-agarwal-murder-family-would-have-cancelled-wedding-if-siya-expressed-unwillingness.md
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.7930076Z   [+] Assembled and Saved: 2026-06-27-rijiju-slams-congress-over-dictatorial-boast.md
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.7930900Z   [+] Assembled and Saved: 2026-06-27-sc-pil-seeks-uniform-national-fire-safety-standards.md
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.7931842Z   [+] Assembled and Saved: 2026-06-27-us-ambassador-president-trump-holds-pm-modi-in-highest-regard.md
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.7932828Z   [+] Assembled and Saved: 2026-06-27-arunachal-pradesh-police-recover-14-stolen-two-wheelers.md
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.7933729Z   [+] Assembled and Saved: 2026-06-27-kds-member-bomju-riram-selected-for-nsd-diploma-course.md
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.7934809Z   [+] Assembled and Saved: 2026-06-27-dcc-dlrc-meeting-reviews-banking-performance-in-upper-subansiri.md
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.7936241Z   [!] Logged failed/abandoned article in history: https://theshillongtimes.com/2026/06/26/cm-adhikari-announces-setting-up-vande-mataram-museum-on-bankim-chandras-189th-birth-anniversary/
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.7937310Z   [+] Updated persistent backlog archive with 61 items.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.7937650Z   - Pruning old history entries...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.7937921Z   [+] Pruning complete.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.7938068Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.7938437Z >>> Phase 5 Complete. Status summary written to '/home/runner/work/engine/engine/engine/tmp/national/sync_summary.json'
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.7955136Z ========================================
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.7955699Z  NEWS AUTOMATION PIPELINE - STARTED
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.7956174Z  Workspace: /home/runner/work/engine/engine/engine
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.7956500Z  Scope:     NATIONAL
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.7956720Z  2026-06-27 13:08:49
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.7956942Z ========================================
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.7957119Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.7957124Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.7957570Z >> Executing: /home/runner/work/engine/engine/engine/.venv/bin/python3 /home/runner/work/engine/engine/engine/scripts/phases/get_rss.py
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.7958100Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.7958522Z >> Executing: /home/runner/work/engine/engine/engine/.venv/bin/python3 /home/runner/work/engine/engine/engine/scripts/utils/clean_html.py
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.7959041Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.7959451Z >> Executing: /home/runner/work/engine/engine/engine/.venv/bin/python3 /home/runner/work/engine/engine/engine/scripts/phases/triage.py
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.7959948Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.7960376Z >> Executing: /home/runner/work/engine/engine/engine/.venv/bin/python3 /home/runner/work/engine/engine/engine/scripts/phases/deduplicate.py
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.7960905Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.7961439Z >> Executing: /home/runner/work/engine/engine/engine/.venv/bin/python3 /home/runner/work/engine/engine/engine/scripts/phases/produce.py --start-time 1782565729.3651314
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.7962063Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.7962470Z >> Executing: /home/runner/work/engine/engine/engine/.venv/bin/python3 /home/runner/work/engine/engine/engine/scripts/phases/cleanup.py
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.7962971Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.7963070Z ========================================
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.7963354Z  PIPELINE COMPLETE (Duration: 26.26 mins)
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.7963634Z ========================================
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.8056063Z ##[group]Run cd engine
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.8056376Z ^[[36;1mcd engine^[[0m
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.8056639Z ^[[36;1m.venv/bin/python3 main.py --scope global^[[0m
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.8092384Z shell: /usr/bin/bash -e {0}
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.8092725Z env:
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.8093280Z   pythonLocation: /opt/hostedtoolcache/Python/3.10.20/x64
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.8093794Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.10.20/x64/lib/pkgconfig
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.8094676Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.20/x64
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.8095312Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.20/x64
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.8095869Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.20/x64
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.8096303Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.10.20/x64/lib
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.8096800Z   SCOUT_WORKSPACE: /home/runner/work/engine/engine/engine
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.8097440Z   WEBSITE_REPO_PATH: /home/runner/work/engine/engine/content
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.8098091Z   LLM_API_KEY: ***
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.8098371Z ##[endgroup]
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.9823044Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.9823661Z >>> Running Step 1/1: Feed Discovery (RSS Pull & Log)
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.9824428Z [*] Target scope configured: global
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:04.9824894Z >>> Step 1/1 Complete. Discovered 0 fresh URLs.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:05.1752846Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:05.1753428Z >>> Running Job 1.2: Candidate Pre-Cleaning & Backlog Compilation
+run-pipeline	UNKNOWN STEP	2026-06-27T13:35:05.1754682Z >>> Job 1.2 Complete. Newly Sourced: 0 | Archive Backlog: 46
+run-pipeline	UNKNOWN STEP	2026-06-27T13:36:39.3262297Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:36:39.3263051Z >>> Running Job 2.1: Curation & Target Triage Selection
+run-pipeline	UNKNOWN STEP	2026-06-27T13:36:39.3263649Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:36:39.3263907Z --- Running Relevance Filter (GLOBAL Scope check) ---
+run-pipeline	UNKNOWN STEP	2026-06-27T13:36:39.3264989Z   - Relevance filter attempt 1/3...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:36:39.3266343Z     [+] Validation Passed. Filtering out 40 irrelevant candidates.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:36:39.3267084Z   [+] Relevance Triage Complete. Passed: 6 candidates.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:36:39.3267446Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:36:39.3267712Z --- Running Senior Curation (GLOBAL Scope, curating top 10) ---
+run-pipeline	UNKNOWN STEP	2026-06-27T13:36:39.3268292Z   - Senior curation selection attempt 1/3...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:36:39.3268780Z     [+] Validation Passed. Selected 3 story groups.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:36:39.3269714Z >>> Job 2.1 Complete. Wrote 3 selected candidates to '/home/runner/work/engine/engine/engine/tmp/global/chosen_articles.json'.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:36:41.8368434Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:36:41.8369246Z >>> Starting Phase 3: Deduplication & Queue Compilation
+run-pipeline	UNKNOWN STEP	2026-06-27T13:36:41.8369712Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:36:41.8369951Z --- Running Intra-Batch Deduplication & Grouping ---
+run-pipeline	UNKNOWN STEP	2026-06-27T13:36:41.8370473Z   - Grouping query attempt 1/3...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:36:41.8371064Z     [+] Validation Passed. Identified 3 unique news events from 3 sources.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:36:41.8371595Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:36:41.8372057Z >>> Running Phase 3: Deduplication check for 'Operation Amistad: Indian Army aid team leaves for...'
+run-pipeline	UNKNOWN STEP	2026-06-27T13:36:41.8373093Z     - Checking Deduplication for: 'Operation Amistad: Indian Army aid team leaves for...'
+run-pipeline	UNKNOWN STEP	2026-06-27T13:36:41.8373998Z       [!] No published articles found in covered.json. Skipping deduplication check.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:36:41.8375105Z   [+] Article 'Operation Amistad: Indian Army aid team ' verified as UNIQUE.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:36:41.8375625Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:36:41.8376086Z >>> Running Phase 3: Deduplication check for 'UN chief calls for harnessing technology to stop d...'
+run-pipeline	UNKNOWN STEP	2026-06-27T13:36:41.8377075Z     - Checking Deduplication for: 'UN chief calls for harnessing technology to stop d...'
+run-pipeline	UNKNOWN STEP	2026-06-27T13:36:41.8377955Z       [!] No published articles found in covered.json. Skipping deduplication check.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:36:41.8378739Z   [+] Article 'UN chief calls for harnessing technology' verified as UNIQUE.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:36:41.8379204Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:36:41.8379656Z >>> Running Phase 3: Deduplication check for 'Lashkar terrorist seen attending funeral of Shoaib...'
+run-pipeline	UNKNOWN STEP	2026-06-27T13:36:41.8380996Z     - Checking Deduplication for: 'Lashkar terrorist seen attending funeral of Shoaib...'
+run-pipeline	UNKNOWN STEP	2026-06-27T13:36:41.8381902Z       [!] No published articles found in covered.json. Skipping deduplication check.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:36:41.8382688Z   [+] Article 'Lashkar terrorist seen attending funeral' verified as UNIQUE.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:36:41.8383156Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:36:41.8383813Z >>> Phase 3 Complete. Final unique queue size: 3 (Saved to '/home/runner/work/engine/engine/engine/tmp/global/triaged_candidates.json')
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.6664379Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.6665496Z >>> Starting Phase 4: Production & Critic Validation Loop (Elapsed time: 1.63 mins)
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.6666070Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.6666447Z --- Processing Candidate: 'Operation Amistad: Indian Army aid team leaves for...' ---
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.6667108Z     - Rewrite/Validation attempt 1/3...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.6667600Z     - Querying Writer Agent to rewrite content body...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.6668166Z     - Querying Validator Agent to check content body accuracy...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.6668713Z       [+] Validation Passed (Confidence: 98%).
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.6669155Z     - Generating metadata parameters...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.6679358Z     - Querying Metadata Agent to generate frontmatter parameters...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.6680045Z     [!] Invalid tag 'International'. Attempting tag correction...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.6680797Z     - Querying Tagger Agent to correct invalid tag 'International'...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.6681433Z       [+] Tag corrected successfully to 'Health'.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.6681819Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.6682203Z --- Processing Candidate: 'UN chief calls for harnessing technology to stop d...' ---
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.6682916Z     - Rewrite/Validation attempt 1/3...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.6683415Z     - Querying Writer Agent to rewrite content body...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.6684024Z     - Querying Validator Agent to check content body accuracy...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.6687810Z       [!] Validation Failed: The rewritten article introduces new phrases and sentences that, while not factually incorrect, alter the tone and emphasis of the original text. For example, the phrase 'Illicit drug trafficking is a complex issue that requires bold, innovative, and evidence-based solutions' is not present in the original text, and the sentence 'The increasing availability of novel synthetic opioids suggests a permanent shift in the global opioid market, with significant ramifications on how these drugs are used and the associated harms' is a paraphrased version of the original text. To maintain 100% authenticity, the rewritten article should stick more closely to the original text's wording and phrasing.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.6690887Z     - Rewrite/Validation attempt 2/3...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.6691287Z     - Querying Corrector Agent to revise incorrect details...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.6691756Z     - Querying Validator Agent to check content body accuracy...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.6692187Z       [+] Validation Passed (Confidence: 99%).
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.6692532Z     - Generating metadata parameters...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.6692931Z     - Querying Metadata Agent to generate frontmatter parameters...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.6693379Z     [!] Invalid tag 'International'. Attempting tag correction...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.6693808Z     - Querying Tagger Agent to correct invalid tag 'International'...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.6694197Z       [+] Tag corrected successfully to 'Health'.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.6694643Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.6694892Z --- Processing Candidate: 'Lashkar terrorist seen attending funeral of Shoaib...' ---
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.6695342Z     - Rewrite/Validation attempt 1/3...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.6695666Z     - Querying Writer Agent to rewrite content body...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.6696046Z     - Querying Validator Agent to check content body accuracy...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.6697614Z       [!] Validation Failed: The rewritten article omits specific details about the Indus Waters Treaty and Operation Sindoor, which were present in the original source text. Additionally, it does not mention the video that surfaced in February where Kasuri openly threatened India. The writer needs to incorporate these details to ensure 100% authenticity.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.6698960Z     - Rewrite/Validation attempt 2/3...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.6699297Z     - Querying Corrector Agent to revise incorrect details...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.6699704Z     - Querying Validator Agent to check content body accuracy...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.6700066Z       [+] Validation Passed (Confidence: 100%).
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.6700367Z     - Generating metadata parameters...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.6700727Z     - Querying Metadata Agent to generate frontmatter parameters...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.6700992Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.6701427Z >>> Phase 4 Complete. Successfully produced 3 articles. (Saved to '/home/runner/work/engine/engine/engine/tmp/global/produced_articles.json')
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.7865117Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.7865612Z >>> Starting Phase 5: Sync, Cleanup & Callback
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.7866449Z   [+] Assembled and Saved: 2026-06-27-indian-army-sends-medical-team-to-venezuela-for-earthquake-relief.md
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.7867445Z   [+] Assembled and Saved: 2026-06-27-un-chief-calls-for-action-against-drug-cyber-trafficking.md
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.7868374Z   [+] Assembled and Saved: 2026-06-27-lashkar-terrorist-attends-shoaib-akhtars-brothers-funeral.md
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.7869113Z   [+] Updated persistent backlog archive with 58 items.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.7869562Z   - Pruning old history entries...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.7869912Z   [+] Pruning complete.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.7870095Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.7870566Z >>> Phase 5 Complete. Status summary written to '/home/runner/work/engine/engine/engine/tmp/global/sync_summary.json'
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.7896743Z ========================================
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.7897296Z  NEWS AUTOMATION PIPELINE - STARTED
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.7897848Z  Workspace: /home/runner/work/engine/engine/engine
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.7898802Z  Scope:     GLOBAL
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.7899153Z  2026-06-27 13:35:04
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.7899526Z ========================================
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.7899830Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.7899838Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.7900460Z >> Executing: /home/runner/work/engine/engine/engine/.venv/bin/python3 /home/runner/work/engine/engine/engine/scripts/phases/get_rss.py
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.7900999Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.7901432Z >> Executing: /home/runner/work/engine/engine/engine/.venv/bin/python3 /home/runner/work/engine/engine/engine/scripts/utils/clean_html.py
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.7902308Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.7902778Z >> Executing: /home/runner/work/engine/engine/engine/.venv/bin/python3 /home/runner/work/engine/engine/engine/scripts/phases/triage.py
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.7903288Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.7903724Z >> Executing: /home/runner/work/engine/engine/engine/.venv/bin/python3 /home/runner/work/engine/engine/engine/scripts/phases/deduplicate.py
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.7904494Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.7905048Z >> Executing: /home/runner/work/engine/engine/engine/.venv/bin/python3 /home/runner/work/engine/engine/engine/scripts/phases/produce.py --start-time 1782567304.8418841
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.7905687Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.7906103Z >> Executing: /home/runner/work/engine/engine/engine/.venv/bin/python3 /home/runner/work/engine/engine/engine/scripts/phases/cleanup.py
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.7906622Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.7906716Z ========================================
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.7907015Z  PIPELINE COMPLETE (Duration: 10.87 mins)
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.7907301Z ========================================
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8005043Z ##[group]Run # Safely copy any generated articles from the engine's push directories over to the content repository
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8005915Z ^[[36;1m# Safely copy any generated articles from the engine's push directories over to the content repository^[[0m
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8006612Z ^[[36;1mmkdir -p content/markdown/local content/markdown/national content/markdown/global^[[0m
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8007206Z ^[[36;1mcp -r engine/push/local/* content/markdown/local/ 2>/dev/null || true^[[0m
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8007733Z ^[[36;1mcp -r engine/push/national/* content/markdown/national/ 2>/dev/null || true^[[0m
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8008289Z ^[[36;1mcp -r engine/push/global/* content/markdown/global/ 2>/dev/null || true^[[0m
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8039795Z shell: /usr/bin/bash -e {0}
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8040055Z env:
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8040334Z   pythonLocation: /opt/hostedtoolcache/Python/3.10.20/x64
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8040816Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.10.20/x64/lib/pkgconfig
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8041249Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.20/x64
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8041639Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.20/x64
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8042039Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.20/x64
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8042432Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.10.20/x64/lib
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8042770Z ##[endgroup]
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8180863Z ##[group]Run cd content
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8181133Z ^[[36;1mcd content^[[0m
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8181447Z ^[[36;1m# Update indices using the python script in the content repo^[[0m
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8181854Z ^[[36;1mpython3 scripts/update_indices.py^[[0m
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8209874Z shell: /usr/bin/bash -e {0}
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8210135Z env:
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8210406Z   pythonLocation: /opt/hostedtoolcache/Python/3.10.20/x64
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8210863Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.10.20/x64/lib/pkgconfig
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8211324Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.20/x64
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8211732Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.20/x64
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8212125Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.20/x64
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8212525Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.10.20/x64/lib
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8212851Z ##[endgroup]
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8579361Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8579747Z >>> Updating indices for scope: LOCAL
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8580808Z   [+] Added 7 new articles to articles.json
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8581577Z   [+] Generated covered.json with 7 recent articles (48h window).
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8582119Z   [+] Generated topics.json with category counts.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8582442Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8582737Z >>> Updating indices for scope: NATIONAL
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8583137Z   [+] Added 9 new articles to articles.json
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8583614Z   [+] Generated covered.json with 9 recent articles (48h window).
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8584116Z   [+] Generated topics.json with category counts.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8584662Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8584802Z >>> Updating indices for scope: GLOBAL
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8585181Z   [+] Added 3 new articles to articles.json
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8585648Z   [+] Generated covered.json with 3 recent articles (48h window).
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8586152Z   [+] Generated topics.json with category counts.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8643975Z ##[group]Run cd engine
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8644544Z ^[[36;1mcd engine^[[0m
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8644940Z ^[[36;1m# Note: Publisher now correctly reads from the content repo's articles.json ^[[0m
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8645494Z ^[[36;1m# and writes its ledger state back to the engine repo's history folder^[[0m
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8645978Z ^[[36;1m.venv/bin/python3 scripts/social/facebook_publisher.py^[[0m
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8675863Z shell: /usr/bin/bash -e {0}
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8676120Z env:
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8676387Z   pythonLocation: /opt/hostedtoolcache/Python/3.10.20/x64
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8676840Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.10.20/x64/lib/pkgconfig
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8677282Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.20/x64
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8677676Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.20/x64
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8678066Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.20/x64
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8678490Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.10.20/x64/lib
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8678890Z   SCOUT_WORKSPACE: /home/runner/work/engine/engine/engine
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8679277Z   WEBSITE_REPO_PATH: /home/runner/work/engine/engine/content
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8679887Z   RENDER_DEPLOY_HOOK: ***
+run-pipeline	UNKNOWN STEP	2026-06-27T13:45:56.8680123Z ##[endgroup]
+run-pipeline	UNKNOWN STEP	2026-06-27T13:46:59.6682802Z >>> Starting Render Deploy & Sequential Facebook Publisher Setup
+run-pipeline	UNKNOWN STEP	2026-06-27T13:46:59.6683484Z   [+] Triggering Render manual deploy hook...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:46:59.6683987Z   [+] Render build triggered successfully.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:46:59.6684943Z   [!] Warning: RENDER_API_KEY/SERVICE_ID not configured. Skipping polling.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:46:59.6685923Z   [+] Render build completed successfully. Sleeping for 1 minute before scheduling...
+run-pipeline	UNKNOWN STEP	2026-06-27T13:46:59.6689109Z   [!] Error checking scheduled posts (HTTP 400): {"error":{"message":"Unsupported get request. Object with ID 'None' does not exist, cannot be loaded due to missing permissions, or does not support this operation. Please read the Graph API documentation at https:\/\/developers.facebook.com\/docs\/graph-api","type":"GraphMethodException","code":100,"error_subcode":33,"fbtrace_id":"AW8N8OSOer-ugcYNGsuVCRH"}}
+run-pipeline	UNKNOWN STEP	2026-06-27T13:46:59.6691214Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:46:59.6691341Z >>> Compiling Queue for Scope: LOCAL
+run-pipeline	UNKNOWN STEP	2026-06-27T13:46:59.6691974Z   [+] Identified 7 unshared articles. Saved queue to /home/runner/work/engine/engine/engine/tmp_queue_local.json
+run-pipeline	UNKNOWN STEP	2026-06-27T13:46:59.6692752Z   - Scheduling 'Assam: 2 ULFA(I) cadres arrest' at slot 2026-06-27 14:16:57 UTC
+run-pipeline	UNKNOWN STEP	2026-06-27T13:46:59.6695133Z   [!] Failed to publish: HTTP 400 - {"error":{"message":"Unsupported post request. Object with ID 'None' does not exist, cannot be loaded due to missing permissions, or does not support this operation. Please read the Graph API documentation at https:\/\/developers.facebook.com\/docs\/graph-api","type":"GraphMethodException","code":100,"error_subcode":33,"fbtrace_id":"A7RXtPwpqdntHQ91a3T__Px"}}
+run-pipeline	UNKNOWN STEP	2026-06-27T13:46:59.6697124Z   - Scheduling 'Man Arrested for Stealing from' at slot 2026-06-27 14:16:57 UTC
+run-pipeline	UNKNOWN STEP	2026-06-27T13:46:59.6699162Z   [!] Failed to publish: HTTP 400 - {"error":{"message":"Unsupported post request. Object with ID 'None' does not exist, cannot be loaded due to missing permissions, or does not support this operation. Please read the Graph API documentation at https:\/\/developers.facebook.com\/docs\/graph-api","type":"GraphMethodException","code":100,"error_subcode":33,"fbtrace_id":"A67h5iqmIzKw9yxfWKD3QgL"}}
+run-pipeline	UNKNOWN STEP	2026-06-27T13:46:59.6700732Z   - Scheduling 'Manipur's Unseen Suffering: Li' at slot 2026-06-27 14:16:57 UTC
+run-pipeline	UNKNOWN STEP	2026-06-27T13:46:59.6702290Z   [!] Failed to publish: HTTP 400 - {"error":{"message":"Unsupported post request. Object with ID 'None' does not exist, cannot be loaded due to missing permissions, or does not support this operation. Please read the Graph API documentation at https:\/\/developers.facebook.com\/docs\/graph-api","type":"GraphMethodException","code":100,"error_subcode":33,"fbtrace_id":"At2huQQ1HroPBOiHzbZ0Ub3"}}
+run-pipeline	UNKNOWN STEP	2026-06-27T13:46:59.6704705Z   - Scheduling 'Meghalaya CM defends lifting b' at slot 2026-06-27 14:16:57 UTC
+run-pipeline	UNKNOWN STEP	2026-06-27T13:46:59.6706491Z   [!] Failed to publish: HTTP 400 - {"error":{"message":"Unsupported post request. Object with ID 'None' does not exist, cannot be loaded due to missing permissions, or does not support this operation. Please read the Graph API documentation at https:\/\/developers.facebook.com\/docs\/graph-api","type":"GraphMethodException","code":100,"error_subcode":33,"fbtrace_id":"AX2n78ufT3Uute1B_yv2K24"}}
+run-pipeline	UNKNOWN STEP	2026-06-27T13:46:59.6709144Z   - Scheduling 'Nagaland BJP observes 'Black D' at slot 2026-06-27 14:16:57 UTC
+run-pipeline	UNKNOWN STEP	2026-06-27T13:46:59.6710806Z   [!] Failed to publish: HTTP 400 - {"error":{"message":"Unsupported post request. Object with ID 'None' does not exist, cannot be loaded due to missing permissions, or does not support this operation. Please read the Graph API documentation at https:\/\/developers.facebook.com\/docs\/graph-api","type":"GraphMethodException","code":100,"error_subcode":33,"fbtrace_id":"ArgSiOc9FWvI3p4PMtUpgy5"}}
+run-pipeline	UNKNOWN STEP	2026-06-27T13:46:59.6712366Z   - Scheduling 'Over 8 lakh devotees visit Kam' at slot 2026-06-27 14:16:57 UTC
+run-pipeline	UNKNOWN STEP	2026-06-27T13:46:59.6713917Z   [!] Failed to publish: HTTP 400 - {"error":{"message":"Unsupported post request. Object with ID 'None' does not exist, cannot be loaded due to missing permissions, or does not support this operation. Please read the Graph API documentation at https:\/\/developers.facebook.com\/docs\/graph-api","type":"GraphMethodException","code":100,"error_subcode":33,"fbtrace_id":"A8xOoBBLod7mYHmquu7qj7w"}}
+run-pipeline	UNKNOWN STEP	2026-06-27T13:46:59.6715744Z   - Scheduling 'Search Intensifies for 4 Missi' at slot 2026-06-27 14:16:57 UTC
+run-pipeline	UNKNOWN STEP	2026-06-27T13:46:59.6717287Z   [!] Failed to publish: HTTP 400 - {"error":{"message":"Unsupported post request. Object with ID 'None' does not exist, cannot be loaded due to missing permissions, or does not support this operation. Please read the Graph API documentation at https:\/\/developers.facebook.com\/docs\/graph-api","type":"GraphMethodException","code":100,"error_subcode":33,"fbtrace_id":"Avvl-ZNTmu01c8j7uPRCPdl"}}
+run-pipeline	UNKNOWN STEP	2026-06-27T13:46:59.6718599Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:46:59.6718710Z >>> Compiling Queue for Scope: NATIONAL
+run-pipeline	UNKNOWN STEP	2026-06-27T13:46:59.6719230Z   [+] Identified 9 unshared articles. Saved queue to /home/runner/work/engine/engine/engine/tmp_queue_national.json
+run-pipeline	UNKNOWN STEP	2026-06-27T13:46:59.6719862Z   - Scheduling 'Arunachal Pradesh Police Recov' at slot 2026-06-27 14:16:57 UTC
+run-pipeline	UNKNOWN STEP	2026-06-27T13:46:59.6721435Z   [!] Failed to publish: HTTP 400 - {"error":{"message":"Unsupported post request. Object with ID 'None' does not exist, cannot be loaded due to missing permissions, or does not support this operation. Please read the Graph API documentation at https:\/\/developers.facebook.com\/docs\/graph-api","type":"GraphMethodException","code":100,"error_subcode":33,"fbtrace_id":"AGVMcidLFLHScT2HZyi4WQq"}}
+run-pipeline	UNKNOWN STEP	2026-06-27T13:46:59.6722957Z   - Scheduling 'DCC, DLRC meeting reviews bank' at slot 2026-06-27 14:16:57 UTC
+run-pipeline	UNKNOWN STEP	2026-06-27T13:46:59.6724705Z   [!] Failed to publish: HTTP 400 - {"error":{"message":"Unsupported post request. Object with ID 'None' does not exist, cannot be loaded due to missing permissions, or does not support this operation. Please read the Graph API documentation at https:\/\/developers.facebook.com\/docs\/graph-api","type":"GraphMethodException","code":100,"error_subcode":33,"fbtrace_id":"Au4CjR9aqSQ3qZA4M4FwdXx"}}
+run-pipeline	UNKNOWN STEP	2026-06-27T13:46:59.6726526Z   - Scheduling 'India becomes world's leading ' at slot 2026-06-27 14:16:57 UTC
+run-pipeline	UNKNOWN STEP	2026-06-27T13:46:59.6728099Z   [!] Failed to publish: HTTP 400 - {"error":{"message":"Unsupported post request. Object with ID 'None' does not exist, cannot be loaded due to missing permissions, or does not support this operation. Please read the Graph API documentation at https:\/\/developers.facebook.com\/docs\/graph-api","type":"GraphMethodException","code":100,"error_subcode":33,"fbtrace_id":"AJ65gNstF4JWksVU0AWI66P"}}
+run-pipeline	UNKNOWN STEP	2026-06-27T13:46:59.6729617Z   - Scheduling 'India Lifts Restrictions on Sh' at slot 2026-06-27 14:16:57 UTC
+run-pipeline	UNKNOWN STEP	2026-06-27T13:46:59.6731274Z   [!] Failed to publish: HTTP 400 - {"error":{"message":"Unsupported post request. Object with ID 'None' does not exist, cannot be loaded due to missing permissions, or does not support this operation. Please read the Graph API documentation at https:\/\/developers.facebook.com\/docs\/graph-api","type":"GraphMethodException","code":100,"error_subcode":33,"fbtrace_id":"Ap2FKerH1MWDvxOPEAmw701"}}
+run-pipeline	UNKNOWN STEP	2026-06-27T13:46:59.6732802Z   - Scheduling 'KDS member Bomju Riram selecte' at slot 2026-06-27 14:16:57 UTC
+run-pipeline	UNKNOWN STEP	2026-06-27T13:46:59.6734548Z   [!] Failed to publish: HTTP 400 - {"error":{"message":"Unsupported post request. Object with ID 'None' does not exist, cannot be loaded due to missing permissions, or does not support this operation. Please read the Graph API documentation at https:\/\/developers.facebook.com\/docs\/graph-api","type":"GraphMethodException","code":100,"error_subcode":33,"fbtrace_id":"AG2D8ccZpe83fQMmkJl290Z"}}
+run-pipeline	UNKNOWN STEP	2026-06-27T13:46:59.6736094Z   - Scheduling 'Ketan Agarwal Murder: Family W' at slot 2026-06-27 14:16:57 UTC
+run-pipeline	UNKNOWN STEP	2026-06-27T13:46:59.6737626Z   [!] Failed to publish: HTTP 400 - {"error":{"message":"Unsupported post request. Object with ID 'None' does not exist, cannot be loaded due to missing permissions, or does not support this operation. Please read the Graph API documentation at https:\/\/developers.facebook.com\/docs\/graph-api","type":"GraphMethodException","code":100,"error_subcode":33,"fbtrace_id":"A8WwvPjb1fNg79wDmlIVHY-"}}
+run-pipeline	UNKNOWN STEP	2026-06-27T13:46:59.6739144Z   - Scheduling 'Rijiju slams Congress over 'di' at slot 2026-06-27 14:16:57 UTC
+run-pipeline	UNKNOWN STEP	2026-06-27T13:46:59.6740667Z   [!] Failed to publish: HTTP 400 - {"error":{"message":"Unsupported post request. Object with ID 'None' does not exist, cannot be loaded due to missing permissions, or does not support this operation. Please read the Graph API documentation at https:\/\/developers.facebook.com\/docs\/graph-api","type":"GraphMethodException","code":100,"error_subcode":33,"fbtrace_id":"ARyrUAoK1WBZy4nrHWJQJB5"}}
+run-pipeline	UNKNOWN STEP	2026-06-27T13:46:59.6742185Z   - Scheduling 'SC PIL seeks uniform national ' at slot 2026-06-27 14:16:57 UTC
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.1887850Z   [!] Failed to publish: HTTP 400 - {"error":{"message":"Unsupported post request. Object with ID 'None' does not exist, cannot be loaded due to missing permissions, or does not support this operation. Please read the Graph API documentation at https:\/\/developers.facebook.com\/docs\/graph-api","type":"GraphMethodException","code":100,"error_subcode":33,"fbtrace_id":"A4EYhr37YtkHkbWyTBNsHfk"}}
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.1889953Z   - Scheduling 'US Ambassador: President Trump' at slot 2026-06-27 14:16:57 UTC
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.1891981Z   [!] Failed to publish: HTTP 400 - {"error":{"message":"Unsupported post request. Object with ID 'None' does not exist, cannot be loaded due to missing permissions, or does not support this operation. Please read the Graph API documentation at https:\/\/developers.facebook.com\/docs\/graph-api","type":"GraphMethodException","code":100,"error_subcode":33,"fbtrace_id":"AVJ9U-DnjXTzg1CnmafpqC6"}}
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.1893928Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.1894060Z >>> Compiling Queue for Scope: GLOBAL
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.1894896Z   [+] Identified 3 unshared articles. Saved queue to /home/runner/work/engine/engine/engine/tmp_queue_global.json
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.1895688Z   - Scheduling 'Indian Army Sends Medical Team' at slot 2026-06-27 14:16:57 UTC
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.1897651Z   [!] Failed to publish: HTTP 400 - {"error":{"message":"Unsupported post request. Object with ID 'None' does not exist, cannot be loaded due to missing permissions, or does not support this operation. Please read the Graph API documentation at https:\/\/developers.facebook.com\/docs\/graph-api","type":"GraphMethodException","code":100,"error_subcode":33,"fbtrace_id":"AlTJy5GaEavrJB68PXUByvu"}}
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.1899600Z   - Scheduling 'Lashkar terrorist attends Shoa' at slot 2026-06-27 14:16:57 UTC
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.1901728Z   [!] Failed to publish: HTTP 400 - {"error":{"message":"Unsupported post request. Object with ID 'None' does not exist, cannot be loaded due to missing permissions, or does not support this operation. Please read the Graph API documentation at https:\/\/developers.facebook.com\/docs\/graph-api","type":"GraphMethodException","code":100,"error_subcode":33,"fbtrace_id":"An97_sNHzmWKRUTCa66nkQi"}}
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.1903672Z   - Scheduling 'UN Chief Calls for Action Agai' at slot 2026-06-27 14:16:57 UTC
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.1905787Z   [!] Failed to publish: HTTP 400 - {"error":{"message":"Unsupported post request. Object with ID 'None' does not exist, cannot be loaded due to missing permissions, or does not support this operation. Please read the Graph API documentation at https:\/\/developers.facebook.com\/docs\/graph-api","type":"GraphMethodException","code":100,"error_subcode":33,"fbtrace_id":"A3Co-IT_8BPQDqXpoW7Jwk-"}}
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.1907482Z 
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.1907705Z >>> Render deploy and sequential Facebook scheduling chain complete.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.2076788Z ##[group]Run cd content
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.2077097Z ^[[36;1mcd content^[[0m
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.2077369Z ^[[36;1mgit config user.name "github-actions[bot]"^[[0m
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.2077827Z ^[[36;1mgit config user.email "github-actions[bot]@users.noreply.github.com"^[[0m
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.2078251Z ^[[36;1mgit add markdown/ history/^[[0m
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.2078697Z ^[[36;1mgit commit -m "Auto-published new articles & indices" || echo "No changes to commit"^[[0m
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.2079164Z ^[[36;1mgit push origin^[[0m
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.2110274Z shell: /usr/bin/bash -e {0}
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.2110523Z env:
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.2110800Z   pythonLocation: /opt/hostedtoolcache/Python/3.10.20/x64
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.2111249Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.10.20/x64/lib/pkgconfig
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.2111691Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.20/x64
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.2112077Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.20/x64
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.2112493Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.10.20/x64
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.2112887Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.10.20/x64/lib
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.2113213Z ##[endgroup]
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.2513201Z [master 9aa386c] Auto-published new articles & indices
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.2513758Z  35 files changed, 900 insertions(+), 38 deletions(-)
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.2514691Z  create mode 100644 markdown/global/2026-06-27-indian-army-sends-medical-team-to-venezuela-for-earthquake-relief.md
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.2515791Z  create mode 100644 markdown/global/2026-06-27-lashkar-terrorist-attends-shoaib-akhtars-brothers-funeral.md
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.2517244Z  create mode 100644 markdown/global/2026-06-27-un-chief-calls-for-action-against-drug-cyber-trafficking.md
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.2518296Z  create mode 100644 markdown/local/2026-06-27-assam-2-ulfai-cadres-arrested-in-tinsukia.md
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.2519143Z  create mode 100644 markdown/local/2026-06-27-man-arrested-for-stealing-from-trinamool-mps-bank-account.md
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.2520244Z  create mode 100644 markdown/local/2026-06-27-manipurs-unseen-suffering-living-through-conflict.md
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.2521125Z  create mode 100644 markdown/local/2026-06-27-meghalaya-cm-defends-lifting-ban-on-chemical-fertilisers.md
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.2521954Z  create mode 100644 markdown/local/2026-06-27-nagaland-bjp-observes-black-days-of-emergency.md
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.2522846Z  create mode 100644 markdown/local/2026-06-27-over-8-lakh-devotees-visit-kamakhya-temple-during-ambubachi-mahayog.md
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.2523827Z  create mode 100644 markdown/local/2026-06-27-search-intensifies-for-4-missing-in-keyi-panyor-flash-flood.md
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.2525228Z  create mode 100644 markdown/national/2026-06-27-arunachal-pradesh-police-recover-14-stolen-two-wheelers.md
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.2526195Z  create mode 100644 markdown/national/2026-06-27-dcc-dlrc-meeting-reviews-banking-performance-in-upper-subansiri.md
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.2527126Z  create mode 100644 markdown/national/2026-06-27-india-becomes-worlds-leading-ship-recycling-nation.md
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.2528026Z  create mode 100644 markdown/national/2026-06-27-india-lifts-restrictions-on-ships-through-strait-of-hormuz.md
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.2528963Z  create mode 100644 markdown/national/2026-06-27-kds-member-bomju-riram-selected-for-nsd-diploma-course.md
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.2529949Z  create mode 100644 markdown/national/2026-06-27-ketan-agarwal-murder-family-would-have-cancelled-wedding-if-siya-expressed-unwillingness.md
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.2530859Z  create mode 100644 markdown/national/2026-06-27-rijiju-slams-congress-over-dictatorial-boast.md
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.2531567Z  create mode 100644 markdown/national/2026-06-27-sc-pil-seeks-uniform-national-fire-safety-standards.md
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.2532356Z  create mode 100644 markdown/national/2026-06-27-us-ambassador-president-trump-holds-pm-modi-in-highest-regard.md
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.9806628Z To https://github.com/theHmars/content
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.9807336Z    eb8ceb3..9aa386c  master -> master
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.9946414Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:00.9947691Z Post job cleanup.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:01.1144750Z (node:3192) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:01.1145877Z (Use `node --trace-deprecation ...` to show where the warning was created)
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:01.1324102Z [command]/usr/bin/tar --posix -cf cache.tzst --exclude cache.tzst -P -C /home/runner/work/engine/engine --files-from manifest.txt --use-compress-program zstdmt
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:01.2919052Z (node:3192) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:01.4797886Z Sent 7842746 of 7842746 (100.0%), 37.4 MBs/sec
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:01.5588399Z Cache saved with the key: setup-python-Linux-x64-24.04-Ubuntu-python-3.10.20-pip-46a049df09bc8b7319eb858205722151ad1dea0ee60173ee608d192c7d79020c
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:01.5725140Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:01.5726446Z Post job cleanup.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:01.6532005Z [command]/usr/bin/git version
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:01.6569921Z git version 2.54.0
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:01.6641124Z Temporarily overriding HOME='/home/runner/work/_temp/89fbbe6b-004d-4b2e-834f-0d34a1c6bf40' before making global git config changes
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:01.6642604Z Adding repository directory to the temporary git global config as a safe directory
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:01.6648130Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/engine/engine/content
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:01.6683668Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:01.6716775Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:01.6941533Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:01.6968318Z http.https://github.com/.extraheader
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:01.6979062Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:01.7009875Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:01.7233855Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:01.7265995Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:01.7627617Z Node 20 is being deprecated. This workflow is running with Node 24 by default. If you need to temporarily use Node 20, you can set the ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true environment variable. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:01.7628888Z Post job cleanup.
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:01.8527451Z [command]/usr/bin/git version
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:01.8564254Z git version 2.54.0
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:01.8602279Z Temporarily overriding HOME='/home/runner/work/_temp/afa1344c-962d-4383-9163-4ecac3b3710a' before making global git config changes
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:01.8603103Z Adding repository directory to the temporary git global config as a safe directory
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:01.8609750Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/engine/engine/engine
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:01.8645450Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:01.8679007Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:01.8902675Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:01.8924905Z http.https://github.com/.extraheader
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:01.8935053Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:01.8967330Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:01.9191605Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:01.9223258Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:01.9580056Z Cleaning up orphan processes
+run-pipeline	UNKNOWN STEP	2026-06-27T13:47:01.9977671Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v4, actions/setup-python@v5. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

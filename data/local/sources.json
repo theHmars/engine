@@ -1,0 +1,26 @@
+{
+  "eastmojo": {
+    "name": "EastMojo",
+    "url": "https://www.eastmojo.com/feed/",
+    "category": "Local",
+    "cleaner_filename": "extract_eastmojo_v2.py"
+  },
+  "shillongtimes": {
+    "name": "The Shillong Times",
+    "url": "https://theshillongtimes.com/feed/",
+    "category": "Local",
+    "cleaner_filename": "extract_shillongtimes.py"
+  },
+  "nagalandpost": {
+    "name": "Nagaland Post",
+    "url": "https://nagalandpost.com/feed/",
+    "category": "Local",
+    "cleaner_filename": "extract_nagalandpost.py"
+  },
+  "arunachal": {
+    "name": "Arunachal Times",
+    "url": "https://arunachaltimes.in/index.php/feed/",
+    "category": "Local",
+    "cleaner_filename": "extract_arunachaltimes.py"
+  }
+}

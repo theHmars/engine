@@ -1,0 +1,2 @@
+# List of image URLs to ignore (replaced with fallback images during post assembly)
+https://staticprintenglish.theprint.in/wp-content/uploads/2023/06/theprint_default_image_new.jpg
