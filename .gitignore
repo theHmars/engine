@@ -7,3 +7,5 @@ data/1/2/cleaned/
 data/1/3/
 data/history/
 nvidia_api_keys*
+data/*/cleaned/
+data/*/rss/
