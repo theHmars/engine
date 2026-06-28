@@ -4,7 +4,7 @@ import os
 import sys
 import re
 from agents.deduplicator.deduplicator import is_duplicate_coverage, call_llm
-from utils.common import get_scope
+from utils.common import get_scope, get_state_dir
 
 def get_grouping_prompt():
     """Loads system prompt for the similarity grouping agent."""
@@ -149,7 +149,7 @@ def run_deduplication(article):
     if is_dup:
         print(f"  [!] Article '{article.get('title')[:40]}' matched with published history. Skipping for this session.")
         # Log to tmp/update_candidates.json for future enrichment updates
-        update_path = os.path.join(root_dir, f"tmp/{scope}/update_candidates.json")
+        update_path = os.path.join(get_state_dir(), f"tmp/{scope}/update_candidates.json")
         updates = []
         if os.path.exists(update_path):
             try:
@@ -179,7 +179,7 @@ def compile_triaged_queue():
     root_dir = os.environ.get("SCOUT_WORKSPACE", os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     scope = get_scope()
     
-    chosen_path = os.path.join(root_dir, f"tmp/{scope}/chosen_articles.json")
+    chosen_path = os.path.join(get_state_dir(), f"tmp/{scope}/chosen_articles.json")
     if not os.path.exists(chosen_path):
         print(f"[!] Error: Curated queue missing: {chosen_path}")
         sys.exit(1)
@@ -189,7 +189,7 @@ def compile_triaged_queue():
         
     if not chosen_list:
         print(">>> Curated queue is empty. Exiting.")
-        triaged_candidates_path = os.path.join(root_dir, f"tmp/{scope}/triaged_candidates.json")
+        triaged_candidates_path = os.path.join(get_state_dir(), f"tmp/{scope}/triaged_candidates.json")
         with open(triaged_candidates_path, 'w', encoding='utf-8') as f:
             json.dump([], f)
         sys.exit(0)
@@ -205,7 +205,7 @@ def compile_triaged_queue():
             final_queue.append(art)
             
     # 3. Export Verified Queue
-    triaged_candidates_path = os.path.join(root_dir, f"tmp/{scope}/triaged_candidates.json")
+    triaged_candidates_path = os.path.join(get_state_dir(), f"tmp/{scope}/triaged_candidates.json")
     with open(triaged_candidates_path, 'w', encoding='utf-8') as f:
         json.dump(final_queue, f, indent=4)
         

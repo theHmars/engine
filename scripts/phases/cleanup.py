@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 
 # Setup path so imports work correctly
 
-from utils.common import slugify
+from utils.common import slugify, get_state_dir
 from utils.history_manager import HistoryManager
 from assembler import generate_yaml
 
@@ -16,11 +16,11 @@ def main():
     
     script_dir = os.path.dirname(os.path.abspath(__file__))
     root_dir = os.environ.get("SCOUT_WORKSPACE", os.path.dirname(script_dir))
-    from utils.common import get_scope
+    from utils.common import get_scope, get_state_dir
     scope = get_scope()
     
-    produced_path = os.path.join(root_dir, f"tmp/{scope}/produced_articles.json")
-    triaged_path = os.path.join(root_dir, f"tmp/{scope}/triaged_candidates.json")
+    produced_path = os.path.join(get_state_dir(), f"tmp/{scope}/produced_articles.json")
+    triaged_path = os.path.join(get_state_dir(), f"tmp/{scope}/triaged_candidates.json")
     
     if not os.path.exists(produced_path):
         print(f"[!] Error: Produced articles file missing: {produced_path}")
@@ -42,7 +42,7 @@ def main():
     date_iso = now.strftime('%Y-%m-%dT%H:%M:%SZ')
     date_prefix = now.strftime('%Y-%m-%d')
     
-    output_dir = os.path.join(root_dir, f"push/{scope}")
+    output_dir = os.path.join(get_state_dir(), f"push/{scope}")
     os.makedirs(output_dir, exist_ok=True)
     
     hm = HistoryManager(root_dir)
@@ -97,7 +97,7 @@ def main():
                         hm.log_url(sec_url, sec_source_key, "FAILED_OR_ABANDONED")
 
     # 2.5 Update the persistent backlog archive file (data/1/2/archive.json)
-    just_cleaned_path = os.path.join(root_dir, f"tmp/{scope}/just_cleaned.json")
+    just_cleaned_path = os.path.join(get_state_dir(), f"tmp/{scope}/just_cleaned.json")
     just_cleaned_list = []
     if os.path.exists(just_cleaned_path):
         try:
@@ -109,7 +109,7 @@ def main():
     hm.update_backlog(just_cleaned_list, successful_urls)
 
     # 3. Clean up raw crawled HTML cache
-    raw_html_dir = os.path.join(root_dir, f"tmp/{scope}/raw")
+    raw_html_dir = os.path.join(get_state_dir(), f"tmp/{scope}/raw")
     if os.path.exists(raw_html_dir):
         print("  - Cleaning up temporary raw crawl directory...")
         try:
@@ -128,7 +128,7 @@ def main():
         print(f"    [!] Error pruning history: {e}")
         
     # 5. Output Orchestrator Callback JSON Status File
-    summary_path = os.path.join(root_dir, f"tmp/{scope}/sync_summary.json")
+    summary_path = os.path.join(get_state_dir(), f"tmp/{scope}/sync_summary.json")
     summary = {
         "status": "success",
         "processed_count": len(produced_articles),

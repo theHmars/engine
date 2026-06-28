@@ -52,11 +52,11 @@ def clear_queue():
         print(f"[!] Request failed: {e}")
 
 if __name__ == "__main__":
-    # If script runs locally in developer workspace, try to load .env automatically
-    env_path = ".env"
-    if not os.path.exists(env_path) and os.path.exists("../.env"):
-        env_path = "../.env"
-        
+    # Manually parse .env from engine root directory so it runs outside of venv
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    engine_root = os.path.dirname(os.path.dirname(current_dir))
+    env_path = os.path.join(engine_root, '.env')
+    
     if os.path.exists(env_path):
         with open(env_path) as f:
             for line in f:

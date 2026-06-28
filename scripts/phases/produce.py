@@ -8,7 +8,7 @@ import argparse
 
 # Setup path so imports work correctly
 
-from utils.common import check_timeout
+from utils.common import check_timeout, get_state_dir
 from utils.history_manager import HistoryManager
 from agents.writer.writer import rewrite_article
 from agents.corrector.corrector import validate_content, correct_content
@@ -195,7 +195,7 @@ def main():
     
     script_dir = os.path.dirname(os.path.abspath(__file__))
     root_dir = os.environ.get("SCOUT_WORKSPACE", os.path.dirname(script_dir))
-    from utils.common import get_scope
+    from utils.common import get_scope, get_state_dir
     scope = get_scope()
     
     # 1. Determine Start Time
@@ -203,7 +203,7 @@ def main():
         start_time = args.start_time
     else:
         # Check for temporary file
-        start_time_path = os.path.join(root_dir, f"tmp/{scope}/pipeline_start.txt")
+        start_time_path = os.path.join(get_state_dir(), f"tmp/{scope}/pipeline_start.txt")
         if os.path.exists(start_time_path):
             try:
                 with open(start_time_path, 'r') as f:
@@ -216,7 +216,7 @@ def main():
     print(f"\n>>> Starting Phase 4: Production & Critic Validation Loop (Elapsed time: {(time.time() - start_time)/60:.2f} mins)")
     
     # 2. Load candidates from Phase 3
-    triaged_path = os.path.join(root_dir, f"tmp/{scope}/triaged_candidates.json")
+    triaged_path = os.path.join(get_state_dir(), f"tmp/{scope}/triaged_candidates.json")
     if not os.path.exists(triaged_path):
         print(f"[!] Error: Triaged candidates file missing: {triaged_path}")
         sys.exit(1)
@@ -227,7 +227,7 @@ def main():
     if not candidates:
         print(">>> No unique candidates to process in this session. Exiting Phase 4.")
         # Write empty list
-        produced_path = os.path.join(root_dir, f"tmp/{scope}/produced_articles.json")
+        produced_path = os.path.join(get_state_dir(), f"tmp/{scope}/produced_articles.json")
         with open(produced_path, 'w', encoding='utf-8') as f:
             json.dump([], f)
         sys.exit(0)
@@ -275,7 +275,7 @@ def main():
                         hm.log_url(sec_url, sec.get("source_key", cand["source_key"]), "RETRY_FAILED")
             
     # 4. Save results to tmp/produced_articles.json
-    produced_path = os.path.join(root_dir, f"tmp/{scope}/produced_articles.json")
+    produced_path = os.path.join(get_state_dir(), f"tmp/{scope}/produced_articles.json")
     with open(produced_path, 'w', encoding='utf-8') as f:
         json.dump(produced_articles, f, indent=4)
         

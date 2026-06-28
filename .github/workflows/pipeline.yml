@@ -78,10 +78,13 @@ jobs:
           cd frontend
           npm ci
           cd ../engine
-          python3 scripts/utils/validate_markdown.py
+          .venv/bin/python3 scripts/utils/validate_markdown.py
 
       - name: Sync Generated Markdown to Content Repo
         run: |
+          # Clean up any rogue files in the root of markdown/ to prevent duplication
+          rm -f content/markdown/*.md 2>/dev/null || true
+
           # Safely copy any generated articles from the engine's push directories over to the content repository
           mkdir -p content/markdown/local content/markdown/national content/markdown/global
           cp -r engine/push/local/* content/markdown/local/ 2>/dev/null || true
@@ -101,13 +104,14 @@ jobs:
       - name: Commit & Push to Content Repo
         run: |
           cd content
+          rm markdown/*.md 2>/dev/null || true
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add markdown/ history/ quarantine/
+          git add markdown/local/ markdown/national/ markdown/global/ history/ quarantine/
           git commit -m "Auto-published new articles & indices" || echo "No changes to commit"
           git push origin
 
-      - name: Run Facebook Publisher & Render Trigger
+      - name: Run Unified Publisher (Render QA & Social Media)
         env:
           SCOUT_WORKSPACE: ${{ github.workspace }}/engine
           WEBSITE_REPO_PATH: ${{ github.workspace }}/content
@@ -116,6 +120,7 @@ jobs:
           RENDER_SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}
           FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
           FB_PAGE_ACCESS_TOKEN: ${{ secrets.FB_PAGE_ACCESS_TOKEN }}
+          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
         run: |
           cd engine
-          .venv/bin/python3 scripts/social/facebook_publisher.py
+          .venv/bin/python3 scripts/social/publisher.py

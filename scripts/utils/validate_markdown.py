@@ -5,6 +5,10 @@ import shutil
 import subprocess
 import re
 
+# Add scripts directory to path to resolve 'utils' package
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from utils.common import get_state_dir
+
 def main():
     workspace = os.environ.get("SCOUT_WORKSPACE", os.getcwd())
     engine_dir = workspace
@@ -24,7 +28,7 @@ def main():
     
     # We will copy all pushed markdown files to the frontend news directory
     for scope in scopes:
-        push_dir = os.path.join(engine_dir, "push", scope)
+        push_dir = os.path.join(get_state_dir(), "push", scope)
         if os.path.exists(push_dir):
             for file in os.listdir(push_dir):
                 if file.endswith(".md"):
@@ -74,9 +78,9 @@ def main():
             # Find it in the engine push directories and move it to quarantine
             quarantined = False
             for scope in scopes:
-                engine_file = os.path.join(engine_dir, "push", scope, filename)
+                engine_file = os.path.join(get_state_dir(), "push", scope, filename)
                 if os.path.exists(engine_file):
-                    quarantine_dir = os.path.join(engine_dir, "quarantine", "local", scope)
+                    quarantine_dir = os.path.join(get_state_dir(), "quarantine", "local", scope)
                     os.makedirs(quarantine_dir, exist_ok=True)
                     shutil.move(engine_file, os.path.join(quarantine_dir, filename))
                     print(f"  [-] Moved {filename} to {quarantine_dir}")

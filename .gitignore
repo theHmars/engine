@@ -9,3 +9,7 @@ data/history/
 nvidia_api_keys*
 data/*/cleaned/
 data/*/rss/
+
+# Runtime state artifacts — never commit these
+scripts/social/list.json
+scripts/social/metadata.json

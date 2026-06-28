@@ -5,7 +5,7 @@ import sys
 import random
 
 # Setup path environment to load helper modules
-from utils.common import load_source_history, get_scope
+from utils.common import load_source_history, get_scope, get_state_dir
 import agents.picker.picker as picker
 
 def get_picker_prompt(scope, filename):
@@ -195,7 +195,7 @@ def main():
     root_dir = os.environ.get("SCOUT_WORKSPACE", os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     
     # Load Compiled Candidates Pool
-    cleaned_candidates_path = os.path.join(root_dir, f'tmp/{scope}/cleaned_candidates.json')
+    cleaned_candidates_path = os.path.join(get_state_dir(), f'tmp/{scope}/cleaned_candidates.json')
     if not os.path.exists(cleaned_candidates_path):
         print(f"[!] Error: Sourced candidates index missing: {cleaned_candidates_path}")
         sys.exit(1)
@@ -210,10 +210,10 @@ def main():
     if not all_candidates:
         print(">>> Candidate pool is empty. Exiting.")
         # Ensure downstream steps have empty inputs
-        relevant_candidates_path = os.path.join(root_dir, f'tmp/{scope}/relevant_candidates.json')
+        relevant_candidates_path = os.path.join(get_state_dir(), f'tmp/{scope}/relevant_candidates.json')
         with open(relevant_candidates_path, 'w', encoding='utf-8') as f:
             json.dump([], f)
-        chosen_path = os.path.join(root_dir, f'tmp/{scope}/chosen_articles.json')
+        chosen_path = os.path.join(get_state_dir(), f'tmp/{scope}/chosen_articles.json')
         with open(chosen_path, 'w', encoding='utf-8') as f:
             json.dump([], f)
         sys.exit(0)
@@ -224,13 +224,13 @@ def main():
     if not relevant_pool:
         print(f">>> No contextually relevant articles found for {scope.upper()} scope. Exiting.")
         # Ensure downstream steps have empty inputs
-        chosen_path = os.path.join(root_dir, f'tmp/{scope}/chosen_articles.json')
+        chosen_path = os.path.join(get_state_dir(), f'tmp/{scope}/chosen_articles.json')
         with open(chosen_path, 'w', encoding='utf-8') as f:
             json.dump([], f)
         sys.exit(0)
         
     # Save relevance triage pool
-    relevant_candidates_path = os.path.join(root_dir, f'tmp/{scope}/relevant_candidates.json')
+    relevant_candidates_path = os.path.join(get_state_dir(), f'tmp/{scope}/relevant_candidates.json')
     with open(relevant_candidates_path, 'w', encoding='utf-8') as f:
         json.dump(relevant_pool, f, indent=4)
         
@@ -238,7 +238,7 @@ def main():
     chosen_articles = run_senior_curation(relevant_pool, max_slots=10)
     
     # Save final chosen articles
-    chosen_path = os.path.join(root_dir, f'tmp/{scope}/chosen_articles.json')
+    chosen_path = os.path.join(get_state_dir(), f'tmp/{scope}/chosen_articles.json')
     with open(chosen_path, 'w', encoding='utf-8') as f:
         json.dump(chosen_articles, f, indent=4)
         

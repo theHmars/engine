@@ -1,7 +1,7 @@
 import json
 import os
 from datetime import datetime
-from utils.common import slugify, ensure_dirs
+from utils.common import slugify, ensure_dirs, get_state_dir
 
 # Mapping of regions to their default fallback images on EastMojo/TheHmars
 DEFAULT_IMAGES = {
@@ -21,9 +21,9 @@ def load_ignored_images():
     ignored = set()
     script_dir = os.path.dirname(os.path.abspath(__file__))
     root_dir = os.path.dirname(script_dir)
-    from utils.common import get_scope
+    from utils.common import get_scope, get_state_dir
     scope = get_scope()
-    ignore_path = os.path.join(root_dir, "data/ignore_image_paths.txt")
+    ignore_path = os.path.join(get_state_dir(), "data/ignore_image_paths.txt")
     if os.path.exists(ignore_path):
         try:
             with open(ignore_path, 'r', encoding='utf-8') as f:
@@ -76,55 +76,5 @@ def generate_yaml(article, date_iso):
     
     return yaml
 
-def run_assembler():
-    print(">>> Starting Task 6: The Assembler")
-    
-    input_path = f'tmp/{scope}/validated_articles.json'
-    output_dir = 'data/processed/ready_for_sync'
-    
-    if not os.path.exists(input_path):
-        print("[!] No validated articles found.")
-        return
-        
-    os.makedirs(output_dir, exist_ok=True)
-    
-    with open(input_path, 'r', encoding='utf-8') as f:
-        articles = json.load(f)
-        
-    if not articles:
-        print(">>> Article list is empty. Exiting.")
-        return
 
-    now = datetime.utcnow()
-    date_iso = now.strftime('%Y-%m-%dT%H:%M:%SZ')
-    date_prefix = now.strftime('%Y-%m-%d')
-    
-    success_count = 0
-    
-    for art in articles:
-        try:
-            # 1. Generate Filename (e.g. 2026-06-15-this-is-the-title.md)
-            slug = slugify(art['title'])
-            filename = f"{date_prefix}-{slug}.md"
-            filepath = os.path.join(output_dir, filename)
-            
-            # 2. Generate YAML
-            yaml_header = generate_yaml(art, date_iso)
-            
-            # 3. Assemble File
-            final_content = yaml_header + art.get('content', '')
-            
-            # 4. Save
-            with open(filepath, 'w', encoding='utf-8') as f:
-                f.write(final_content)
-                
-            print(f"  [+] Assembled: {filename}")
-            success_count += 1
-            
-        except Exception as e:
-            print(f"  [!] Failed to assemble article '{art.get('title')}': {e}")
-            
-    print(f">>> Assembler Complete. {success_count}/{len(articles)} files ready for sync.")
 
-if __name__ == "__main__":
-    run_assembler()

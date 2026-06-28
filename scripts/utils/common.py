@@ -5,6 +5,21 @@ import time
 import json
 from datetime import datetime
 
+def get_state_dir():
+    """
+    Returns the root directory for all stateful writes (tmp, push, data, quarantine).
+    Defaults to the engine workspace directory, but can be overridden for read-only server architectures.
+    """
+    root_dir = os.environ.get("SCOUT_WORKSPACE", os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    return os.environ.get("ENGINE_STATE_DIR", root_dir)
+
+def get_tmp_dir(scope=None):
+    if scope is None:
+        scope = get_scope()
+    path = os.path.join(get_state_dir(), "tmp", scope)
+    os.makedirs(path, exist_ok=True)
+    return path
+
 def slugify(value):
     """
     Normalizes string, converts to lowercase, removes non-alpha characters,
@@ -28,12 +43,14 @@ def check_timeout(start_time, limit_minutes=13):
     return elapsed >= limit_minutes
 
 def ensure_dirs(source_slug):
-    """Ensures necessary directories exist for a source."""
+    """Ensures necessary directories exist for a source using canonical state paths."""
+    scope = get_scope()
+    state_dir = get_state_dir()
     dirs = [
-        f"data/{scope}/1",
-        f"data/{scope}/cleaned/{source_slug}",
-        f"data/{scope}/3",
-        "data/2"
+        os.path.join(state_dir, f"data/{scope}/1"),
+        os.path.join(state_dir, f"data/{scope}/cleaned/{source_slug}"),
+        os.path.join(state_dir, f"data/{scope}/3"),
+        os.path.join(state_dir, "data/2")
     ]
     for d in dirs:
         os.makedirs(d, exist_ok=True)

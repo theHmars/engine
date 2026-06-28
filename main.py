@@ -71,19 +71,24 @@ def main():
         produce_cmd.extend(["--limit", str(args.limit)])
 
     # Define phase sequence with absolute paths to the scripts in the engine repo
-    phases = [
-        # Phase 1: Sourcing & Pre-Cleaning
-        [python_bin, os.path.join(local_dir, "scripts/phases/get_rss.py")],
-        [python_bin, os.path.join(local_dir, "scripts/utils/clean_html.py")],
-        # Phase 2: Curation Triage
-        [python_bin, os.path.join(local_dir, "scripts/phases/triage.py")],
-        # Phase 3: Deduplication & Event Merging
-        [python_bin, os.path.join(local_dir, "scripts/phases/deduplicate.py")],
-        # Phase 4: Content Rewrite & Critic Validation (passing start-time)
-        produce_cmd,
-        # Phase 5: Final Sync & Cleanup
-        [python_bin, os.path.join(local_dir, "scripts/phases/cleanup.py")]
-    ]
+    is_mock = os.environ.get("TEST_MODE_MOCK_DATA") == "true"
+    if is_mock:
+        print("\n[!] TEST_MODE_MOCK_DATA=true. Bypassing Phase 1 (RSS & Scraping) to use mock data.")
+        phases = [
+            [python_bin, os.path.join(local_dir, "scripts/phases/triage.py")],
+            [python_bin, os.path.join(local_dir, "scripts/phases/deduplicate.py")],
+            produce_cmd,
+            [python_bin, os.path.join(local_dir, "scripts/phases/cleanup.py")]
+        ]
+    else:
+        phases = [
+            [python_bin, os.path.join(local_dir, "scripts/phases/get_rss.py")],
+            [python_bin, os.path.join(local_dir, "scripts/utils/clean_html.py")],
+            [python_bin, os.path.join(local_dir, "scripts/phases/triage.py")],
+            [python_bin, os.path.join(local_dir, "scripts/phases/deduplicate.py")],
+            produce_cmd,
+            [python_bin, os.path.join(local_dir, "scripts/phases/cleanup.py")]
+        ]
     
     for command in phases:
         if not run_phase(command, workspace_dir):

@@ -7,7 +7,7 @@ import time
 from datetime import datetime, timedelta
 
 # Setup absolute import pathing
-from utils.common import ensure_dirs, get_scope
+from utils.common import ensure_dirs, get_scope, get_state_dir
 from utils.history_manager import HistoryManager
 
 import importlib.util
@@ -56,11 +56,11 @@ def clean_article(cand, root_dir, hm):
     scope = get_scope()
     
     # Setup directories
-    os.makedirs(os.path.join(root_dir, f"data/{scope}/cleaned/{s_key}"), exist_ok=True)
-    raw_dir = os.path.join(root_dir, f"tmp/{scope}/raw/{s_key}")
+    os.makedirs(os.path.join(get_state_dir(), f"data/{scope}/cleaned/{s_key}"), exist_ok=True)
+    raw_dir = os.path.join(get_state_dir(), f"tmp/{scope}/raw/{s_key}")
     os.makedirs(raw_dir, exist_ok=True)
     raw_path = os.path.join(raw_dir, f"{slug}.html")
-    clean_path = os.path.join(root_dir, f"data/{scope}/cleaned/{s_key}/{slug}.json")
+    clean_path = os.path.join(get_state_dir(), f"data/{scope}/cleaned/{s_key}/{slug}.json")
     
     try:
         # Download HTML
@@ -119,7 +119,7 @@ def main():
     
     # 1.2.1 [Import] Discovered URLs
     hm = HistoryManager(root_dir)
-    discovered_path = os.path.join(root_dir, f'tmp/{scope}/discovered_urls.json')
+    discovered_path = os.path.join(get_state_dir(), f'tmp/{scope}/discovered_urls.json')
         
     discovered_urls = []
     if os.path.exists(discovered_path):
@@ -140,7 +140,7 @@ def main():
                 just_cleaned.append(cleaned_res)
                 
     # 1.2.6 [Compile New]: Save newly cleaned queue to tmp/just_cleaned.json
-    just_cleaned_path = os.path.join(root_dir, f'tmp/{scope}/just_cleaned.json')
+    just_cleaned_path = os.path.join(get_state_dir(), f'tmp/{scope}/just_cleaned.json')
     with open(just_cleaned_path, 'w', encoding='utf-8') as f:
         json.dump(just_cleaned, f, indent=4)
         
@@ -170,7 +170,7 @@ def main():
             active_archive.append(art)
             
     # 1.2.9 [Save Archive]: Save active backlog to tmp/cleaned_archive.json
-    cleaned_archive_path = os.path.join(root_dir, f'tmp/{scope}/cleaned_archive.json')
+    cleaned_archive_path = os.path.join(get_state_dir(), f'tmp/{scope}/cleaned_archive.json')
     with open(cleaned_archive_path, 'w', encoding='utf-8') as f:
         json.dump(active_archive, f, indent=4)
         
@@ -180,7 +180,7 @@ def main():
         "archived_candidates_last_48h": active_archive
     }
     
-    cleaned_candidates_path = os.path.join(root_dir, f'tmp/{scope}/cleaned_candidates.json')
+    cleaned_candidates_path = os.path.join(get_state_dir(), f'tmp/{scope}/cleaned_candidates.json')
     with open(cleaned_candidates_path, 'w', encoding='utf-8') as f:
         json.dump(candidates_payload, f, indent=4)
         

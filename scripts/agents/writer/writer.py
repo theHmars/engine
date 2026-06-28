@@ -30,7 +30,10 @@ def rewrite_article(clean_source_json):
         
     try:
         res = call_llm(system_prompt, f"SOURCE TEXT:\n{clean_source_json}")
-        return res.get("content")
+        result = res.get("content")
+        if not result:
+            print(f"      [!] Writer returned JSON without 'content' key. Keys present: {list(res.keys())}")
+        return result
     except Exception as e:
         print(f"      [!] Writer agent execution failed: {e}")
         return None

@@ -1,0 +1,25 @@
+{
+  "active_candidates": [
+    {
+      "url": "https://example.com/article1",
+      "source_key": "mock_news",
+      "clean_path": "article1.json"
+    },
+    {
+      "url": "https://example.com/article2",
+      "source_key": "mock_news",
+      "clean_path": "article2.json"
+    },
+    {
+      "url": "https://example.com/article3",
+      "source_key": "mock_news",
+      "clean_path": "article3.json"
+    },
+    {
+      "url": "https://example.com/blocked-url",
+      "source_key": "mock_news",
+      "clean_path": "article4.json"
+    }
+  ],
+  "archived_candidates_last_48h": []
+}

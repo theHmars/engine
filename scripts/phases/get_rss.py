@@ -7,7 +7,7 @@ import xml.etree.ElementTree as ET
 from datetime import datetime
 
 # Setup absolute import pathing
-from utils.common import load_source_history, ensure_dirs
+from utils.common import load_source_history, ensure_dirs, get_state_dir
 
 BLACKLIST = [
     "teer", "lottery", "result today", "satta", "sambad", 
@@ -117,7 +117,7 @@ def main():
             response.raise_for_status()
             
             timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
-            raw_rss_path = os.path.join(root_dir, f"data/{scope}/rss/{s_key}_{timestamp}.rss")
+            raw_rss_path = os.path.join(get_state_dir(), f"data/{scope}/rss/{s_key}_{timestamp}.rss")
             os.makedirs(os.path.dirname(raw_rss_path), exist_ok=True)
             with open(raw_rss_path, 'wb') as f:
                 f.write(response.content)
@@ -171,7 +171,7 @@ def main():
             discovered_urls.extend(new_candidates)
             
     # Write discovered urls list to tmp index relative to root
-    tmp_dir = os.path.join(root_dir, f'tmp/{scope}')
+    tmp_dir = os.path.join(get_state_dir(), f'tmp/{scope}')
     os.makedirs(tmp_dir, exist_ok=True)
     with open(os.path.join(tmp_dir, 'discovered_urls.json'), 'w', encoding='utf-8') as f:
         json.dump(discovered_urls, f, indent=4)

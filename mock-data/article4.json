@@ -1,0 +1,1 @@
+{"title": "This article was published yesterday", "content": "This article's URL is perfectly identical to one inside covered.json, so it should be hard-blocked by History Manager and the AI shouldn't even look at it."}

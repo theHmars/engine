@@ -1,0 +1,22 @@
+[
+    {
+        "url": "https://eastmojo.com/sikkim/2026/06/28/north-sikkim-cut-off-as-torrential-rain-washes-away-bailey-bridge/",
+        "processed_at": "2026-06-28T18:21:43.336195",
+        "status": "SUCCESS"
+    },
+    {
+        "url": "https://eastmojo.com/premium/2026/06/28/arunachal-hunt-for-takin-leads-scientists-to-new-red-panda-haven/",
+        "processed_at": "2026-06-28T18:21:43.757664",
+        "status": "FAILED_OR_ABANDONED"
+    },
+    {
+        "url": "https://eastmojo.com/premium/2026/06/27/how-a-tampered-gas-pipeline-triggered-agartalas-deadly-apartment-blast/",
+        "processed_at": "2026-06-28T18:21:43.757981",
+        "status": "FAILED_OR_ABANDONED"
+    },
+    {
+        "url": "https://eastmojo.com/assam/2026/06/27/assam-two-ulfai-cadres-held-in-tinsukia/",
+        "processed_at": "2026-06-28T18:21:43.758234",
+        "status": "FAILED_OR_ABANDONED"
+    }
+]

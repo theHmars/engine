@@ -6,21 +6,17 @@ from datetime import datetime, timedelta
 class HistoryManager:
     def __init__(self, root_dir: str):
         self.root_dir = root_dir
-        
-        scope = "local"
-        scope_path = os.path.join(root_dir, 'scope.txt')
-        if os.path.exists(scope_path):
-            with open(scope_path, 'r') as f:
-                val = f.read().strip().lower()
-                if val in ["local", "national", "global", "international"]:
-                    scope = "global" if val == "international" else val
-                    
-        # History is now centralized in the content repository database
+
+        # Import here to avoid circular imports at module load time
+        from utils.common import get_scope
+        scope = get_scope()
+
+        # History is centralized in the content repository database
         content_repo = os.environ.get("WEBSITE_REPO_PATH")
         if not content_repo:
             print("[!] WEBSITE_REPO_PATH not set, falling back to engine root.")
             content_repo = root_dir
-            
+
         self.history_dir = os.path.join(content_repo, f"history/{scope}")
         self.archive_path = os.path.join(content_repo, f"history/{scope}/archive.json")
 
