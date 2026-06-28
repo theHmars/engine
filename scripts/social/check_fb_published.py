@@ -4,6 +4,7 @@ import sys
 import time
 import json
 import requests
+import argparse
 
 # Load environment configuration
 def load_environment():
@@ -26,6 +27,10 @@ API_VERSION = "v20.0"
 BASE_URL = f"https://graph.facebook.com/{API_VERSION}"
 
 def check_published():
+    parser = argparse.ArgumentParser(description="Export published FB feed to JSON")
+    parser.add_argument("--all", action="store_true", help="Include legacy posts with thehmars.onrender.com URLs")
+    args = parser.parse_args()
+
     if not PAGE_ID or not ACCESS_TOKEN:
         print("[!] Error: Missing FB_PAGE_ID or FB_PAGE_ACCESS_TOKEN in environment.")
         sys.exit(1)
@@ -46,7 +51,26 @@ def check_published():
             response = requests.get(url, params=params, timeout=15)
             if response.status_code == 200:
                 data = response.json().get("data", [])
-                all_posts.extend(data)
+                
+                for post in data:
+                    if not args.all:
+                        has_old_url = False
+                        # Check attachments
+                        attachments = post.get("attachments", {}).get("data", [])
+                        for att in attachments:
+                            url = att.get("unshimmed_url", "") or att.get("url", "") or att.get("target", {}).get("url", "")
+                            if "thehmars.onrender.com" in url:
+                                has_old_url = True
+                                break
+                                
+                        # Check message body
+                        if not has_old_url and "thehmars.onrender.com" in post.get("message", ""):
+                            has_old_url = True
+                            
+                        if has_old_url:
+                            continue
+                            
+                    all_posts.append(post)
                 
                 # Check for next page
                 paging = response.json().get("paging", {})
