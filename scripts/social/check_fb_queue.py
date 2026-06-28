@@ -2,6 +2,7 @@
 import os
 import sys
 import time
+import json
 import requests
 
 # Load environment configuration
@@ -47,14 +48,18 @@ def check_queue():
             print("[+] Queue is empty. No scheduled posts found.")
             return
         
-        print(f"[+] Found {len(all_posts)} scheduled post(s):")
-        for idx, post in enumerate(all_posts, 1):
-            pub_time = int(post.get("scheduled_publish_time", 0))
-            readable_time = time.strftime('%Y-%m-%d %I:%M:%S %p', time.localtime(pub_time))
-            print(f"\n--- Post #{idx} ---")
-            print(f"ID: {post.get('id')}")
-            print(f"Scheduled for: {readable_time} (Timestamp: {pub_time})")
-            print(f"Message preview:\n{post.get('message', '')[:120]}...")
+        print(f"[+] Found {len(all_posts)} scheduled post(s).")
+        
+        # Export to JSON
+        workspace_dir = os.environ.get("SCOUT_WORKSPACE", os.path.abspath(os.path.join(os.path.dirname(__file__), "../../..")))
+        output_file = os.path.join(workspace_dir, "fb_queue.json")
+        try:
+            with open(output_file, 'w', encoding='utf-8') as f:
+                json.dump(all_posts, f, indent=4)
+            print(f"[+] Successfully exported full queue to: {output_file}")
+        except Exception as e:
+            print(f"[!] Failed to write to {output_file}: {e}")
+            
     except Exception as e:
         print(f"[!] Request failed: {e}")
 
