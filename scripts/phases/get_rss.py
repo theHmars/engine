@@ -94,7 +94,7 @@ def main():
     for s_key, s_cfg in sources.items():
         # Filter by scope category
         feed_category = s_cfg.get("category", "Local").lower()
-        if feed_category == "global": feed_category = "international"
+        if feed_category == "international": feed_category = "global"
         if feed_category != scope.lower():
             continue
             

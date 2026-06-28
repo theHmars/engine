@@ -148,7 +148,18 @@ def run_deduplication(article):
     
     if is_dup:
         print(f"  [!] Article '{article.get('title')[:40]}' matched with published history. Skipping for this session.")
-        # Log to tmp/update_candidates.json for future enrichment updates
+        
+        # --------------------------------------------------------------------------------
+        # TODO / NOTE: Intentionally left as is for now. 
+        # This is a stub for a future "Story Update/Enrichment" feature.
+        # Currently, update_candidates.json is volatile (lives in tmp/) and is never used.
+        # To make this work in the future:
+        # 1. is_duplicate_coverage() must return the specific slug of the matched article.
+        # 2. We should ideally store historical source URLs directly in the published 
+        #    .md file's frontmatter. This would allow us to track updates seamlessly if a 
+        #    source publishes a developing story, or if multiple sources cover the same 
+        #    ongoing event with extra details over time.
+        # --------------------------------------------------------------------------------
         update_path = os.path.join(get_state_dir(), f"tmp/{scope}/update_candidates.json")
         updates = []
         if os.path.exists(update_path):

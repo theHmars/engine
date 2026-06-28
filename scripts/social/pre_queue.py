@@ -119,7 +119,7 @@ def main():
         "anchor_utc": anchor_time
     }
     
-    TMP_DIR = get_state_dir()
+    TMP_DIR = os.path.join(get_state_dir(), "tmp")
     os.makedirs(TMP_DIR, exist_ok=True)
     out_path = os.path.join(TMP_DIR, "pre_queue.json")
     with open(out_path, 'w', encoding='utf-8') as f:

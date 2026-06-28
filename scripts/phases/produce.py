@@ -12,7 +12,7 @@ from utils.common import check_timeout, get_state_dir
 from utils.history_manager import HistoryManager
 from agents.writer.writer import rewrite_article
 from agents.corrector.corrector import validate_content, correct_content
-from agents.metadata.metadata import generate_metadata
+from agents.metadata.metadata import generate_metadata, validate_metadata
 from agents.tagger.tagger import correct_tag
 
 ALLOWED_TAGS = {
@@ -136,6 +136,33 @@ def process_candidate(candidate, start_time):
             final_region = "N/A"
             
     final_tag = meta_res.get("majorTag") or "Uncategorized"
+    
+    # 4.5 Validate Metadata & Correct Tags
+    if meta_res.get("title"):
+        val_meta = validate_metadata(draft_body, final_title, final_desc, final_region, final_tag)
+        
+        # Apply Corrections
+        ignore_flags = ["PASS", "N/A", "null", "None", "", None]
+        
+        if val_meta.get("corrected_tag") and str(val_meta.get("corrected_tag")) not in ignore_flags:
+            print(f"      [+] Validator corrected Tag from '{final_tag}' to '{val_meta.get('corrected_tag')}'.")
+            final_tag = val_meta.get("corrected_tag")
+            
+        if val_meta.get("corrected_region") and str(val_meta.get("corrected_region")) not in ignore_flags:
+            print(f"      [+] Validator corrected Region from '{final_region}' to '{val_meta.get('corrected_region')}'.")
+            final_region = val_meta.get("corrected_region")
+            
+        if val_meta.get("corrected_title") and str(val_meta.get("corrected_title")) not in ignore_flags:
+            print(f"      [!] Title Validation Failed: {val_meta.get('feedback')}")
+            print("      [+] Applying Validator's corrected Title.")
+            final_title = val_meta.get("corrected_title")
+            
+        if val_meta.get("corrected_description") and str(val_meta.get("corrected_description")) not in ignore_flags:
+            print(f"      [!] Description Validation Failed: {val_meta.get('feedback')}")
+            print("      [+] Applying Validator's corrected Description.")
+            final_desc = val_meta.get("corrected_description")
+            
+        print("      [+] Metadata Validation / Auto-Correction Completed.")
     
     # 5. Programmatic Tag Whitelist Validation & Fallback correction
     if final_tag not in ALLOWED_TAGS:

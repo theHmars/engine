@@ -12,7 +12,7 @@ scripts_dir = os.path.join(engine_root, "scripts")
 if scripts_dir not in sys.path:
     sys.path.insert(0, scripts_dir)
 from utils.common import get_state_dir
-tmp_dir = get_state_dir()
+tmp_dir = os.path.join(get_state_dir(), "tmp")
 
 # Load environment
 env_paths = [
