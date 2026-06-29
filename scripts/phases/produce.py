@@ -123,19 +123,28 @@ def process_candidate(candidate, start_time):
     # Normalize global to international for frontend compatibility
     if category.lower() == "global":
         category = "International"
+    allowed_regions = {
+        "Arunachal Pradesh", "Assam", "Manipur", "Meghalaya", 
+        "Mizoram", "Nagaland", "Sikkim", "Tripura", "Northeast", "N/A"
+    }
+    allowed_tags = {
+        "Politics", "Sports", "Business", "Tech", "Science", "Culture",
+        "Health", "Education", "Weather", "Entertainment", "Environment",
+        "Celebrity", "Uncategorized"
+    }
+
     if category in ["National", "International", "Global"]:
         final_region = "N/A"
     else:
         final_region = meta_res.get("region") or candidate.get("region") or "N/A"
-        allowed_regions = {
-            "Arunachal Pradesh", "Assam", "Manipur", "Meghalaya", 
-            "Mizoram", "Nagaland", "Sikkim", "Tripura", "Northeast", "N/A"
-        }
         if final_region not in allowed_regions:
             print(f"      [!] Invalid region '{final_region}' returned by agent. Defaulting to 'N/A'.")
             final_region = "N/A"
             
     final_tag = meta_res.get("majorTag") or "Uncategorized"
+    if final_tag not in allowed_tags:
+        print(f"      [!] Invalid tag '{final_tag}' returned by agent. Defaulting to 'Uncategorized'.")
+        final_tag = "Uncategorized"
     
     # 4.5 Validate Metadata & Correct Tags
     if meta_res.get("title"):
@@ -145,12 +154,20 @@ def process_candidate(candidate, start_time):
         ignore_flags = ["PASS", "N/A", "null", "None", "", None]
         
         if val_meta.get("corrected_tag") and str(val_meta.get("corrected_tag")) not in ignore_flags:
-            print(f"      [+] Validator corrected Tag from '{final_tag}' to '{val_meta.get('corrected_tag')}'.")
-            final_tag = val_meta.get("corrected_tag")
+            corrected_tag = val_meta.get("corrected_tag")
+            if corrected_tag in allowed_tags:
+                print(f"      [+] Validator corrected Tag from '{final_tag}' to '{corrected_tag}'.")
+                final_tag = corrected_tag
+            else:
+                print(f"      [!] Validator suggested invalid tag '{corrected_tag}'. Retaining '{final_tag}'.")
             
         if val_meta.get("corrected_region") and str(val_meta.get("corrected_region")) not in ignore_flags:
-            print(f"      [+] Validator corrected Region from '{final_region}' to '{val_meta.get('corrected_region')}'.")
-            final_region = val_meta.get("corrected_region")
+            corrected_region = val_meta.get("corrected_region")
+            if corrected_region in allowed_regions:
+                print(f"      [+] Validator corrected Region from '{final_region}' to '{corrected_region}'.")
+                final_region = corrected_region
+            else:
+                print(f"      [!] Validator suggested invalid region '{corrected_region}'. Retaining '{final_region}'.")
             
         if val_meta.get("corrected_title") and str(val_meta.get("corrected_title")) not in ignore_flags:
             print(f"      [!] Title Validation Failed: {val_meta.get('feedback')}")
