@@ -9,6 +9,48 @@ import re
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from utils.common import get_state_dir
 
+def validate_frontmatter(file_path):
+    """Parses frontmatter of a markdown file and validates region and majorTag against allowed schemas."""
+    allowed_regions = {
+        "Arunachal Pradesh", "Assam", "Manipur", "Meghalaya", 
+        "Mizoram", "Nagaland", "Sikkim", "Tripura", "Northeast", "N/A"
+    }
+    allowed_tags = {
+        "Politics", "Sports", "Business", "Tech", "Science", "Culture", 
+        "Health", "Education", "Weather", "Entertainment", "Environment", 
+        "Celebrity", "Uncategorized"
+    }
+    
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+            
+        # Extract frontmatter between ---
+        match = re.match(r'^---\s*\n(.*?)\n---\s*\n', content, re.DOTALL)
+        if not match:
+            return False, "Missing frontmatter delimiters"
+            
+        frontmatter_text = match.group(1)
+        frontmatter = {}
+        for line in frontmatter_text.splitlines():
+            if ":" in line:
+                key, val = line.split(":", 1)
+                key = key.strip()
+                val = val.strip().strip('"').strip("'")
+                frontmatter[key] = val
+                
+        region = frontmatter.get("region")
+        if region and region not in allowed_regions:
+            return False, f"Invalid region '{region}'"
+            
+        tag = frontmatter.get("majorTag")
+        if tag and tag not in allowed_tags:
+            return False, f"Invalid majorTag '{tag}'"
+            
+        return True, "PASS"
+    except Exception as e:
+        return False, f"Failed to parse: {e}"
+
 def main():
     workspace = os.environ.get("SCOUT_WORKSPACE", os.getcwd())
     engine_dir = workspace
@@ -26,7 +68,22 @@ def main():
     
     scopes = ["local", "national", "global"]
     
-    # We will copy all pushed markdown files to the frontend news directory
+    # 1. Frontmatter constraint check
+    for scope in scopes:
+        push_dir = os.path.join(get_state_dir(), "push", scope)
+        if os.path.exists(push_dir):
+            for file in os.listdir(push_dir):
+                if file.endswith(".md"):
+                    file_path = os.path.join(push_dir, file)
+                    is_valid, err_msg = validate_frontmatter(file_path)
+                    if not is_valid:
+                        print(f"  [!] Frontmatter validation failed for {file} ({scope}): {err_msg}")
+                        quarantine_dir = os.path.join(get_state_dir(), "quarantine", "local", scope)
+                        os.makedirs(quarantine_dir, exist_ok=True)
+                        shutil.move(file_path, os.path.join(quarantine_dir, file))
+                        print(f"  [-] Quarantined bad frontmatter file: {file}")
+                        
+    # 2. Copy remaining valid markdown files to the frontend news directory
     for scope in scopes:
         push_dir = os.path.join(get_state_dir(), "push", scope)
         if os.path.exists(push_dir):
