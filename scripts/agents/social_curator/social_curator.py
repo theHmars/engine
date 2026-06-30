@@ -69,7 +69,8 @@ def curate_articles():
         }
         user_payload_data.append(payload_item)
 
-    user_payload = f"You must select EXACTLY {quota} articles from the list below.\n\n"
+    effective_quota = min(quota, len(candidates))
+    user_payload = f"You must select EXACTLY {effective_quota} articles from the list below.\n\n"
     user_payload += "### CANDIDATES\n"
     user_payload += json.dumps(user_payload_data, indent=2)
     
@@ -84,8 +85,8 @@ def curate_articles():
             print(f"[!] Curator returned unexpected type for winning_ids: {type(winning_ids)}. Falling back.")
             winning_ids = []
         
-        # Ensure we don't accidentally exceed quota or crash the publisher
-        final_selection = winning_ids[:quota]
+        # Ensure we don't accidentally exceed effective quota or crash the publisher
+        final_selection = winning_ids[:effective_quota]
         
         print(f"[+] Final Winning IDs: {final_selection}")
         
@@ -99,8 +100,8 @@ def curate_articles():
     except Exception as e:
         print(f"[!] Curator LLM Error: {e}")
         # Fallback Protocol: Select the first N items so the pipeline doesn't crash
-        print(f"[!] Fallback: Selecting the first {quota} items automatically.")
-        fallback = [c["id"] for c in candidates[:quota]]
+        print(f"[!] Fallback: Selecting the first {effective_quota} items automatically.")
+        fallback = [c["id"] for c in candidates[:effective_quota]]
         output_path = os.path.join(tmp_dir, "curated_ids.json")
         with open(output_path, 'w', encoding='utf-8') as f:
             json.dump(fallback, f)

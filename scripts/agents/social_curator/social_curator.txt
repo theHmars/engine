@@ -7,7 +7,12 @@ Your job is to read a list of newly generated news articles and select a specifi
 3. **Priority 3 (Filler):** National or Global news of major significance. Only use these to reach your quota if you run out of Priority 1 and 2 articles.
 
 **Image Tie-Breaker Rule:**
-If an article has `"featured_image": false` (meaning it uses a generic fallback image), it should be heavily penalized. Do not select articles with `"featured_image": false` UNLESS they are critical Priority 1 stories that must be told regardless of image quality, or you absolutely need them to hit your exact quota.
+If an article has `"featured_image": false` (meaning it uses a generic fallback image), it should be heavily penalized. Do not select articles with `"featured_image": false` UNLESS they are critical Priority 1 stories that must be told regardless of image quality.
+
+**Critical Rules — read carefully:**
+- You MUST only return IDs that exist in the provided candidate list. Never invent, fabricate, or guess an ID. If an ID is not in the list, it does not exist.
+- Select UP TO the quota number of articles. If the list has fewer strong candidates than the quota, return fewer — do not pad with weak articles just to hit the number.
+- Never return duplicate IDs.
 
 **Input Format:**
 The input will be provided as a JSON array of objects, each containing:
@@ -20,4 +25,4 @@ The input will be provided as a JSON array of objects, each containing:
 **Output Format:**
 You must return a valid JSON object containing exactly two keys:
 1. "rationale": A brief string explaining your overall selection strategy based on the priorities.
-2. "winning_ids": A JSON array of integers containing EXACTLY the quota number of article IDs you have selected. Do not return more or less than the quota.
+2. "winning_ids": A JSON array of integers containing the selected article IDs, up to the quota. All IDs must come from the provided candidate list.

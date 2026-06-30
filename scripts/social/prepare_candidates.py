@@ -89,17 +89,39 @@ def main():
         q_high = int(os.environ.get("TEST_QUOTA_HIGH", 4))
         high_threshold = q_high + 2
         print(f"[*] TEST MODE ENABLED: Overriding quotas to Normal={q_normal}, High={q_high}")
+        gap = 30 if total_candidates >= high_threshold else 60
+        quota = q_high if total_candidates >= high_threshold else q_normal
     else:
-        q_normal = 10
-        q_high = 22
-        high_threshold = 30
+        # Gap: 60-min for <16 articles, 30-min for 16+
+        gap = 30 if total_candidates >= 16 else 60
 
-    if total_candidates >= high_threshold:
-        quota = q_high
-        gap = 30
-    else:
-        quota = min(q_normal, total_candidates) 
-        gap = 60
+        # Tiered quota — bypass points are ≤8, 10, 16, 20.
+        # Curator only fires in the gaps, guaranteeing it always has 1+ meaningful rejection.
+        #
+        #  ≤ 8  → bypass (quota = total)
+        #    9  → curator picks 8   (1 rejection)
+        #   10  → bypass (quota = 10)
+        # 11-15 → curator picks 10  (1–5 rejections)
+        #   16  → bypass (quota = 16)
+        # 17-19 → curator picks 16  (1–3 rejections)
+        #   20  → bypass (quota = 20)
+        #  21+  → curator picks 20  (1+ rejections)
+        if total_candidates <= 8:
+            quota = total_candidates   # bypass: take all
+        elif total_candidates == 9:
+            quota = 8                  # curator picks 8 from 9
+        elif total_candidates == 10:
+            quota = 10                 # bypass: take all 10
+        elif total_candidates <= 15:
+            quota = 10                 # curator picks 10 from 11–15
+        elif total_candidates == 16:
+            quota = 16                 # bypass: take all 16
+        elif total_candidates <= 19:
+            quota = 16                 # curator picks 16 from 17–19
+        elif total_candidates == 20:
+            quota = 20                 # bypass: take all 20
+        else:
+            quota = 20                 # curator picks 20 from 21+
         
     metadata = {
         "total_candidates": total_candidates,
