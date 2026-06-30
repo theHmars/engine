@@ -47,7 +47,7 @@ jobs:
         env:
           SCOUT_WORKSPACE: ${{ github.workspace }}/engine
           WEBSITE_REPO_PATH: ${{ github.workspace }}/content
-          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+          LLM_API_KEY_1: ${{ secrets.LLM_API_KEY_1 }}
         run: |
           cd engine
           .venv/bin/python3 main.py --scope local
@@ -56,7 +56,7 @@ jobs:
         env:
           SCOUT_WORKSPACE: ${{ github.workspace }}/engine
           WEBSITE_REPO_PATH: ${{ github.workspace }}/content
-          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+          LLM_API_KEY_1: ${{ secrets.LLM_API_KEY_2 }}
         run: |
           cd engine
           .venv/bin/python3 main.py --scope national
@@ -65,7 +65,7 @@ jobs:
         env:
           SCOUT_WORKSPACE: ${{ github.workspace }}/engine
           WEBSITE_REPO_PATH: ${{ github.workspace }}/content
-          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+          LLM_API_KEY_1: ${{ secrets.LLM_API_KEY_3 }}
         run: |
           cd engine
           .venv/bin/python3 main.py --scope global
@@ -114,7 +114,7 @@ jobs:
           RENDER_SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}
           FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
           FB_PAGE_ACCESS_TOKEN: ${{ secrets.FB_PAGE_ACCESS_TOKEN }}
-          LLM_API_KEY: ${{ secrets.LLM_API_KEY }}
+          LLM_API_KEY_1: ${{ secrets.LLM_API_KEY_1 }}
         run: |
           cd engine
           .venv/bin/python3 scripts/social/publisher.py
