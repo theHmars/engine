@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import json
 import os
+import re
 import sys
 import shutil
 from datetime import datetime, timedelta
@@ -9,7 +10,20 @@ from datetime import datetime, timedelta
 
 from utils.common import slugify, get_state_dir
 from utils.history_manager import HistoryManager
-from assembler import generate_yaml
+from assembler import generate_yaml, ensure_paragraphs
+
+
+def sanitize_content(content: str) -> str:
+    """Strip residual HTML tags from LLM-generated content before writing to disk."""
+    if not content:
+        return content
+    # Strip any <br> variants
+    content = re.sub(r'<br\s*/?>', ' ', content, flags=re.IGNORECASE)
+    # Strip any other stray HTML tags (bold, italic, spans, etc.)
+    content = re.sub(r'</?(?:b|i|em|strong|span|div|p)[^>]*>', '', content, flags=re.IGNORECASE)
+    # Collapse multiple spaces left behind
+    content = re.sub(r'  +', ' ', content)
+    return content.strip()
 
 def main():
     print("\n>>> Starting Phase 5: Sync, Cleanup & Callback")
@@ -56,10 +70,13 @@ def main():
             filepath = os.path.join(output_dir, filename)
             
             yaml_header = generate_yaml(art, date_iso)
-            final_content = yaml_header + art.get('content', '')
+            raw_content = art.get('content', '')
+            clean_content = sanitize_content(raw_content)
+            paragraphed_content = ensure_paragraphs(clean_content)
+            output = yaml_header + paragraphed_content
             
             with open(filepath, 'w', encoding='utf-8') as f:
-                f.write(final_content)
+                f.write(output)
             print(f"  [+] Assembled and Saved: {filename}")
             
             # Record URL

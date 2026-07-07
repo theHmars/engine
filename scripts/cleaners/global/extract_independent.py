@@ -5,6 +5,8 @@ import re
 import os
 
 def clean_content(text):
+    # Strip any residual <br> tags that survived HTML extraction
+    text = re.sub(r'<br\s*/?>', ' ', text, flags=re.IGNORECASE)
     # Remove common UI noise
     text = re.sub(r'Removed from bookmarks', '', text)
     text = re.sub(r'I would like to be emailed about offers.*Privacy notice', '', text, flags=re.DOTALL)

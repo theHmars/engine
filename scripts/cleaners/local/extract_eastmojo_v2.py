@@ -82,6 +82,10 @@ def extract_eastmojo(html_path, output_path):
         if text.startswith("Also Read") or text.startswith("2000+ readers have backed us") or text == "|":
             p.decompose()
 
+    # Strip <br> tags before text extraction — get_text() does not remove inline tags
+    for br in body_container.find_all('br'):
+        br.replace_with(' ')
+
     body_text = body_container.get_text(separator='\n')
 
     data = {

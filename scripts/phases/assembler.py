@@ -1,5 +1,6 @@
 import json
 import os
+import re
 from datetime import datetime
 from utils.common import slugify, ensure_dirs, get_state_dir
 
@@ -75,6 +76,52 @@ def generate_yaml(article, date_iso):
     yaml += "---\n\n"
     
     return yaml
+
+
+_ABBR_PATTERN = re.compile(
+    r'\b(Mr|Mrs|Ms|Dr|Prof|Sr|Jr|vs|etc|i\.e|e\.g|No|St|Rs|Lt|Col|Gen|Sgt|Pvt|Capt|Maj|km|kg|sq|Mt|ft|Brig|Insp)\.'
+)
+_SENTENCE_SPLIT = re.compile(r'(?<=[.!?])\s+(?=[A-Z"\u201c\u2018])')
+_SENTENCES_PER_PARA = 3
+
+
+def ensure_paragraphs(content: str) -> str:
+    """
+    Safety-net paragraphing function.
+
+    If the content already has proper paragraph breaks (two or more consecutive
+    newlines), it is returned unchanged. Otherwise the content is split into
+    sentences and grouped into paragraphs of _SENTENCES_PER_PARA sentences each.
+
+    This runs as the final step in the assembler before content is written to
+    disk, acting as a catch-all for cases where the LLM ignored the paragraph
+    instruction or the cleaner produced a flat block of text.
+    """
+    if not content or not content.strip():
+        return content
+
+    # Already has paragraph breaks — leave it alone
+    if '\n\n' in content.strip():
+        return content
+
+    # Protect common abbreviations so they are not treated as sentence endings
+    protected = _ABBR_PATTERN.sub(lambda m: m.group(0).replace('.', '__DOT__'), content)
+
+    sentences = [s.strip() for s in _SENTENCE_SPLIT.split(protected.strip()) if s.strip()]
+
+    # Restore abbreviation dots
+    sentences = [s.replace('__DOT__', '.') for s in sentences]
+
+    if len(sentences) <= 1:
+        # Cannot split — return as-is, at least it is clean
+        return content
+
+    paragraphs = []
+    for i in range(0, len(sentences), _SENTENCES_PER_PARA):
+        chunk = sentences[i:i + _SENTENCES_PER_PARA]
+        paragraphs.append(' '.join(chunk))
+
+    return '\n\n'.join(paragraphs) + '\n'
 
 
 

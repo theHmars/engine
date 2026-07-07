@@ -6,6 +6,8 @@ import os
 
 
 def clean_content(text):
+    # Strip any residual <br> tags that survived HTML extraction
+    text = re.sub(r'<br\s*/?>', ' ', text, flags=re.IGNORECASE)
     # Remove multiple newlines
     text = re.sub(r'\n{3,}', '\n\n', text)
     # Sometimes there are "Click here to read" or similar promotional texts

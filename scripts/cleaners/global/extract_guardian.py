@@ -4,6 +4,8 @@ import re
 import os
 
 def clean_content(text):
+    # Strip any residual <br> tags that survived HTML extraction
+    text = re.sub(r'<br\s*/?>', ' ', text, flags=re.IGNORECASE)
     # Replace multiple newlines with exactly two
     text = re.sub(r'\n{3,}', '\n\n', text)
     return text.strip()

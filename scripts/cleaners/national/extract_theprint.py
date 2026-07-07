@@ -6,13 +6,13 @@ import os
 
 
 def clean_content(text):
+    # Strip any residual <br> tags that survived HTML extraction
+    text = re.sub(r'<br\s*/?>', ' ', text, flags=re.IGNORECASE)
     # Remove the standard "This report is auto-generated..." disclaimer from The Print
     disclaimer_pattern = r'This report is auto-generated from .* news service\. ThePrint holds no responsibility for its content\.'
     text = re.sub(disclaimer_pattern, '', text, flags=re.IGNORECASE)
-    
     # Remove trailing PTI/Agency tags often found at the end
     text = re.sub(r'PTI\s+[A-Z\s]+$', '', text.strip())
-    
     # Replace multiple newlines
     text = re.sub(r'\n{3,}', '\n\n', text)
     return text.strip()

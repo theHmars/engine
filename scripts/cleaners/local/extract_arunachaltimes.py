@@ -65,6 +65,10 @@ def extract_arunachaltimes(html_path, output_path):
         for tag in body_container.select(selector):
             tag.decompose()
 
+    # Strip <br> tags before text extraction — get_text() does not remove inline tags
+    for br in body_container.find_all('br'):
+        br.replace_with(' ')
+
     body_text = body_container.get_text(separator='\n')
     clean_body = clean_content(body_text)
 
