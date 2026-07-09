@@ -35,7 +35,7 @@ BASE_URL = f"https://graph.facebook.com/{API_VERSION}"
 
 def publish_single_post(article, publish_time):
     url = f"{BASE_URL}/{PAGE_ID}/feed"
-    article_url = f"https://thehmars-news.onrender.com/{article['slug']}"
+    article_url = f"https://thehmars.onrender.com/{article['slug']}"
     message = f"{article['title']}\n\n{article['summary']}\n\nRead more: {article_url}"
     payload = {
         "message": message, 

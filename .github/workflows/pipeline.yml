@@ -112,6 +112,8 @@ jobs:
           RENDER_DEPLOY_HOOK: ${{ secrets.RENDER_DEPLOY_HOOK }}
           RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
           RENDER_SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}
+          RENDER_EMAIL: ${{ secrets.RENDER_EMAIL }}
+          GH_ACCOUNT: ${{ secrets.GH_ACCOUNT }}
           FB_PAGE_ID: ${{ secrets.FB_PAGE_ID }}
           FB_PAGE_ACCESS_TOKEN: ${{ secrets.FB_PAGE_ACCESS_TOKEN }}
           LLM_API_KEY_1: ${{ secrets.LLM_API_KEY_1 }}
