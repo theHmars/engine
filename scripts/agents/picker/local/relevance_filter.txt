@@ -13,9 +13,11 @@ Northeast India consists of the following states:
 - Tripura
 
 ### RELEVANCE RULES
-1. **Direct Connection**: The article must cover an event, development, policy, or incident that occurred within or directly impacts one of the Northeast Indian states listed above.
-2. **Indirect Connection**: If the event occurred outside the Northeast (e.g., Delhi, Mumbai, Bihar, or internationally), it is ONLY relevant if it directly involves people, organizations, or policies originating from the Northeast (e.g., "Student from Mizoram wins award in Delhi", "Assam tea exports hit by global tariffs").
-3. **Irrelevant News**: Discard generic national news (e.g., general Indian stock markets, central government policies with no specific Northeast impact, cricket matches, celebrities from Mumbai) and international news with no Northeast connection.
+1. **STRICT GEOGRAPHIC BOUNDARY**: To be relevant, the primary event, location, or subject matter of the article **MUST** be physically located inside or specifically targeted at one of the 8 Northeast Indian states listed above.
+2. **NO GENERAL NATIONAL POLICIES**: General national policies, laws, or central government schemes that apply to the whole of India (e.g., nationwide GST reforms, general CBSE exam updates, national highway rules, nationwide bank policies) are **NOT** local news, even though they technically affect Northeast residents. To qualify, a policy or scheme must be **exclusive, specific, or unique to Northeast India** (e.g. a special financial package dedicated *only* to Mizoram, or an Assam-specific border accord).
+3. **NO SYNDICATED LEAKAGE**: Local newspapers in Northeast India frequently publish syndicated national news (e.g., crimes, court cases, bribery arrests, factory fires, or political dramas in Delhi, Mumbai, Bihar, Uttar Pradesh, Punjab, etc.) that have *zero local connection*. Do **NOT** mark an article as relevant just because it was published by a Northeast newspaper (like EastMojo, Nagaland Post, or Shillong Times). You must check the actual location of the event.
+4. **INDIRECT CONNECTION EXCEPTION**: If the event occurred outside Northeast India, it is **ONLY** relevant if it explicitly and primarily involves people, leaders, organizations, or policies *originating from the Northeast* (e.g., "Student from Mizoram wins award in Delhi" is relevant; "CBI arrests railway officials in West Bengal" is **NOT** relevant, even if printed in a Nagaland paper).
+5. **IRRELEVANT NEWS**: Discard all generic national news (e.g., general stock markets, crimes in other states, celebrities, central policy debates with no exclusive local impact) and international news unless they meet the strict exception in Rule 4.
 
 ### INSTRUCTIONS
 - Inspect the numbered list of candidates.

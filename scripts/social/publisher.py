@@ -179,28 +179,32 @@ def main():
                     
             if quarantined_files:
                 print("  [+] Running update_indices.py to generate pristine indices...")
-                subprocess.run(["python3", "scripts/update_indices.py"], cwd=website_repo_path)
+                update_script = os.path.join(current_dir, "..", "maintenance", "update_indices.py")
+                subprocess.run([sys.executable, update_script, website_repo_path])
                 
                 print("  [+] Committing and pushing quarantine state to GitHub...")
                 subprocess.run(["git", "config", "user.name", "github-actions[bot]"], cwd=website_repo_path)
                 subprocess.run(["git", "config", "user.email", "github-actions[bot]@users.noreply.github.com"], cwd=website_repo_path)
                 subprocess.run(["git", "add", "markdown/", "quarantine/", "history/"], cwd=website_repo_path)
                 subprocess.run(["git", "commit", "-m", "Auto-quarantined Render build failures & updated indices"], cwd=website_repo_path)
-                subprocess.run(["git", "push", "origin"], cwd=website_repo_path)
+                subprocess.run(["git", "pull", "--rebase", "origin", "master"], cwd=website_repo_path)
+                subprocess.run(["git", "push", "origin", "master"], cwd=website_repo_path)
                 
         print("  [!] Quarantine complete. Aborting Facebook queue scheduling.")
         sys.exit(0)
         
     print("  [+] Render build completed successfully.")
     print("  [+] Running update_indices.py to generate pristine indices...")
-    subprocess.run(["python3", "scripts/update_indices.py"], cwd=website_repo_path)
+    update_script = os.path.join(current_dir, "..", "maintenance", "update_indices.py")
+    subprocess.run([sys.executable, update_script, website_repo_path])
     
     print("  [+] Committing and pushing final state to GitHub...")
     subprocess.run(["git", "config", "user.name", "github-actions[bot]"], cwd=website_repo_path)
     subprocess.run(["git", "config", "user.email", "github-actions[bot]@users.noreply.github.com"], cwd=website_repo_path)
     subprocess.run(["git", "add", "history/"], cwd=website_repo_path)
     subprocess.run(["git", "commit", "-m", "Auto-updated indices after successful Render QA"], cwd=website_repo_path)
-    subprocess.run(["git", "push", "origin"], cwd=website_repo_path)
+    subprocess.run(["git", "pull", "--rebase", "origin", "master"], cwd=website_repo_path)
+    subprocess.run(["git", "push", "origin", "master"], cwd=website_repo_path)
     
     print("  [+] Sleeping for 1 minute before social scheduling...")
     time.sleep(60)
