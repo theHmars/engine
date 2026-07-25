@@ -113,7 +113,7 @@ def main():
     
     # 1. Run prepare_candidates.py
     print("\n>>> Step 1: Gathering Candidates")
-    subprocess.run(["python3", os.path.join(current_dir, "prepare_candidates.py")], check=True)
+    subprocess.run([sys.executable, os.path.join(current_dir, "prepare_candidates.py")], check=True)
     
     metadata_path = os.path.join(tmp_dir, "metadata.json")
     if not os.path.exists(metadata_path):

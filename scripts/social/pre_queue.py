@@ -98,7 +98,7 @@ def main():
         print(f"[!] DANGER: Queue has {total_posts} scheduled posts. Wiping the queue for a fresh start...")
         import subprocess
         clear_script = os.path.join(current_dir, "clear_queue.py")
-        subprocess.run(["python3", clear_script], check=True)
+        subprocess.run([sys.executable, clear_script], check=True)
         print("[+] Queue wiped successfully.")
         
         # Reset our state as if the queue is empty
