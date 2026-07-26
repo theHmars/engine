@@ -56,11 +56,22 @@ def clean_article(cand, root_dir, hm):
     scope = get_scope()
     
     # Setup directories
-    os.makedirs(os.path.join(get_state_dir(), f"data/{scope}/cleaned/{s_key}"), exist_ok=True)
+    cleaned_parent_dir = os.path.join(get_state_dir(), f"data/{scope}/cleaned/{s_key}")
+    os.makedirs(cleaned_parent_dir, exist_ok=True)
     raw_dir = os.path.join(get_state_dir(), f"tmp/{scope}/raw/{s_key}")
     os.makedirs(raw_dir, exist_ok=True)
     raw_path = os.path.join(raw_dir, f"{slug}.html")
-    clean_path = os.path.join(get_state_dir(), f"data/{scope}/cleaned/{s_key}/{slug}.json")
+    clean_path = os.path.join(cleaned_parent_dir, f"{slug}.json")
+    
+    # Secure validation against path traversal
+    abs_raw_dir = os.path.abspath(raw_dir)
+    abs_raw_path = os.path.abspath(raw_path)
+    abs_clean_dir = os.path.abspath(cleaned_parent_dir)
+    abs_clean_path = os.path.abspath(clean_path)
+    
+    if not abs_raw_path.startswith(abs_raw_dir + os.sep) or not abs_clean_path.startswith(abs_clean_dir + os.sep):
+        print(f"      [!] Path validation failed (traversal attempt detected) for {url}")
+        return None
     
     try:
         # Download HTML

@@ -162,15 +162,35 @@ def main():
                 candidates = json.load(f)
                 
             quarantined_files = False
+            import re
             for article in candidates:
-                scope = article["scope"]
-                slug = article["slug"]
+                scope = article.get("scope", "").lower()
+                if scope not in ['local', 'national', 'global']:
+                    print(f"  [!] Invalid scope '{scope}' for candidate. Skipping.")
+                    continue
+                
+                raw_slug = article.get("slug", "")
+                slug = re.sub(r'[^a-zA-Z0-9_\-]', '', os.path.basename(raw_slug))
+                if not slug:
+                    print("  [!] Invalid empty slug. Skipping.")
+                    continue
                 
                 content_markdown_dir = os.path.join(website_repo_path, "markdown", scope)
                 quarantine_dir = os.path.join(website_repo_path, "quarantine", "render", scope)
                 os.makedirs(quarantine_dir, exist_ok=True)
                 
                 filepath = os.path.join(content_markdown_dir, f"{slug}.md")
+                
+                # Path traversal safety check
+                abs_content_dir = os.path.abspath(content_markdown_dir)
+                abs_filepath = os.path.abspath(filepath)
+                abs_quarantine_dir = os.path.abspath(quarantine_dir)
+                abs_destpath = os.path.abspath(os.path.join(quarantine_dir, f"{slug}.md"))
+                
+                if not abs_filepath.startswith(abs_content_dir + os.sep) or not abs_destpath.startswith(abs_quarantine_dir + os.sep):
+                    print("  [!] Path validation failed (traversal attempt detected). Skipping.")
+                    continue
+                
                 if os.path.exists(filepath):
                     shutil.move(filepath, os.path.join(quarantine_dir, f"{slug}.md"))
                     print(f"  [-] Quarantined {slug}.md from {scope}")

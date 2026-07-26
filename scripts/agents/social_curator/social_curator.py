@@ -3,6 +3,8 @@ import os
 import sys
 import json
 
+CURATED_IDS_FILENAME = "curated_ids.json"
+
 # Setup paths to import LLM client
 scripts_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 engine_dir = os.path.dirname(scripts_dir)
@@ -41,7 +43,7 @@ def curate_articles():
     if len(candidates) <= quota:
         print(f"[*] Candidates ({len(candidates)}) <= Quota ({quota}). Bypassing LLM AI Curator and selecting all.")
         winning_ids = [c["id"] for c in candidates]
-        output_path = os.path.join(tmp_dir, "curated_ids.json")
+        output_path = os.path.join(tmp_dir, CURATED_IDS_FILENAME)
         with open(output_path, 'w', encoding='utf-8') as f:
             json.dump(winning_ids, f)
         return winning_ids
@@ -91,7 +93,7 @@ def curate_articles():
         print(f"[+] Final Winning IDs: {final_selection}")
         
         # Export the winning IDs for publisher.py
-        output_path = os.path.join(tmp_dir, "curated_ids.json")
+        output_path = os.path.join(tmp_dir, CURATED_IDS_FILENAME)
         with open(output_path, 'w', encoding='utf-8') as f:
             json.dump(final_selection, f)
             
@@ -102,7 +104,7 @@ def curate_articles():
         # Fallback Protocol: Select the first N items so the pipeline doesn't crash
         print(f"[!] Fallback: Selecting the first {effective_quota} items automatically.")
         fallback = [c["id"] for c in candidates[:effective_quota]]
-        output_path = os.path.join(tmp_dir, "curated_ids.json")
+        output_path = os.path.join(tmp_dir, CURATED_IDS_FILENAME)
         with open(output_path, 'w', encoding='utf-8') as f:
             json.dump(fallback, f)
         return fallback
