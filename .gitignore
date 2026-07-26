@@ -13,3 +13,6 @@ data/*/rss/
 # Runtime state artifacts — never commit these
 scripts/social/list.json
 scripts/social/metadata.json
+
+# SonarScanner artifacts
+.scannerwork/

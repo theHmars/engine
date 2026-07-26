@@ -54,11 +54,11 @@ def get_never_expiring_token():
         page_name = page.get("name")
         page_id = page.get("id")
         page_token = page.get("access_token")
-        print(f"\n=========================================")
+        print("\n=========================================")
         print(f"Page Name:  {page_name}")
         print(f"Page ID:    {page_id}")
         print(f"Never-Expiring Access Token:\n{page_token}")
-        print(f"=========================================")
+        print("=========================================")
 
 if __name__ == "__main__":
     get_never_expiring_token()

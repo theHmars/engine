@@ -6,9 +6,9 @@ CONTENT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'con
 
 # Regex to catch the EastMojo boilerplate and variations of it
 # It looks for "**Dear Reader," and captures everything up until the closing "**" 
-# that follows "Editor-in-Chief" or "eastmojo.com"
+# that follows "Editor-in-Chief" or "eastmojo.com" without backtracking.
 BOILERPLATE_REGEX = re.compile(
-    r'\*\*Dear Reader,[\s\S]*?(?:Editor-in-Chief|eastmojo\.com).*?\*\*',
+    r'\*\*Dear Reader,(?:[^*]|\*(?!\*))*(?:Editor-in-Chief|eastmojo\.com)(?:[^*]|\*(?!\*))*\*\*',
     re.IGNORECASE
 )
 
@@ -20,7 +20,7 @@ SUPPORT_REGEX = re.compile(
 
 # Catch "Also Read | [Title](URL)" or "Read more: [Title](URL)"
 ALSO_READ_REGEX = re.compile(
-    r'(?i)^.*?(?:\*\*)?(?:Also Read|Read more|Related|Read Also)(?:\*\*)?[\s\|:]*\[.*?\]\(https?://[^\)]+\).*?$',
+    r'(?i)^[^*]*(?:\*\*)?(?:Also Read|Read more|Related|Read Also)(?:\*\*)?[\s\|:]*\[[^\]]+\]\(https?://[^\)]+\).*$',
     re.MULTILINE
 )
 

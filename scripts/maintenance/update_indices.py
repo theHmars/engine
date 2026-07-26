@@ -9,7 +9,12 @@ def parse_frontmatter(filepath):
     title = ""
     description = ""
     try:
-        with open(filepath, 'r', encoding='utf-8') as f:
+        # Path injection validation
+        abs_path = os.path.abspath(filepath)
+        if not abs_path.endswith(".md") or not os.path.isfile(abs_path) or "markdown" not in abs_path:
+            return "", "", "Uncategorized"
+            
+        with open(abs_path, 'r', encoding='utf-8') as f:
             content = f.read()
 
         title_match = re.search(r'^title:\s*(?:"(.*)"|\'(.*)\'|(.*))', content, re.MULTILINE)
