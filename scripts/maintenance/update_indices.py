@@ -135,7 +135,6 @@ def update_scope_indices(content_dir, scope):
 
 def main():
     import sys
-    import re
     import tempfile
     # Resolve the directory of the content repository dynamically
     if len(sys.argv) > 1:

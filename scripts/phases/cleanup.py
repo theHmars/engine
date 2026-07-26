@@ -100,8 +100,8 @@ def main():
         try:
             with open(triaged_path, 'r', encoding='utf-8') as f:
                 triaged_articles = json.load(f)
-        except Exception:
-            pass
+        except Exception as e:
+            print(f"  [!] Warning: Failed to load triaged candidates: {e}")
 
     now = datetime.now()
     date_iso = now.strftime('%Y-%m-%dT%H:%M:%SZ')
