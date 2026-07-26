@@ -50,6 +50,7 @@ jobs:
           SCOUT_WORKSPACE: ${{ github.workspace }}/engine
           WEBSITE_REPO_PATH: ${{ github.workspace }}/content
           LLM_API_KEY_1: ${{ secrets.LLM_API_KEY_1 }}
+          PYTHONUNBUFFERED: "1"
         run: |
           cd engine
           .venv/bin/python3 main.py --scope local
@@ -59,6 +60,7 @@ jobs:
           SCOUT_WORKSPACE: ${{ github.workspace }}/engine
           WEBSITE_REPO_PATH: ${{ github.workspace }}/content
           LLM_API_KEY_1: ${{ secrets.LLM_API_KEY_2 }}
+          PYTHONUNBUFFERED: "1"
         run: |
           cd engine
           .venv/bin/python3 main.py --scope national
@@ -68,6 +70,7 @@ jobs:
           SCOUT_WORKSPACE: ${{ github.workspace }}/engine
           WEBSITE_REPO_PATH: ${{ github.workspace }}/content
           LLM_API_KEY_1: ${{ secrets.LLM_API_KEY_3 }}
+          PYTHONUNBUFFERED: "1"
         run: |
           cd engine
           .venv/bin/python3 main.py --scope global
