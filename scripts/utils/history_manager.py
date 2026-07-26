@@ -97,7 +97,7 @@ class HistoryManager:
                 cleaned_time = datetime.fromisoformat(art.get("cleaned_at", datetime.now().isoformat()))
                 if cleaned_time >= cutoff:
                     final_archive.append(art)
-            except:
+            except Exception:
                 final_archive.append(art)
                 
         os.makedirs(os.path.dirname(self.archive_path), exist_ok=True)
@@ -123,7 +123,7 @@ class HistoryManager:
                             proc_time = datetime.fromisoformat(art['processed_at']).timestamp()
                             if now - proc_time < seconds_to_keep_urls:
                                 new_history.append(art)
-                        except:
+                        except Exception:
                             new_history.append(art)
                     self.save_source_history(source_key, new_history)
 

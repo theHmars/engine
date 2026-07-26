@@ -165,7 +165,7 @@ def main():
             cleaned_time = datetime.fromisoformat(art.get('cleaned_at', datetime.now().isoformat()))
             if cleaned_time >= cutoff_time:
                 active_archive.append(art)
-        except:
+        except Exception:
             # Fallback if parsing fails, assume fresh
             active_archive.append(art)
             

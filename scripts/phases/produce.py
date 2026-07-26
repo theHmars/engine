@@ -252,7 +252,7 @@ def main():
             try:
                 with open(start_time_path, 'r') as f:
                     start_time = float(f.read().strip())
-            except:
+            except Exception:
                 start_time = time.time()
         else:
             start_time = time.time()

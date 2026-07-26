@@ -83,7 +83,7 @@ class TestPhase5Cleanup(unittest.TestCase):
         with open(expected_md_file, 'r', encoding='utf-8') as f:
             content = f.read()
             self.assertTrue(content.startswith("---\ntitle: test\n---\n"))
-            self.assertTrue("Body text one." in content)
+            self.assertIn("Body text one.", content)
 
         # 2. Verify HistoryManager calls
         mock_hm.log_topic.assert_called_once_with("Article One", "Source A", "Local")

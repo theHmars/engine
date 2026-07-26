@@ -101,7 +101,7 @@ def cleanup_history(days_to_keep=7):
                         proc_time = datetime.fromisoformat(art['processed_at']).timestamp()
                         if now - proc_time < seconds_to_keep:
                             new_articles.append(art)
-                    except:
+                    except Exception:
                         new_articles.append(art)
                 save_source_history(source_key, new_articles)
 
@@ -115,6 +115,6 @@ def load_topics(category="local"):
             with open(path, 'r', encoding='utf-8') as f:
                 data = json.load(f)
                 return {"topics": list(data.keys())} if isinstance(data, dict) else {"topics": []}
-        except:
+        except Exception:
             pass
     return {"topics": []}
