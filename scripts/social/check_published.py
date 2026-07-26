@@ -5,6 +5,7 @@ import time
 import json
 import requests
 import argparse
+from urllib.parse import urlparse
 
 # Load environment configuration
 def load_environment():
@@ -58,10 +59,17 @@ def check_published():
                         # Check attachments
                         attachments = post.get("attachments", {}).get("data", [])
                         for att in attachments:
-                            url = att.get("unshimmed_url", "") or att.get("url", "") or att.get("target", {}).get("url", "")
-                            if "thehmars.onrender.com" in url:
-                                has_old_url = True
-                                break
+                            att_url = att.get("unshimmed_url", "") or att.get("url", "") or att.get("target", {}).get("url", "")
+                            if att_url:
+                                try:
+                                    parsed = urlparse(att_url)
+                                    if parsed.netloc == "thehmars.onrender.com" or parsed.netloc.endswith(".thehmars.onrender.com"):
+                                        has_old_url = True
+                                        break
+                                except Exception:
+                                    if "thehmars.onrender.com" in att_url:
+                                        has_old_url = True
+                                        break
                                 
                         # Check message body
                         if not has_old_url and "thehmars.onrender.com" in post.get("message", ""):
