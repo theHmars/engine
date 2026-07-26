@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import os
+import sys
 import requests
 
 def load_environment():
@@ -20,7 +21,7 @@ if __name__ == "__main__":
 
     if not PAGE_ID or not ACCESS_TOKEN:
         print("[!] Error: Missing FB_PAGE_ID or FB_PAGE_ACCESS_TOKEN in environment.")
-        exit(1)
+        sys.exit(1)
 
     print(f"[*] Fetching Facebook Page ({PAGE_ID}) feed to count old URLs...")
     

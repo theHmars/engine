@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import os
+import sys
 import requests
 import json
 
@@ -21,7 +22,7 @@ if __name__ == "__main__":
 
     if not PAGE_ID or not ACCESS_TOKEN:
         print("[!] Error: Missing credentials.")
-        exit(1)
+        sys.exit(1)
 
     url = f"{BASE_URL}/{PAGE_ID}/feed"
     params = {

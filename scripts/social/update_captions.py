@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import os
+import sys
 import time
 import requests
 import urllib.parse
@@ -25,7 +26,7 @@ if __name__ == "__main__":
 
     if not PAGE_ID or not ACCESS_TOKEN:
         print("[!] Error: Missing credentials.")
-        exit(1)
+        sys.exit(1)
 
     print(f"[*] Starting advanced bulk caption update for Page ID: {PAGE_ID}...")
     
