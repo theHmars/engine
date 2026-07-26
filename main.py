@@ -74,7 +74,7 @@ def main():
         python_bin = sys.executable  # Final fallback to current runner python
         print(f"[WARN] .venv not found in workspace or local dir, using system python: {python_bin}", file=sys.stderr)
     else:
-        python_bin = os.path.realpath(python_bin)
+        # Keep the venv symlink path — resolving realpath breaks venv site-packages
         print(f"[INFO] Using python binary: {python_bin}")
         
     if not re.match(r'^[\w\.\/\-]+$', python_bin) or not os.path.isfile(python_bin) or not os.access(python_bin, os.X_OK):
