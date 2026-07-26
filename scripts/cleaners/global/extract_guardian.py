@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 import json
 import re
 import os
+from urllib.parse import urlparse
 
 def clean_content(text):
     # Strip any residual <br> tags that survived HTML extraction
@@ -87,7 +88,8 @@ def extract_guardian(html_path, output_path):
                 src = img.get('src') or img.get('data-src')
                 if src:
                     # Filter out tiny icons or tracking pixels
-                    if 'guim.co.uk' in src:
+                    host = (urlparse(src).hostname or "").lower()
+                    if host == "guim.co.uk" or host.endswith(".guim.co.uk"):
                         content_parts.append(f"image link: {src}")
         else:
             text = element.get_text().strip()
