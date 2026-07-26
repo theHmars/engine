@@ -33,13 +33,13 @@ def _extract_title(soup):
     if title_tag:
         return title_tag.get_text().strip()
     title_meta = soup.find('meta', property='og:title')
-    if title_meta:
+    if title_meta and title_meta.has_attr('content'):
         return title_meta['content']
     return "N/A"
 
 def _extract_date(soup):
     date_meta = soup.find('meta', property='article:published_time') or soup.find('meta', itemprop='datePublished')
-    if date_meta:
+    if date_meta and date_meta.has_attr('content'):
         return date_meta['content']
     return "N/A"
 
@@ -68,7 +68,9 @@ def extract_indianexpress(html_path, output_path):
     date_str = _extract_date(soup)
 
     img_meta = soup.find('meta', property='og:image')
-    featured_image = img_meta['content'] if img_meta else "N/A"
+    featured_image = "N/A"
+    if img_meta:
+        featured_image = img_meta.get('content', 'N/A')
 
     # 4. Content Body
     body_container = soup.find('div', id='pcl-full-content') or soup.find('div', class_='story_details')
@@ -107,14 +109,3 @@ def extract_indianexpress(html_path, output_path):
         json.dump(data, f, indent=4)
 
     return "Success"
-
-if __name__ == "__main__":
-    import sys
-    if len(sys.argv) > 2:
-        print(extract_indianexpress(sys.argv[1], sys.argv[2]))
-    else:
-        # Default test case for research
-        html_file = f'tmp/{scope}/research/national/indianexpress/1.html'
-        output_file = f'tmp/{scope}/research/national/indianexpress/1_clean.json'
-        os.makedirs(os.path.dirname(output_file), exist_ok=True)
-        print(extract_indianexpress(html_file, output_file))

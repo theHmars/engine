@@ -1,17 +1,19 @@
 import os
 import re
 
+FALLBACK_IMAGE = "/assets/fallback.webp"
+
 # Mapping of regions to their default fallback images on EastMojo/TheHmars
 DEFAULT_IMAGES = {
-    "Arunachal Pradesh": "/assets/fallback.webp",
-    "Assam": "/assets/fallback.webp",
-    "Manipur": "/assets/fallback.webp",
-    "Meghalaya": "/assets/fallback.webp",
-    "Mizoram": "/assets/fallback.webp",
-    "Nagaland": "/assets/fallback.webp",
-    "Sikkim": "/assets/fallback.webp",
-    "Tripura": "/assets/fallback.webp",
-    "N/A": "/assets/fallback.webp"
+    "Arunachal Pradesh": FALLBACK_IMAGE,
+    "Assam": FALLBACK_IMAGE,
+    "Manipur": FALLBACK_IMAGE,
+    "Meghalaya": FALLBACK_IMAGE,
+    "Mizoram": FALLBACK_IMAGE,
+    "Nagaland": FALLBACK_IMAGE,
+    "Sikkim": FALLBACK_IMAGE,
+    "Tripura": FALLBACK_IMAGE,
+    "N/A": FALLBACK_IMAGE
 }
 
 def load_ignored_images():
@@ -72,10 +74,13 @@ def generate_yaml(article, date_iso):
     return yaml
 
 
-_ABBR_PATTERN = re.compile(
-    r'\b(Mr|Mrs|Ms|Dr|Prof|Sr|Jr|vs|etc|i\.e|e\.g|No|St|Rs|Lt|Col|Gen|Sgt|Pvt|Capt|Maj|km|kg|sq|Mt|ft|Brig|Insp)\.'
+_ABBR_PATTERN_1 = re.compile(
+    r'\b(Mr|Mrs|Ms|Dr|Prof|Sr|Jr|No|St|Rs|Lt|Col|Gen|Sgt|Pvt|Capt|Maj|Brig|Insp)\.'
 )
-_SENTENCE_SPLIT = re.compile(r'(?<=[.!?])\s+(?=[A-Z"\u201c\u2018])')
+_ABBR_PATTERN_2 = re.compile(
+    r'\b(vs|etc|i\.e|e\.g|km|kg|sq|Mt|ft)\.'
+)
+_SENTENCE_SPLIT = re.compile(r'(?<=[.!?])\s+(?=[A-Z"])')
 _SENTENCES_PER_PARA = 3
 
 
@@ -99,7 +104,8 @@ def ensure_paragraphs(content: str) -> str:
         return content
 
     # Protect common abbreviations so they are not treated as sentence endings
-    protected = _ABBR_PATTERN.sub(lambda m: m.group(0).replace('.', '__DOT__'), content)
+    protected = _ABBR_PATTERN_1.sub(lambda m: m.group(0).replace('.', '__DOT__'), content)
+    protected = _ABBR_PATTERN_2.sub(lambda m: m.group(0).replace('.', '__DOT__'), protected)
 
     sentences = [s.strip() for s in _SENTENCE_SPLIT.split(protected.strip()) if s.strip()]
 

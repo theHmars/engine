@@ -11,6 +11,26 @@ def clean_content(text):
     text = re.sub(r'\n{3,}', '\n\n', text)
     return text.strip()
 
+def _extract_nagalandpost_title(soup):
+    title_tag = soup.find('h1', class_='tdb-title-text')
+    return title_tag.get_text().strip() if title_tag else "N/A"
+
+def _extract_nagalandpost_intro(soup):
+    intro_meta = soup.find('meta', attrs={"name": "description"})
+    return intro_meta.get('content', '').strip() if intro_meta else ""
+
+def _extract_nagalandpost_date(soup):
+    date_meta = soup.find('meta', property='article:published_time')
+    return date_meta.get('content', 'N/A') if date_meta else "N/A"
+
+def _extract_nagalandpost_image(soup):
+    img_meta = soup.find('meta', property='og:image')
+    featured_image = img_meta.get('content', 'N/A') if img_meta else "N/A"
+    image_blacklist = ["npmain.png", "cropped-favicon"]
+    if any(blacklisted in featured_image for blacklisted in image_blacklist):
+        featured_image = "N/A"
+    return featured_image
+
 def extract_nagalandpost(html_path, output_path):
     if not os.path.exists(html_path):
         return f"Error: {html_path} not found"
@@ -18,26 +38,10 @@ def extract_nagalandpost(html_path, output_path):
     with open(html_path, 'r', encoding='utf-8') as f:
         soup = BeautifulSoup(f.read(), 'html.parser')
 
-    # 1. Extract Title
-    title_tag = soup.find('h1', class_='tdb-title-text')
-    title = title_tag.get_text().strip() if title_tag else "N/A"
-
-    # 2. Extract Short Intro (from meta description)
-    intro_meta = soup.find('meta', attrs={"name": "description"})
-    short_intro = intro_meta['content'].strip() if intro_meta else ""
-
-    # 3. Extract Date (Metadata)
-    date_meta = soup.find('meta', property='article:published_time')
-    date_str = date_meta['content'] if date_meta else "N/A"
-
-    # 4. Extract Featured Image
-    img_meta = soup.find('meta', property='og:image')
-    featured_image = img_meta['content'] if img_meta else "N/A"
-    
-    # Blacklist generic logos
-    image_blacklist = ["npmain.png", "cropped-favicon"]
-    if any(blacklisted in featured_image for blacklisted in image_blacklist):
-        featured_image = "N/A"
+    title = _extract_nagalandpost_title(soup)
+    short_intro = _extract_nagalandpost_intro(soup)
+    date_str = _extract_nagalandpost_date(soup)
+    featured_image = _extract_nagalandpost_image(soup)
 
     # 5. Extract Content Body
     body_container = soup.find('div', class_='td-post-content')
@@ -87,14 +91,3 @@ def extract_nagalandpost(html_path, output_path):
     with open(output_path, 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=4)
     return "Success"
-
-if __name__ == "__main__":
-    import sys
-    if len(sys.argv) > 2:
-        print(extract_nagalandpost(sys.argv[1], sys.argv[2]))
-    else:
-        # Default test
-        html_file = f'tmp/{scope}/research/local/nagalandpost/1.html'
-        output_file = f'tmp/{scope}/research/local/nagalandpost/1_clean.json'
-        os.makedirs(os.path.dirname(output_file), exist_ok=True)
-        print(extract_nagalandpost(html_file, output_file))

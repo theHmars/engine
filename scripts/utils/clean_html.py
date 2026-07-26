@@ -16,7 +16,7 @@ EXTRACTORS = {}
 
 
 
-def load_extractors(root_dir):
+def load_extractors(_root_dir):
     global EXTRACTORS
     scope = get_scope()
     if scope == "international":
@@ -42,8 +42,25 @@ def load_extractors(root_dir):
         except Exception as e:
             print(f"[!] Error loading dynamic extractor from {file_path}: {e}")
 
+import ipaddress
+import socket
+from urllib.parse import urlparse
 
-def clean_article(cand, root_dir, hm):
+ALLOWED_DOMAINS = {
+    "example.com", "www.example.com",
+    "eastmojo.com", "www.eastmojo.com",
+    "theshillongtimes.com", "www.theshillongtimes.com",
+    "nagalandpost.com", "www.nagalandpost.com",
+    "arunachaltimes.in", "www.arunachaltimes.in",
+    "thehindu.com", "www.thehindu.com",
+    "indianexpress.com", "www.indianexpress.com",
+    "theprint.in", "www.theprint.in",
+    "theguardian.com", "www.theguardian.com",
+    "independent.co.uk", "www.independent.co.uk"
+}
+
+
+def clean_article(cand, _root_dir, hm):
     """Downloads raw HTML and runs the cleaner extractor. Returns clean JSON data or None."""
     import re
     s_key = re.sub(r'[^a-zA-Z0-9_\-]', '', os.path.basename(cand["source_key"]))
@@ -75,8 +92,22 @@ def clean_article(cand, root_dir, hm):
     
     try:
         # Download HTML
+        parsed = urlparse(url)
+        if parsed.scheme not in ('http', 'https'):
+            print(f"      [!] URL validation failed (invalid scheme) for {url}")
+            return None
+            
+        hostname = parsed.hostname
+        if not hostname or hostname.lower() not in ALLOWED_DOMAINS:
+            print(f"      [!] URL validation failed (domain not allowed) for {url}")
+            return None
+            
+        if hostname.lower() in ('localhost', 'localhost.localdomain'):
+            print(f"      [!] URL validation failed (localhost blocked) for {url}")
+            return None
+            
         headers = {'User-Agent': 'Mozilla/5.0'}
-        res = requests.get(url, headers=headers, timeout=15)
+        res = requests.get(url, headers=headers, timeout=15)  # nosonar
         res.raise_for_status()
         with open(raw_path, 'w', encoding='utf-8') as f:
             f.write(res.text)

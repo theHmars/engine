@@ -33,6 +33,38 @@ ACCESS_TOKEN = os.environ.get("FB_PAGE_ACCESS_TOKEN")
 API_VERSION = "v20.0"
 BASE_URL = f"https://graph.facebook.com/{API_VERSION}"
 
+def _fetch_all_scheduled_posts(url, params):
+    total_posts = 0
+    max_timestamp = None
+    
+    while True:
+        response = requests.get(url, params=params, timeout=15)
+        if response.status_code != 200:
+            print(f"  [!] Error checking scheduled posts (HTTP {response.status_code}): {response.text}")
+            return None, None
+            
+        data = response.json().get("data", [])
+        if not data:
+            break
+            
+        total_posts += len(data)
+        
+        timestamps = [int(p["scheduled_publish_time"]) for p in data if "scheduled_publish_time" in p]
+        if timestamps:
+            batch_max = max(timestamps)
+            if max_timestamp is None or batch_max > max_timestamp:
+                max_timestamp = batch_max
+                
+        paging = response.json().get("paging", {})
+        next_url = paging.get("next")
+        if next_url:
+            url = next_url
+            params = {}
+        else:
+            break
+            
+    return total_posts, max_timestamp
+
 def get_queue_status():
     if not PAGE_ID or not ACCESS_TOKEN:
         print("[!] Error: Missing FB_PAGE_ID or FB_PAGE_ACCESS_TOKEN in environment.")
@@ -46,48 +78,23 @@ def get_queue_status():
         "limit": 100
     }
     
-    max_timestamp = None
-    total_posts = 0
     max_attempts = 3
-    
     for attempt in range(1, max_attempts + 1):
         try:
-            while True:
-                response = requests.get(url, params=params, timeout=15)
-                if response.status_code == 200:
-                    data = response.json().get("data", [])
-                    if not data:
-                        break
-                    
-                    total_posts += len(data)
-                    
-                    timestamps = [int(p["scheduled_publish_time"]) for p in data if "scheduled_publish_time" in p]
-                    if timestamps:
-                        batch_max = max(timestamps)
-                        if max_timestamp is None or batch_max > max_timestamp:
-                            max_timestamp = batch_max
-                            
-                    paging = response.json().get("paging", {})
-                    next_url = paging.get("next")
-                    if next_url:
-                        url = next_url
-                        params = {}
-                    else:
-                        break
-                else:
-                    print(f"  [!] Error checking scheduled posts (HTTP {response.status_code}): {response.text}")
-                    break
-            break  # Successful run — exit retry loop
+            total_posts, max_timestamp = _fetch_all_scheduled_posts(url, params)
+            if total_posts is not None:
+                return total_posts, max_timestamp
+            break
         except Exception as e:
             print(f"  [!] Exception checking scheduled posts (attempt {attempt}/{max_attempts}): {e}")
             if attempt < max_attempts:
-                print(f"  [!] Retrying in 15 seconds...")
+                print("  [!] Retrying in 15 seconds...")
                 time.sleep(15)
             else:
                 print(f"  [!] All {max_attempts} attempts exhausted. Aborting publisher.")
                 sys.exit(1)
         
-    return total_posts, max_timestamp
+    return 0, None
 
 def main():
     total_posts, max_timestamp = get_queue_status()

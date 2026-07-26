@@ -9,6 +9,26 @@ ACCESS_TOKEN = os.environ.get("FB_PAGE_ACCESS_TOKEN")
 API_VERSION = "v20.0"
 BASE_URL = f"https://graph.facebook.com/{API_VERSION}"
 
+def _delete_post_batch(posts):
+    deleted_count = 0
+    for post in posts:
+        post_id = post.get("id")
+        if not post_id:
+            continue
+        delete_url = f"{BASE_URL}/{post_id}"
+        del_payload = {"access_token": ACCESS_TOKEN}
+        
+        try:
+            del_response = requests.delete(delete_url, data=del_payload, timeout=15)
+            if del_response.status_code == 200 and del_response.json().get("success"):
+                print(f"  [+] Deleted scheduled post ID: {post_id}")
+                deleted_count += 1
+            else:
+                print(f"  [!] Failed to delete post ID: {post_id} (HTTP {del_response.status_code}: {del_response.text})")
+        except Exception as e:
+            print(f"  [!] Exception deleting post ID: {post_id}: {e}")
+    return deleted_count
+
 def clear_queue():
     if not PAGE_ID or not ACCESS_TOKEN:
         print("[!] Error: Missing FB_PAGE_ID or FB_PAGE_ACCESS_TOKEN in environment.")
@@ -22,34 +42,25 @@ def clear_queue():
         "limit": 100
     }
     
-    try:
-        total_deleted = 0
-        while True:
+    total_deleted = 0
+    while True:
+        try:
             response = requests.get(url, params=params, timeout=15)
-            if response.status_code == 200:
-                posts = response.json().get("data", [])
-                if not posts:
-                    break
-                
-                print(f"[!] Found {len(posts)} scheduled post(s) in this batch. Proceeding with deletion...")
-                for post in posts:
-                    post_id = post.get("id")
-                    delete_url = f"{BASE_URL}/{post_id}"
-                    del_payload = {"access_token": ACCESS_TOKEN}
-                    
-                    del_response = requests.delete(delete_url, data=del_payload, timeout=15)
-                    if del_response.status_code == 200 and del_response.json().get("success"):
-                        print(f"  [+] Deleted scheduled post ID: {post_id}")
-                        total_deleted += 1
-                    else:
-                        print(f"  [!] Failed to delete post ID: {post_id} (HTTP {del_response.status_code}: {del_response.text})")
-            else:
+            if response.status_code != 200:
                 print(f"[!] Error fetching scheduled posts (HTTP {response.status_code}): {response.text}")
                 break
                 
-        print(f"\n[+] Finished. Successfully deleted a total of {total_deleted} post(s).")
-    except Exception as e:
-        print(f"[!] Request failed: {e}")
+            posts = response.json().get("data", [])
+            if not posts:
+                break
+                
+            print(f"[!] Found {len(posts)} scheduled post(s) in this batch. Proceeding with deletion...")
+            total_deleted += _delete_post_batch(posts)
+        except Exception as e:
+            print(f"[!] Request failed: {e}")
+            break
+            
+    print(f"\n[+] Finished. Successfully deleted a total of {total_deleted} post(s).")
 
 if __name__ == "__main__":
     # Manually parse .env from engine root directory so it runs outside of venv

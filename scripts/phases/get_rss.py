@@ -18,9 +18,38 @@ BLACKLIST = [
 def load_scope():
     return os.environ.get('SCOUT_SCOPE', 'local')
 
+def _parse_rss_item(item, source_key, source_config):
+    title_node = item.find('title')
+    if title_node is None:
+        title_node = item.find('{http://www.w3.org/2005/Atom}title')
+    link_node = item.find('link')
+    if link_node is None:
+        link_node = item.find('{http://www.w3.org/2005/Atom}link')
+    
+    title = title_node.text if title_node is not None else ""
+    link = ""
+    if link_node is not None:
+        link = link_node.text or link_node.get('href') or ""
+
+    if not title or not link: 
+        return None
+
+    # Blacklist Filter
+    if any(word in title.lower() for word in BLACKLIST):
+        return None
+
+    return {
+        "title": title,
+        "url": link,
+        "source_key": source_key,
+        "source_name": source_config['name'],
+        "category": source_config['category']
+    }
+
 def fetch_rss(source_key, source_config):
     """Fetches RSS and returns a list of candidate articles."""
     workspace_dir = os.environ.get("SCOUT_WORKSPACE", os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    scope = load_scope()
     print(f"  - Fetching RSS for: {source_config['name']}...")
     try:
         headers = {'User-Agent': 'Mozilla/5.0'}
@@ -40,36 +69,52 @@ def fetch_rss(source_key, source_config):
         if items is None or len(items) == 0:
             items = root.findall('.//{http://www.w3.org/2005/Atom}entry')
         
-        for item in items[:20]:
-            title_node = item.find('title')
-            if title_node is None:
-                title_node = item.find('{http://www.w3.org/2005/Atom}title')
-            link_node = item.find('link')
-            if link_node is None:
-                link_node = item.find('{http://www.w3.org/2005/Atom}link')
-            
-            title = title_node.text if title_node is not None else ""
-            link = ""
-            if link_node is not None:
-                link = link_node.text or link_node.get('href') or ""
-
-            if not title or not link: 
-                continue
-
-            # Blacklist Filter
-            if any(word in title.lower() for word in BLACKLIST):
-                continue
-
-            candidates.append({
-                "title": title,
-                "url": link,
-                "source_key": source_key,
-                "source_name": source_config['name'],
-                "category": source_config['category']
-            })
+        if items:
+            for item in items[:20]:
+                parsed = _parse_rss_item(item, source_key, source_config)
+                if parsed:
+                    candidates.append(parsed)
+                    
         return candidates
     except Exception as e:
         print(f"    [!] Error checking RSS for {source_key}: {e}")
+        return []
+
+def _process_source_feed(s_key, s_cfg, scope, engine_dir):
+    # Validate Cleaner script pointer exists in the engine's cleaners directory
+    cleaner_name = s_cfg.get("cleaner_filename", f"extract_{s_key}.py")
+    cleaner_scope = scope.lower()
+    if cleaner_scope == "international":
+        cleaner_scope = "global"
+    cleaner_path = os.path.join(engine_dir, "cleaners", cleaner_scope, cleaner_name)
+    if not os.path.exists(cleaner_path):
+        print(f"  [!] Warning: Cleaner script '{cleaner_path}' missing. Skipping fetch for {s_cfg['name']}.")
+        return []
+        
+    print(f"  - Fetching RSS for: {s_cfg['name']}...")
+    try:
+        headers = {'User-Agent': 'Mozilla/5.0'}
+        response = requests.get(s_cfg['url'], headers=headers, timeout=15)
+        response.raise_for_status()
+        
+        timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
+        raw_rss_path = os.path.join(get_state_dir(), f"data/{scope}/rss/{s_key}_{timestamp}.rss")
+        os.makedirs(os.path.dirname(raw_rss_path), exist_ok=True)
+        with open(raw_rss_path, 'wb') as f:
+            f.write(response.content)
+            
+        root = ET.fromstring(response.content)
+        candidates = []
+        items = root.findall('.//item') or root.findall('.//{http://www.w3.org/2005/Atom}entry')
+        
+        if items:
+            for item in items[:20]:
+                parsed = _parse_rss_item(item, s_key, s_cfg)
+                if parsed:
+                    candidates.append(parsed)
+        return candidates
+    except Exception as e:
+        print(f"    [!] Error checking RSS for {s_key}: {e}")
         return []
 
 def main():
@@ -94,69 +139,15 @@ def main():
     for s_key, s_cfg in sources.items():
         # Filter by scope category
         feed_category = s_cfg.get("category", "Local").lower()
-        if feed_category == "international": feed_category = "global"
+        if feed_category == "international":
+            feed_category = "global"
         if feed_category != scope.lower():
             continue
             
-        # Validate Cleaner script pointer exists in the engine's cleaners directory
-        cleaner_name = s_cfg.get("cleaner_filename", f"extract_{s_key}.py")
-        cleaner_scope = scope.lower()
-        if cleaner_scope == "international":
-            cleaner_scope = "global"
-        cleaner_path = os.path.join(engine_dir, "cleaners", cleaner_scope, cleaner_name)
-        if not os.path.exists(cleaner_path):
-            print(f"  [!] Warning: Cleaner script '{cleaner_path}' missing. Skipping fetch for {s_cfg['name']}.")
+        candidates = _process_source_feed(s_key, s_cfg, scope, engine_dir)
+        if not candidates:
             continue
-            
-        # Check RSS feed
-        # Update fetch_rss to write raw rss summaries relative to root
-        print(f"  - Fetching RSS for: {s_cfg['name']}...")
-        try:
-            headers = {'User-Agent': 'Mozilla/5.0'}
-            response = requests.get(s_cfg['url'], headers=headers, timeout=15)
-            response.raise_for_status()
-            
-            timestamp = datetime.now().strftime('%Y%m%d%H%M%S')
-            raw_rss_path = os.path.join(get_state_dir(), f"data/{scope}/rss/{s_key}_{timestamp}.rss")
-            os.makedirs(os.path.dirname(raw_rss_path), exist_ok=True)
-            with open(raw_rss_path, 'wb') as f:
-                f.write(response.content)
-                
-            root = ET.fromstring(response.content)
-            candidates = []
-            items = root.findall('.//item') or root.findall('.//{http://www.w3.org/2005/Atom}entry')
-            
-            for item in items[:20]:
-                title_node = item.find('title')
-                if title_node is None:
-                    title_node = item.find('{http://www.w3.org/2005/Atom}title')
-                    
-                link_node = item.find('link')
-                if link_node is None:
-                    link_node = item.find('{http://www.w3.org/2005/Atom}link')
-                
-                title = title_node.text if title_node is not None else ""
-                link = ""
-                if link_node is not None:
-                    link = link_node.text or link_node.get('href') or ""
-                
-                if not title or not link:
-                    continue
-                
-                if any(word in title.lower() for word in BLACKLIST):
-                    continue
-                
-                candidates.append({
-                    "title": title,
-                    "url": link,
-                    "source_key": s_key,
-                    "source_name": s_cfg['name'],
-                    "category": s_cfg['category']
-                })
-        except Exception as e:
-            print(f"    [!] Error checking RSS for {s_key}: {e}")
-            candidates = []
-        
+         
         # Filter against technical url history
         history = load_source_history(s_key)
         processed_urls = {item["url"] for item in history}

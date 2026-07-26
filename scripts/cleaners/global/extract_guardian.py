@@ -16,13 +16,13 @@ def _extract_title(soup):
     if title_tag:
         return title_tag.get_text().strip()
     title_meta = soup.find('meta', property='og:title')
-    if title_meta:
+    if title_meta and title_meta.has_attr('content'):
         return title_meta['content']
     return "N/A"
 
 def _extract_date(soup):
     date_meta = soup.find('meta', property='article:published_time')
-    if date_meta:
+    if date_meta and date_meta.has_attr('content'):
         return date_meta['content']
     time_tag = soup.find('time')
     if time_tag and time_tag.has_attr('datetime'):
@@ -33,16 +33,20 @@ def _is_valid_guardian_image(src):
     host = (urlparse(src).hostname or "").lower()
     return host == "guim.co.uk" or host.endswith(".guim.co.uk")
 
+def _process_figure(element, content_parts):
+    img = element.find('img')
+    if not img:
+        return
+    src = img.get('src') or img.get('data-src')
+    if src and _is_valid_guardian_image(src):
+        content_parts.append(f"image link: {src}")
+
 def _extract_body_parts(search_target):
     """Extracts text and image link parts from the cleaned search target."""
     content_parts = []
     for element in search_target.find_all(['p', 'h2', 'h3', 'figure']):
         if element.name == 'figure':
-            img = element.find('img')
-            if img:
-                src = img.get('src') or img.get('data-src')
-                if src and _is_valid_guardian_image(src):
-                    content_parts.append(f"image link: {src}")
+            _process_figure(element, content_parts)
         else:
             text = element.get_text().strip()
             if text:
@@ -60,7 +64,9 @@ def extract_guardian(html_path, output_path):
     date_str = _extract_date(soup)
 
     img_meta = soup.find('meta', property='og:image')
-    featured_image = img_meta['content'] if img_meta else "N/A"
+    featured_image = "N/A"
+    if img_meta:
+        featured_image = img_meta.get('content', 'N/A')
 
     # 4. Content Body
     body_container = soup.find('div', id='maincontent') or soup.find('article')
@@ -103,14 +109,3 @@ def extract_guardian(html_path, output_path):
         json.dump(data, f, indent=4)
 
     return "Success"
-
-if __name__ == "__main__":
-    import sys
-    if len(sys.argv) > 2:
-        print(extract_guardian(sys.argv[1], sys.argv[2]))
-    else:
-        # Default test case for research
-        html_file = f'tmp/{scope}/research/international/guardian/1.html'
-        output_file = f'tmp/{scope}/research/international/guardian/1_clean.json'
-        os.makedirs(os.path.dirname(output_file), exist_ok=True)
-        print(extract_guardian(html_file, output_file))

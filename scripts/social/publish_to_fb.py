@@ -63,7 +63,7 @@ def publish_single_post(article, publish_time):
             return True
         elif response.status_code in [400, 401, 403]:
             print(f"  [FATAL] Facebook API credential/permission error ({response.status_code}): {response.text}")
-            print(f"  [FATAL] Aborting queue — all remaining posts would fail with the same error.")
+            print("  [FATAL] Aborting queue — all remaining posts would fail with the same error.")
             raise SystemExit(1)
         else:
             print(f"  [!] Failed to publish to Facebook: HTTP {response.status_code} - {response.text}")

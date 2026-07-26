@@ -12,6 +12,47 @@ def get_grouping_prompt():
     with open(path, 'r', encoding='utf-8') as f:
         return f.read()
 
+def _execute_grouping_attempt(chosen_list, system_prompt, user_content, attempt):
+    print(f"  - Grouping query attempt {attempt}...")
+    try:
+        res = call_llm(system_prompt, user_content)
+        groups = res.get("groups", [])
+    except Exception as e:
+        print(f"    [!] Grouping query error: {e}")
+        groups = []
+        
+    # Programmatic Validation
+    valid_groups = []
+    flat_indices = set()
+    validation_failed = False
+    
+    for g in groups:
+        valid_g = []
+        for idx in g:
+            if 1 <= idx <= len(chosen_list):
+                valid_g.append(idx - 1)
+                flat_indices.add(idx - 1)
+            else:
+                validation_failed = True
+                print(f"    [!] Validation Failed: Out-of-bounds group index: {idx}")
+        if valid_g:
+            valid_groups.append(valid_g)
+            
+    if validation_failed:
+        return None
+        
+    # Ensure every candidate is accounted for in exactly one group
+    unassigned = [i for i in range(len(chosen_list)) if i not in flat_indices]
+    for idx in unassigned:
+        valid_groups.append([idx])
+        
+    print(f"    [+] Validation Passed. Identified {len(valid_groups)} unique news events from {len(chosen_list)} sources.")
+    # Map index groups back to article objects
+    mapped_groups = []
+    for g in valid_groups:
+        mapped_groups.append([chosen_list[i] for i in g])
+    return mapped_groups
+
 def group_chosen_sources(chosen_list, attempts_limit=3):
     """
     Queries the Grouping Agent to identify articles covering the same event
@@ -32,43 +73,10 @@ def group_chosen_sources(chosen_list, attempts_limit=3):
     user_content = "\n".join(numbered_payload)
     
     for attempt in range(1, attempts_limit + 1):
-        print(f"  - Grouping query attempt {attempt}/{attempts_limit}...")
-        try:
-            res = call_llm(system_prompt, user_content)
-            groups = res.get("groups", [])
-        except Exception as e:
-            print(f"    [!] Grouping query error: {e}")
-            groups = []
-            
-        # Programmatic Validation
-        valid_groups = []
-        flat_indices = set()
-        validation_failed = False
-        
-        for g in groups:
-            valid_g = []
-            for idx in g:
-                if 1 <= idx <= len(chosen_list):
-                    valid_g.append(idx - 1)
-                    flat_indices.add(idx - 1)
-                else:
-                    validation_failed = True
-                    print(f"    [!] Validation Failed: Out-of-bounds group index: {idx}")
-            if valid_g:
-                valid_groups.append(valid_g)
-                
-        # Ensure every candidate is accounted for in exactly one group
-        unassigned = [i for i in range(len(chosen_list)) if i not in flat_indices]
-        for idx in unassigned:
-            valid_groups.append([idx])
-            
-        if not validation_failed:
-            print(f"    [+] Validation Passed. Identified {len(valid_groups)} unique news events from {len(chosen_list)} sources.")
-            # Map index groups back to article objects
-            mapped_groups = []
-            for g in valid_groups:
-                mapped_groups.append([chosen_list[i] for i in g])
+        mapped_groups = _execute_grouping_attempt(chosen_list, system_prompt, user_content, attempt)
+        if mapped_groups is not None:
             return mapped_groups
+            
     # Fallback: treat all as unique
     print("    [!] Grouping validation limit reached. Treating all sources as unique.")
     return [[art] for art in chosen_list]
@@ -148,7 +156,7 @@ def run_deduplication(article):
         print(f"  [!] Article '{article.get('title')[:40]}' matched with published history. Skipping for this session.")
         
         # --------------------------------------------------------------------------------
-        # TODO / NOTE: Intentionally left as is for now. 
+        # NOTE: Intentionally left as is for now. 
         # This is a stub for a future "Story Update/Enrichment" feature.
         # Currently, update_candidates.json is volatile (lives in tmp/) and is never used.
         # To make this work in the future:

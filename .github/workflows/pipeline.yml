@@ -78,7 +78,7 @@ jobs:
           FRONTEND_REPO_PATH: ${{ github.workspace }}/frontend
         run: |
           cd frontend
-          npm ci
+          npm ci --ignore-scripts
           cd ../engine
           .venv/bin/python3 scripts/utils/validate_markdown.py
 

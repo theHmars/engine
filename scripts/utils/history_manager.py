@@ -120,7 +120,7 @@ class HistoryManager:
                 new_history.append(art)
         self.save_source_history(source_key, new_history)
 
-    def prune(self, url_days_limit=7, topic_days_limit=3):
+    def prune(self, url_days_limit=7):
         """Prunes historical entries older than the threshold to keep files lightweight."""
         now = time.time()
 

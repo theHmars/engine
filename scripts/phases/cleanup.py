@@ -45,6 +45,14 @@ def _is_secondary_of_success(cand, successful_urls):
         return False
     return any(sec.get("url") in successful_urls for sec in cand["secondary_sources"])
 
+def _log_failed_secondaries(cand, source_key, hm):
+    if not (cand.get("is_merged") and cand.get("secondary_sources")):
+        return
+    for sec in cand["secondary_sources"]:
+        sec_url = sec.get("url")
+        if sec_url:
+            hm.log_url(sec_url, sec.get("source_key", source_key), "FAILED_OR_ABANDONED")
+
 def _log_failed_candidates(triaged_articles, successful_urls, hm):
     """Logs FAILED_OR_ABANDONED for candidates that did not make it to produced output."""
     for cand in triaged_articles:
@@ -56,11 +64,7 @@ def _log_failed_candidates(triaged_articles, successful_urls, hm):
         source_key = cand.get("source_key", "unknown")
         hm.log_url(cand_url, source_key, "FAILED_OR_ABANDONED")
         print(f"  [!] Logged failed/abandoned article in history: {cand_url}")
-        if cand.get("is_merged") and cand.get("secondary_sources"):
-            for sec in cand["secondary_sources"]:
-                sec_url = sec.get("url")
-                if sec_url:
-                    hm.log_url(sec_url, sec.get("source_key", source_key), "FAILED_OR_ABANDONED")
+        _log_failed_secondaries(cand, source_key, hm)
 
 def _load_just_cleaned(just_cleaned_path):
     """Loads just_cleaned.json, returning an empty list on failure."""
@@ -139,7 +143,7 @@ def main():
     # 4. Prune older history
     print("  - Pruning old history entries...")
     try:
-        hm.prune(url_days_limit=7, topic_days_limit=3)
+        hm.prune(url_days_limit=7)
         print("  [+] Pruning complete.")
     except Exception as e:
         print(f"    [!] Error pruning history: {e}")

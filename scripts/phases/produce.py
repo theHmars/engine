@@ -131,25 +131,22 @@ def _resolve_featured_image(candidate):
         print(f"    [+] Discovered alternative featured image in text: {parsed_img}")
     return parsed_img or None
 
-def process_candidate(candidate, start_time):
-    """End-to-end rewrite, validation, metadata generation, and tagging for a single candidate."""
-    title_snippet = candidate.get("title", "Untitled")[:50]
-    print(f"\n--- Processing Candidate: '{title_snippet}...' ---")
+def _validate_and_correct_tag(final_title, final_desc, final_tag):
+    if final_tag not in ALLOWED_TAGS:
+        print(f"    [!] Invalid tag '{final_tag}'. Attempting tag correction...")
+        try:
+            final_tag = correct_tag(final_title, final_desc, final_tag)
+            if final_tag not in ALLOWED_TAGS:
+                print(f"      [!] Corrected tag '{final_tag}' still invalid. Defaulting to 'Uncategorized'.")
+                final_tag = "Uncategorized"
+            else:
+                print(f"      [+] Tag corrected successfully to '{final_tag}'.")
+        except Exception as e:
+            print(f"      [!] Tag correction failed: {e}. Defaulting to 'Uncategorized'.")
+            final_tag = "Uncategorized"
+    return final_tag
 
-    source_json_str = _build_source_payload(candidate)
-
-    # Adaptive retry calculation
-    is_critical = check_timeout(start_time, limit_minutes=22)
-    max_retries = 1 if is_critical else 3
-    if is_critical:
-        print("    [!] Over 22-minute global threshold. Operating in 1-Shot 'Fast-Fail' mode.")
-
-    draft_body, passed_validation = _rewrite_and_validate(source_json_str, max_retries)
-    if not passed_validation or not draft_body:
-        print(f"    [!] Failed to validate draft for '{title_snippet}' after {max_retries} attempts. Dropping candidate.")
-        return None
-
-    # Generate Metadata
+def _process_metadata(source_json_str, draft_body, candidate):
     print("    - Generating metadata parameters...")
     try:
         meta_res = generate_metadata(source_json_str, draft_body) or {}
@@ -191,18 +188,32 @@ def process_candidate(candidate, start_time):
         )
 
     # Programmatic Tag Whitelist Validation & Fallback correction
-    if final_tag not in ALLOWED_TAGS:
-        print(f"    [!] Invalid tag '{final_tag}'. Attempting tag correction...")
-        try:
-            final_tag = correct_tag(final_title, final_desc, final_tag)
-            if final_tag not in ALLOWED_TAGS:
-                print(f"      [!] Corrected tag '{final_tag}' still invalid. Defaulting to 'Uncategorized'.")
-                final_tag = "Uncategorized"
-            else:
-                print(f"      [+] Tag corrected successfully to '{final_tag}'.")
-        except Exception as e:
-            print(f"      [!] Tag correction failed: {e}. Defaulting to 'Uncategorized'.")
-            final_tag = "Uncategorized"
+    final_tag = _validate_and_correct_tag(final_title, final_desc, final_tag)
+            
+    return final_title, final_desc, category, final_region, final_tag
+
+def process_candidate(candidate, start_time):
+    """End-to-end rewrite, validation, metadata generation, and tagging for a single candidate."""
+    title_snippet = candidate.get("title", "Untitled")[:50]
+    print(f"\n--- Processing Candidate: '{title_snippet}...' ---")
+
+    source_json_str = _build_source_payload(candidate)
+
+    # Adaptive retry calculation
+    is_critical = check_timeout(start_time, limit_minutes=22)
+    max_retries = 1 if is_critical else 3
+    if is_critical:
+        print("    [!] Over 22-minute global threshold. Operating in 1-Shot 'Fast-Fail' mode.")
+
+    draft_body, passed_validation = _rewrite_and_validate(source_json_str, max_retries)
+    if not passed_validation or not draft_body:
+        print(f"    [!] Failed to validate draft for '{title_snippet}' after {max_retries} attempts. Dropping candidate.")
+        return None
+
+    # Generate & Correct Metadata
+    final_title, final_desc, category, final_region, final_tag = _process_metadata(
+        source_json_str, draft_body, candidate
+    )
 
     featured_image = _resolve_featured_image(candidate)
 

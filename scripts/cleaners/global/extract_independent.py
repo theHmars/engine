@@ -9,7 +9,7 @@ def clean_content(text):
     # Strip any residual <br> tags that survived HTML extraction
     text = re.sub(r'<br\s*/?>', ' ', text, flags=re.IGNORECASE)
     # Remove common UI noise
-    text = re.sub(r'Removed from bookmarks', '', text)
+    text = text.replace('Removed from bookmarks', '')
     text = re.sub(r'I would like to be emailed about offers.*Privacy notice', '', text, flags=re.DOTALL)
     # Replace multiple newlines
     text = re.sub(r'\n{3,}', '\n\n', text)
@@ -46,21 +46,23 @@ def _is_valid_independent_image(src):
     hostname = urlparse(src).hostname
     return hostname and hostname.lower() == 'static.independent.co.uk'
 
+def _process_independent_figure(element, content_parts):
+    img = element.find('img')
+    if not img:
+        return
+    src = img.get('src') or img.get('data-src')
+    if src and _is_valid_independent_image(src):
+        content_parts.append(f"image link: {src}")
+
 def _extract_body_parts(clean_soup):
     """Extracts text and image link parts from the cleaned soup."""
     content_parts = []
     for element in clean_soup.find_all(['p', 'h2', 'h3', 'figure']):
         text = element.get_text().strip()
-        if not text:
-            continue
-        if _is_noisy_element(text):
+        if not text or _is_noisy_element(text):
             continue
         if element.name == 'figure':
-            img = element.find('img')
-            if img:
-                src = img.get('src') or img.get('data-src')
-                if src and _is_valid_independent_image(src):
-                    content_parts.append(f"image link: {src}")
+            _process_independent_figure(element, content_parts)
         else:
             content_parts.append(text)
     return content_parts
@@ -113,14 +115,3 @@ def extract_independent(html_path, output_path):
         json.dump(data, f, indent=4)
 
     return "Success"
-
-if __name__ == "__main__":
-    import sys
-    if len(sys.argv) > 2:
-        print(extract_independent(sys.argv[1], sys.argv[2]))
-    else:
-        # Default test for research
-        html_file = f'tmp/{scope}/research/international/independent/1.html'
-        output_file = f'tmp/{scope}/research/international/independent/1_clean.json'
-        os.makedirs(os.path.dirname(output_file), exist_ok=True)
-        print(extract_independent(html_file, output_file))

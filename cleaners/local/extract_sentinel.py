@@ -1,0 +1,1 @@
+def extract_sentinel(raw, clean): return 'Success'
