@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import json
 import re
 import os
+from urllib.parse import urlparse
 
 
 def clean_content(text):
@@ -13,6 +14,18 @@ def clean_content(text):
     # Sometimes there are "Click here to read" or similar promotional texts
     text = re.sub(r'Click here for more.*', '', text, flags=re.IGNORECASE)
     return text.strip()
+
+def is_allowed_image_host(src):
+    try:
+        host = urlparse(src).hostname
+    except Exception:
+        return False
+
+    if not host:
+        return False
+
+    host = host.lower()
+    return host == 'images.indianexpress.com' or host.endswith('.images.indianexpress.com')
 
 def extract_indianexpress(html_path, output_path):
     if not os.path.exists(html_path):
@@ -65,7 +78,7 @@ def extract_indianexpress(html_path, output_path):
     for element in clean_soup.find_all(['p', 'h2', 'h3', 'img']):
         if element.name == 'img':
             src = element.get('src') or element.get('data-src')
-            if src and 'images.indianexpress.com' in src:
+            if src and is_allowed_image_host(src):
                 # Avoid tiny icons
                 if not any(x in src.lower() for x in ['logo', 'icon', '150x150', '96x96', 'avatar']):
                     content_parts.append(f"image link: {src}")
