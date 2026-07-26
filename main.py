@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import os
+import re
 import sys
 import time
 import subprocess
@@ -24,7 +25,6 @@ def run_phase(command, cwd):
 
 def _parse_and_sanitize_arguments():
     import argparse
-    import re
     parser = argparse.ArgumentParser()
     parser.add_argument('--workspace', default=os.environ.get('SCOUT_WORKSPACE', os.getcwd()), help='Path to scout workspace')
     parser.add_argument('--scope', default=os.environ.get('SCOUT_SCOPE', 'local'), help='Pipeline scope (local, national, global)')
