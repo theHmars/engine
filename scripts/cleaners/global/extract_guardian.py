@@ -11,6 +11,44 @@ def clean_content(text):
     text = re.sub(r'\n{3,}', '\n\n', text)
     return text.strip()
 
+def _extract_title(soup):
+    title_tag = soup.find('h1')
+    if title_tag:
+        return title_tag.get_text().strip()
+    title_meta = soup.find('meta', property='og:title')
+    if title_meta:
+        return title_meta['content']
+    return "N/A"
+
+def _extract_date(soup):
+    date_meta = soup.find('meta', property='article:published_time')
+    if date_meta:
+        return date_meta['content']
+    time_tag = soup.find('time')
+    if time_tag and time_tag.has_attr('datetime'):
+        return time_tag['datetime']
+    return "N/A"
+
+def _is_valid_guardian_image(src):
+    host = (urlparse(src).hostname or "").lower()
+    return host == "guim.co.uk" or host.endswith(".guim.co.uk")
+
+def _extract_body_parts(search_target):
+    """Extracts text and image link parts from the cleaned search target."""
+    content_parts = []
+    for element in search_target.find_all(['p', 'h2', 'h3', 'figure']):
+        if element.name == 'figure':
+            img = element.find('img')
+            if img:
+                src = img.get('src') or img.get('data-src')
+                if src and _is_valid_guardian_image(src):
+                    content_parts.append(f"image link: {src}")
+        else:
+            text = element.get_text().strip()
+            if text:
+                content_parts.append(text)
+    return content_parts
+
 def extract_guardian(html_path, output_path):
     if not os.path.exists(html_path):
         return f"Error: {html_path} not found"
@@ -18,46 +56,17 @@ def extract_guardian(html_path, output_path):
     with open(html_path, 'r', encoding='utf-8') as f:
         soup = BeautifulSoup(f.read(), 'html.parser')
 
-    # 1. Title
-    title = "N/A"
-    title_tag = soup.find('h1')
-    if title_tag:
-        title = title_tag.get_text().strip()
-    else:
-        title_meta = soup.find('meta', property='og:title')
-        if title_meta:
-            title = title_meta['content']
+    title = _extract_title(soup)
+    date_str = _extract_date(soup)
 
-    # 2. Date
-    date_str = "N/A"
-    date_meta = soup.find('meta', property='article:published_time')
-    if date_meta:
-        date_str = date_meta['content']
-    else:
-        # Fallback to time tag
-        time_tag = soup.find('time')
-        if time_tag and time_tag.has_attr('datetime'):
-            date_str = time_tag['datetime']
-
-    # 3. Featured Image
     img_meta = soup.find('meta', property='og:image')
     featured_image = img_meta['content'] if img_meta else "N/A"
 
     # 4. Content Body
-    # Guardian DCR usually puts content in an 'article' tag or 'div' with id 'maincontent'
     body_container = soup.find('div', id='maincontent') or soup.find('article')
-    
     if not body_container:
         return "Failed to find content"
 
-    # Identify the specific content blocks.
-    # In DCR, paragraphs usually have a class starting with 'dcr-'
-    # but they are direct children of the body container or inside a wrapper.
-    content_parts = []
-    
-    # Target elements: paragraphs, subheadings, and images
-    # We want to exclude the header, meta info, and footer/sidebar
-    
     # Define selectors for junk to remove
     junk_selectors = [
         'script', 'style', 'nav', 'header', 'footer', 'aside',
@@ -67,35 +76,18 @@ def extract_guardian(html_path, output_path):
         '.dcr-qxqnsy', # Related topics
         '.content-footer'
     ]
-    
+
     # Clone container to avoid modifying the original soup
     clean_soup = BeautifulSoup(str(body_container), 'html.parser')
     for selector in junk_selectors:
         for tag in clean_soup.select(selector):
             tag.decompose()
 
-    # Find all paragraphs and images
     # In Guardian, the content usually resides in a div with role='main' inside the article
     main_role = clean_soup.find('div', role='main')
     search_target = main_role if main_role else clean_soup
 
-    # Extract text and image placeholders
-    for element in search_target.find_all(['p', 'h2', 'h3', 'figure']):
-        if element.name == 'figure':
-            # Look for image and caption
-            img = element.find('img')
-            if img:
-                src = img.get('src') or img.get('data-src')
-                if src:
-                    # Filter out tiny icons or tracking pixels
-                    host = (urlparse(src).hostname or "").lower()
-                    if host == "guim.co.uk" or host.endswith(".guim.co.uk"):
-                        content_parts.append(f"image link: {src}")
-        else:
-            text = element.get_text().strip()
-            if text:
-                content_parts.append(text)
-
+    content_parts = _extract_body_parts(search_target)
     full_body = "\n\n".join(content_parts)
     clean_body = clean_content(full_body)
 
@@ -109,7 +101,7 @@ def extract_guardian(html_path, output_path):
 
     with open(output_path, 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=4)
-    
+
     return "Success"
 
 if __name__ == "__main__":

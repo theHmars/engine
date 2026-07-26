@@ -120,55 +120,34 @@ def clean_article(cand, root_dir, hm):
         hm.log_url(url, s_key, "FAILED_OR_ABANDONED")
         return None
 
-def main():
-    print("\n>>> Running Job 1.2: Candidate Pre-Cleaning & Backlog Compilation")
-    # Find repository root / workspace root
-    root_dir = os.environ.get("SCOUT_WORKSPACE", os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-    scope = get_scope()
-    
-    # Load dynamic cleaner functions
-    load_extractors(root_dir)
-    
-    # 1.2.1 [Import] Discovered URLs
-    hm = HistoryManager(root_dir)
-    discovered_path = os.path.join(get_state_dir(), f'tmp/{scope}/discovered_urls.json')
-        
-    discovered_urls = []
-    if os.path.exists(discovered_path):
-        with open(discovered_path, 'r', encoding='utf-8') as f:
-            discovered_urls = json.load(f)
-        
+def _clean_discovered_urls(discovered_urls, root_dir, hm):
+    """Cleans unprocessed discovered URLs and returns list of cleaned results."""
     just_cleaned = []
-    
-    # Clean only new discovered feeds
-    if discovered_urls:
-        print(f"[*] Found {len(discovered_urls)} new URLs to clean.")
-        for cand in discovered_urls:
-            if hm.is_url_processed(cand['url'], cand['source_key']):
-                continue
-            print(f"  - Cleaning: '{cand['title'][:50]}...'")
-            cleaned_res = clean_article(cand, root_dir, hm)
-            if cleaned_res:
-                just_cleaned.append(cleaned_res)
-                
-    # 1.2.6 [Compile New]: Save newly cleaned queue to tmp/just_cleaned.json
-    just_cleaned_path = os.path.join(get_state_dir(), f'tmp/{scope}/just_cleaned.json')
-    with open(just_cleaned_path, 'w', encoding='utf-8') as f:
-        json.dump(just_cleaned, f, indent=4)
-        
-    # 1.2.7 [Scan Cache & Filter Archive]: Load the state archive ledger or scan for older active ones
-    archive_state_path = hm.archive_path  # history/{scope}/archive.json (matches HistoryManager write path)
-    archive_list = []
-    if os.path.exists(archive_state_path):
-        try:
-            with open(archive_state_path, 'r', encoding='utf-8') as f:
-                archive_list = json.load(f)
-        except Exception as e:
-            print(f"[!] Failed to load archive ledger: {e}. Rebuilding.")
-            
-    # Filter archive down to < 48 hours old and NOT processed/failed
-    cutoff_time = datetime.now() - timedelta(hours=48)
-    
+    if not discovered_urls:
+        return just_cleaned
+    print(f"[*] Found {len(discovered_urls)} new URLs to clean.")
+    for cand in discovered_urls:
+        if hm.is_url_processed(cand['url'], cand['source_key']):
+            continue
+        print(f"  - Cleaning: '{cand['title'][:50]}...'")
+        cleaned_res = clean_article(cand, root_dir, hm)
+        if cleaned_res:
+            just_cleaned.append(cleaned_res)
+    return just_cleaned
+
+def _load_archive(archive_state_path):
+    """Loads the archive ledger JSON, returning an empty list on failure."""
+    if not os.path.exists(archive_state_path):
+        return []
+    try:
+        with open(archive_state_path, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except Exception as e:
+        print(f"[!] Failed to load archive ledger: {e}. Rebuilding.")
+        return []
+
+def _filter_active_archive(archive_list, hm, cutoff_time):
+    """Returns archive items that are fresh and not yet processed."""
     active_archive = []
     for art in archive_list:
         if hm.is_url_processed(art['url'], art['source_key']):
@@ -178,24 +157,51 @@ def main():
             if cleaned_time >= cutoff_time:
                 active_archive.append(art)
         except Exception:
-            # Fallback if parsing fails, assume fresh
             active_archive.append(art)
-            
-    # 1.2.9 [Save Archive]: Save active backlog to tmp/cleaned_archive.json
+    return active_archive
+
+def main():
+    print("\n>>> Running Job 1.2: Candidate Pre-Cleaning & Backlog Compilation")
+    root_dir = os.environ.get("SCOUT_WORKSPACE", os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    scope = get_scope()
+
+    load_extractors(root_dir)
+
+    # 1.2.1 [Import] Discovered URLs
+    hm = HistoryManager(root_dir)
+    discovered_path = os.path.join(get_state_dir(), f'tmp/{scope}/discovered_urls.json')
+
+    discovered_urls = []
+    if os.path.exists(discovered_path):
+        with open(discovered_path, 'r', encoding='utf-8') as f:
+            discovered_urls = json.load(f)
+
+    just_cleaned = _clean_discovered_urls(discovered_urls, root_dir, hm)
+
+    # 1.2.6 [Compile New]: Save newly cleaned queue
+    just_cleaned_path = os.path.join(get_state_dir(), f'tmp/{scope}/just_cleaned.json')
+    with open(just_cleaned_path, 'w', encoding='utf-8') as f:
+        json.dump(just_cleaned, f, indent=4)
+
+    # 1.2.7 [Scan Cache & Filter Archive]
+    archive_list = _load_archive(hm.archive_path)
+    cutoff_time = datetime.now() - timedelta(hours=48)
+    active_archive = _filter_active_archive(archive_list, hm, cutoff_time)
+
+    # 1.2.9 [Save Archive]
     cleaned_archive_path = os.path.join(get_state_dir(), f'tmp/{scope}/cleaned_archive.json')
     with open(cleaned_archive_path, 'w', encoding='utf-8') as f:
         json.dump(active_archive, f, indent=4)
-        
-    # 1.2.10 [Merge Pools]: Create clean_candidates payload with structured new/old groups
+
+    # 1.2.10 [Merge Pools]
     candidates_payload = {
         "new_candidates": just_cleaned,
         "archived_candidates_last_48h": active_archive
     }
-    
     cleaned_candidates_path = os.path.join(get_state_dir(), f'tmp/{scope}/cleaned_candidates.json')
     with open(cleaned_candidates_path, 'w', encoding='utf-8') as f:
         json.dump(candidates_payload, f, indent=4)
-        
+
     print(f">>> Job 1.2 Complete. Newly Sourced: {len(just_cleaned)} | Archive Backlog: {len(active_archive)}")
 
 if __name__ == "__main__":

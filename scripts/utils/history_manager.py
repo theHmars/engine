@@ -107,10 +107,23 @@ class HistoryManager:
             json.dump(final_archive, f, indent=4)
         print(f"  [+] Updated persistent backlog archive with {len(final_archive)} items.")
 
+    def _prune_source_file(self, source_key: str, now: float, cutoff_seconds: float):
+        """Prunes a single source history file, keeping only entries within the cutoff."""
+        history = self.load_source_history(source_key)
+        new_history = []
+        for art in history:
+            try:
+                proc_time = datetime.fromisoformat(art['processed_at']).timestamp()
+                if now - proc_time < cutoff_seconds:
+                    new_history.append(art)
+            except Exception:
+                new_history.append(art)
+        self.save_source_history(source_key, new_history)
+
     def prune(self, url_days_limit=7, topic_days_limit=3):
         """Prunes historical entries older than the threshold to keep files lightweight."""
         now = time.time()
-        
+
         # 1. Clean URL history
         seconds_to_keep_urls = url_days_limit * 24 * 60 * 60
         sources_dir = os.path.join(self.history_dir, "sources")
@@ -118,15 +131,6 @@ class HistoryManager:
             for filename in os.listdir(sources_dir):
                 if filename.endswith('_processed.json'):
                     source_key = filename.replace('_processed.json', '')
-                    history = self.load_source_history(source_key)
-                    new_history = []
-                    for art in history:
-                        try:
-                            proc_time = datetime.fromisoformat(art['processed_at']).timestamp()
-                            if now - proc_time < seconds_to_keep_urls:
-                                new_history.append(art)
-                        except Exception:
-                            new_history.append(art)
-                    self.save_source_history(source_key, new_history)
+                    self._prune_source_file(source_key, now, seconds_to_keep_urls)
 
 
