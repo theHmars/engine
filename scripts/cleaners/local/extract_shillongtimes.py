@@ -1,7 +1,5 @@
-# MANUALLY VERIFIED
 from bs4 import BeautifulSoup
 import json
-import os
 import re
 
 def clean_content(text):

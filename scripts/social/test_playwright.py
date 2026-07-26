@@ -1,4 +1,3 @@
-import time
 from playwright.sync_api import sync_playwright
 
 def parse_netscape_cookies(file_path):

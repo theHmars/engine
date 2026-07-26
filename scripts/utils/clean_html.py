@@ -42,8 +42,6 @@ def load_extractors(_root_dir):
         except Exception as e:
             print(f"[!] Error loading dynamic extractor from {file_path}: {e}")
 
-import ipaddress
-import socket
 from urllib.parse import urlparse
 
 ALLOWED_DOMAINS = {
