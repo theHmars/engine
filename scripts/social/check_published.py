@@ -2,6 +2,7 @@
 import os
 import sys
 import json
+import re
 import requests
 import argparse
 from urllib.parse import urlparse
@@ -32,6 +33,16 @@ def is_old_domain_url(value):
     except Exception:
         return False
     return host == "thehmars.onrender.com" or host.endswith(".thehmars.onrender.com")
+
+def message_has_old_domain_url(message):
+    if not message:
+        return False
+
+    # Find http/https URLs in free-form text and validate by parsed host.
+    for candidate in re.findall(r'https?://[^\s<>"\']+', message):
+        if is_old_domain_url(candidate):
+            return True
+    return False
 
 def check_published():
     parser = argparse.ArgumentParser(description="Export published FB feed to JSON")
@@ -71,7 +82,7 @@ def check_published():
                                 break
                                 
                         # Check message body
-                        if not has_old_url and "thehmars.onrender.com" in post.get("message", ""):
+                        if not has_old_url and message_has_old_domain_url(post.get("message", "")):
                             has_old_url = True
                             
                         if has_old_url:
