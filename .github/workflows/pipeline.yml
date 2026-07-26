@@ -110,7 +110,7 @@ jobs:
           git pull --rebase origin master
           git push origin master
 
-      - name: Run Unified Publisher (Render QA & Social Media)
+      - name: Deploy, QA and Schedule Social Posts
         env:
           SCOUT_WORKSPACE: ${{ github.workspace }}/engine
           WEBSITE_REPO_PATH: ${{ github.workspace }}/content
