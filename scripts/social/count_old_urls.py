@@ -47,14 +47,17 @@ if __name__ == "__main__":
             
             # Check message body
             msg = post.get("message", "")
-            if "thehmars-news.onrender.com" in msg:
+            import re
+            if re.search(r'\bthehmars-news\.onrender\.com\b', msg):
                 has_old_url = True
             else:
                 # Check link attachments
                 atts = post.get("attachments", {}).get("data", [])
                 for att in atts:
                     link = att.get("unshimmed_url", "") or att.get("url", "") or att.get("target", {}).get("url", "")
-                    if "thehmars-news.onrender.com" in link:
+                    from urllib.parse import urlparse
+                    parsed_link = urlparse(link)
+                    if parsed_link.hostname == "thehmars-news.onrender.com":
                         has_old_url = True
                         break
             

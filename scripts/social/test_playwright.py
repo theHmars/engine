@@ -10,7 +10,7 @@ def parse_netscape_cookies(file_path):
             if len(parts) >= 7:
                 domain, flag, path, secure, expiry, name, value = parts[:7]
                 # Only load Facebook cookies to keep it clean
-                if "facebook.com" in domain:
+                if domain == "facebook.com" or domain.endswith(".facebook.com"):
                     cookies.append({
                         "name": name,
                         "value": value,

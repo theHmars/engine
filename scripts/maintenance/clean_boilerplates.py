@@ -10,7 +10,7 @@ def remove_eastmojo_boilerplate(text):
         end = text.find("**", start + 14)
         if end != -1:
             block = text[start:end+2]
-            if "Editor-in-Chief" in block or "eastmojo.com" in block:
+            if "Editor-in-Chief" in block or "eastmojo" in block:
                 text = text.replace(block, "")
     return text
 
