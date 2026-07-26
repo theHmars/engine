@@ -68,9 +68,14 @@ def main():
     local_dir = os.path.dirname(os.path.abspath(__file__))
     python_bin = os.path.join(workspace_dir, ".venv/bin/python3")
     if not os.path.exists(python_bin):
-        python_bin = sys.executable # Fallback to current runner python
+        # Try the directory containing main.py (for CI where SCOUT_WORKSPACE may differ)
+        python_bin = os.path.join(local_dir, ".venv/bin/python3")
+    if not os.path.exists(python_bin):
+        python_bin = sys.executable  # Final fallback to current runner python
+        print(f"[WARN] .venv not found in workspace or local dir, using system python: {python_bin}", file=sys.stderr)
     else:
         python_bin = os.path.realpath(python_bin)
+        print(f"[INFO] Using python binary: {python_bin}")
         
     if not re.match(r'^[\w\.\/\-]+$', python_bin) or not os.path.isfile(python_bin) or not os.access(python_bin, os.X_OK):
         print(f"[CRITICAL] Invalid or non-executable python binary: {python_bin}", file=sys.stderr)
