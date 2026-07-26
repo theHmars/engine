@@ -53,7 +53,6 @@ def validate_frontmatter(file_path):
 
 def main():
     workspace = os.environ.get("SCOUT_WORKSPACE", os.getcwd())
-    engine_dir = workspace
     frontend_dir = os.environ.get("FRONTEND_REPO_PATH", os.path.join(workspace, "../frontend"))
     
     if not os.path.exists(frontend_dir):

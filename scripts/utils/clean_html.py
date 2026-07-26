@@ -3,11 +3,10 @@ import json
 import os
 import sys
 import requests
-import time
 from datetime import datetime, timedelta
 
 # Setup absolute import pathing
-from utils.common import ensure_dirs, get_scope, get_state_dir
+from utils.common import get_scope, get_state_dir
 from utils.history_manager import HistoryManager
 
 import importlib.util
@@ -81,7 +80,8 @@ def clean_article(cand, root_dir, hm):
         # Clean raw html file
         try:
             os.remove(raw_path)
-        except:
+        except OSError:
+            # Safe to ignore if file doesn't exist or is already removed
             pass
             
         if status == "Success":

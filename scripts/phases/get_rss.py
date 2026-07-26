@@ -7,7 +7,7 @@ import xml.etree.ElementTree as ET
 from datetime import datetime
 
 # Setup absolute import pathing
-from utils.common import load_source_history, ensure_dirs, get_state_dir
+from utils.common import load_source_history, get_state_dir
 
 BLACKLIST = [
     "teer", "lottery", "result today", "satta", "sambad", 

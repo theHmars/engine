@@ -2,7 +2,6 @@
 import json
 import os
 import sys
-import re
 from agents.deduplicator.deduplicator import is_duplicate_coverage, call_llm
 from utils.common import get_scope, get_state_dir
 
@@ -70,10 +69,9 @@ def group_chosen_sources(chosen_list, attempts_limit=3):
             for g in valid_groups:
                 mapped_groups.append([chosen_list[i] for i in g])
             return mapped_groups
-    else:
-        # Fallback: treat all as unique
-        print("    [!] Grouping validation limit reached. Treating all sources as unique.")
-        return [[art] for art in chosen_list]
+    # Fallback: treat all as unique
+    print("    [!] Grouping validation limit reached. Treating all sources as unique.")
+    return [[art] for art in chosen_list]
 
 def merge_grouped_sources(group):
     """
@@ -166,7 +164,8 @@ def run_deduplication(article):
             try:
                 with open(update_path, 'r', encoding='utf-8') as f:
                     updates = json.load(f)
-            except:
+            except Exception:
+                # Fallback to empty list if file is corrupt or unreadable
                 pass
         updates.append({
             "title": article["title"],
@@ -187,7 +186,6 @@ def compile_triaged_queue():
     and writes the final unique/merged queue to tmp/triaged_candidates.json.
     """
     print("\n>>> Starting Phase 3: Deduplication & Queue Compilation")
-    root_dir = os.environ.get("SCOUT_WORKSPACE", os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     scope = get_scope()
     
     chosen_path = os.path.join(get_state_dir(), f"tmp/{scope}/chosen_articles.json")

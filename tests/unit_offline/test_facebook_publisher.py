@@ -4,7 +4,7 @@ import unittest
 import tempfile
 import shutil
 import json
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 
 # Inject mock API key early to prevent client initialization crashes during imports
 os.environ["LLM_API_KEY"] = "mock-key-for-testing"

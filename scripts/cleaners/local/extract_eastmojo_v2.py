@@ -3,7 +3,6 @@ from bs4 import BeautifulSoup
 import json
 import os
 import re
-from datetime import datetime
 
 def clean_content(text):
     # Fix the common "City:\n Content" issue at the start of articles

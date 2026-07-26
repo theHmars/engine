@@ -8,7 +8,7 @@ import argparse
 
 # Setup path so imports work correctly
 
-from utils.common import check_timeout, get_state_dir
+from utils.common import check_timeout
 from utils.history_manager import HistoryManager
 from agents.writer.writer import rewrite_article
 from agents.corrector.corrector import validate_content, correct_content

@@ -5,7 +5,7 @@ import sys
 import random
 
 # Setup path environment to load helper modules
-from utils.common import load_source_history, get_scope, get_state_dir
+from utils.common import get_scope, get_state_dir
 import agents.picker.picker as picker
 
 def get_picker_prompt(scope, filename):
@@ -73,7 +73,6 @@ def run_senior_curation(relevant_candidates, max_slots=10, attempts_limit=3):
     """Runs Senior Editor Picker Agent using a 3-strike index-based validation loop."""
     scope = get_scope()
     print(f"\n--- Running Senior Curation ({scope.upper()} Scope, curating top {max_slots}) ---")
-    script_dir = os.path.dirname(os.path.abspath(__file__))
     system_prompt = get_picker_prompt(scope, "senior_curator.txt")
     
     # Load topics.json and covered.json from content repo
@@ -183,16 +182,14 @@ def run_senior_curation(relevant_candidates, max_slots=10, attempts_limit=3):
                         })
                     flattened_selections.append(merged)
             return flattened_selections
-    else:
-        # Fallback to random pick from relevant pool if validation fails 3 times
-        print("    [!] Senior curation validation limit reached. Picking random fallbacks.")
-        fallback_choices = random.sample(ordered_candidates, min(max_slots, len(ordered_candidates)))
-        return fallback_choices
+    # Fallback to random pick from relevant pool if validation fails 3 times
+    print("    [!] Senior curation validation limit reached. Picking random fallbacks.")
+    fallback_choices = random.sample(ordered_candidates, min(max_slots, len(ordered_candidates)))
+    return fallback_choices
 
 def main():
     print("\n>>> Running Job 2.1: Curation & Target Triage Selection")
     scope = get_scope()
-    root_dir = os.environ.get("SCOUT_WORKSPACE", os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
     
     # Load Compiled Candidates Pool
     cleaned_candidates_path = os.path.join(get_state_dir(), f'tmp/{scope}/cleaned_candidates.json')

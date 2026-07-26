@@ -4,7 +4,6 @@ import sys
 import json
 import time
 import requests
-from dotenv import load_dotenv
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 engine_root = os.path.dirname(os.path.dirname(current_dir))
@@ -37,10 +36,16 @@ def publish_single_post(article, publish_time):
     url = f"{BASE_URL}/{PAGE_ID}/feed"
     article_url = f"https://thehmars.onrender.com/{article['slug']}"
     message = f"{article['title']}\n\n{article['summary']}\n\nRead more: {article_url}"
+    
+    access_token = os.environ.get("FB_PAGE_ACCESS_TOKEN") or ACCESS_TOKEN
+    if not access_token:
+        print("  [FATAL] Missing FB_PAGE_ACCESS_TOKEN; cannot publish to Facebook.")
+        raise SystemExit(1)
+        
     payload = {
         "message": message, 
         "link": article_url, 
-        "access_token": ACCESS_TOKEN,
+        "access_token": access_token,
         "published": "false",
         "scheduled_publish_time": str(int(publish_time))
     }
@@ -51,7 +56,7 @@ def publish_single_post(article, publish_time):
             print(f"  [TEST MODE SOCIAL] Would have scheduled '{article['title'][:30]}...' for {time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(publish_time))} UTC.")
             return True
             
-        response = requests.post(url, data=payload, timeout=15)
+        response = requests.post(url, data=payload, timeout=15, allow_redirects=False)
         if response.status_code == 200:
             post_id = response.json().get("id")
             print(f"  [+] Facebook Scheduled: '{article['title'][:30]}...' for {time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(publish_time))} UTC. (Post ID: {post_id})")
@@ -107,8 +112,7 @@ def main():
         publish_time = anchor + gap
         if publish_single_post(article, publish_time):
             success_count += 1
-            
-        anchor = publish_time
+            anchor = publish_time
 
     print(f"[+] Successfully scheduled {success_count}/{len(winning_ids)} posts to Facebook.")
 

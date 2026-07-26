@@ -6,7 +6,6 @@ import time
 import requests
 import subprocess
 import shutil
-from dotenv import load_dotenv
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 engine_root = os.path.dirname(os.path.dirname(current_dir))

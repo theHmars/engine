@@ -4,7 +4,7 @@ import unittest
 import tempfile
 import shutil
 import json
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 from datetime import datetime, timedelta
 
 # Inject mock API key early to prevent client initialization crashes during imports

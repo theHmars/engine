@@ -1,8 +1,5 @@
-import json
 import os
 import re
-from datetime import datetime
-from utils.common import slugify, ensure_dirs, get_state_dir
 
 # Mapping of regions to their default fallback images on EastMojo/TheHmars
 DEFAULT_IMAGES = {
@@ -20,10 +17,7 @@ DEFAULT_IMAGES = {
 def load_ignored_images():
     """Loads list of image paths to ignore from data/ignore_image_paths.txt."""
     ignored = set()
-    script_dir = os.path.dirname(os.path.abspath(__file__))
-    root_dir = os.path.dirname(script_dir)
-    from utils.common import get_scope, get_state_dir
-    scope = get_scope()
+    from utils.common import get_state_dir
     ignore_path = os.path.join(get_state_dir(), "data/ignore_image_paths.txt")
     if os.path.exists(ignore_path):
         try:

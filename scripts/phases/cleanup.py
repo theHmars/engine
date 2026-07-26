@@ -4,11 +4,11 @@ import os
 import re
 import sys
 import shutil
-from datetime import datetime, timedelta
+from datetime import datetime
 
 # Setup path so imports work correctly
 
-from utils.common import slugify, get_state_dir
+from utils.common import slugify
 from utils.history_manager import HistoryManager
 from assembler import generate_yaml, ensure_paragraphs
 
@@ -49,7 +49,8 @@ def main():
         try:
             with open(triaged_path, 'r', encoding='utf-8') as f:
                 triaged_articles = json.load(f)
-        except:
+        except Exception:
+            # Fallback to empty list if triaged candidates file is corrupt
             pass
 
     now = datetime.now()
@@ -120,7 +121,8 @@ def main():
         try:
             with open(just_cleaned_path, 'r', encoding='utf-8') as f:
                 just_cleaned_list = json.load(f)
-        except:
+        except Exception:
+            # Fallback to empty list if just_cleaned candidates file is corrupt
             pass
             
     hm.update_backlog(just_cleaned_list, successful_urls)

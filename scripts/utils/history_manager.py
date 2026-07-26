@@ -76,7 +76,8 @@ class HistoryManager:
             try:
                 with open(self.archive_path, 'r', encoding='utf-8') as f:
                     existing_archive = json.load(f)
-            except:
+            except Exception:
+                # Fallback to empty list if archive file is corrupt or unreadable
                 pass
                 
         # Combine lists (indexed by URL to avoid duplication)

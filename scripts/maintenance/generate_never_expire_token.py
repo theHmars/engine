@@ -1,5 +1,4 @@
 import requests
-import sys
 
 def get_never_expiring_token():
     print("--- Facebook Never-Expiring Page Access Token Generator ---")
