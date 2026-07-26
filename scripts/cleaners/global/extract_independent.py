@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import json
 import re
 import os
+from urllib.parse import urlparse
 
 def clean_content(text):
     # Strip any residual <br> tags that survived HTML extraction
@@ -87,8 +88,10 @@ def extract_independent(html_path, output_path):
             img = element.find('img')
             if img:
                 src = img.get('src') or img.get('data-src')
-                if src and 'static.independent.co.uk' in src:
-                    content_parts.append(f"image link: {src}")
+                if src:
+                    hostname = urlparse(src).hostname
+                    if hostname and hostname.lower() == 'static.independent.co.uk':
+                        content_parts.append(f"image link: {src}")
         else:
             content_parts.append(text)
 
