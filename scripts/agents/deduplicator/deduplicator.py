@@ -1,7 +1,5 @@
 import os
-import sys
 import json
-import re
 from dotenv import load_dotenv
 
 from utils.llm_client import call_llm as client_call_llm
@@ -96,7 +94,7 @@ def is_duplicate_coverage(candidate, website_repo_path):
             print(f"      [!] Phase 2 Verification: Confirming duplicate coverage of '{matched_title}'. Skipping candidate.")
             return True
         else:
-            print(f"      [+] Phase 2 Verification: Not a duplicate (False alarm). Proceeding.")
+            print("      [+] Phase 2 Verification: Not a duplicate (False alarm). Proceeding.")
             return False
     except Exception as e:
         print(f"      [!] Phase 2 Deduplication error: {e}. Passing candidate.")

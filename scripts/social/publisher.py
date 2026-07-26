@@ -6,11 +6,9 @@ import time
 import requests
 import subprocess
 import shutil
-from dotenv import load_dotenv
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 engine_root = os.path.dirname(os.path.dirname(current_dir))
-# Resolve tmp_dir from SCOUT_WORKSPACE — matches prepare_candidates.py's TMP_DIR resolution
 tmp_dir = os.path.join(os.environ.get("SCOUT_WORKSPACE", engine_root), "tmp")
 website_repo_path = os.environ.get("WEBSITE_REPO_PATH")
 if not website_repo_path:
@@ -68,6 +66,22 @@ def trigger_render_deploy():
         print(f"  [!] Error triggering Render build: {e}")
     return False
 
+def _check_single_render_deploy(url, headers):
+    try:
+        res = requests.get(url, headers=headers, timeout=15)
+        if res.status_code == 200:
+            deploys = res.json()
+            if deploys:
+                status = deploys[0]["deploy"].get("status")
+                print(f"    - Current Render deploy status: {status.upper()}")
+                if status == "live":
+                    return True
+                elif status in ["build_failed", "update_failed", "canceled"]:
+                    return False
+    except Exception as e:
+        print(f"    - Render API polling exception: {e}")
+    return None
+
 def wait_for_render_build_live(timeout_minutes=15):
     if not RENDER_API_KEY or not RENDER_SERVICE_ID:
         print("  [!] Warning: RENDER_API_KEY/SERVICE_ID not configured. Skipping polling.")
@@ -84,29 +98,109 @@ def wait_for_render_build_live(timeout_minutes=15):
         print(f"  [TEST MODE RENDER] Build Polling Mocked (Simulating: {test_mode})")
         if test_mode == "success":
             return True
-        elif test_mode in ["build_failed", "timeout"]:
-            return False
+        return False
             
     while time.time() - start_time < (timeout_minutes * 60):
-        try:
-            res = requests.get(url, headers=headers, timeout=15)
-            if res.status_code == 200:
-                deploys = res.json()
-                if deploys:
-                    status = deploys[0]["deploy"].get("status")
-                    print(f"    - Current Render deploy status: {status.upper()}")
-                    if status == "live":
-                        return True
-                    elif status in ["build_failed", "update_failed", "canceled"]:
-                        return False
-            time.sleep(30)
-        except Exception as e:
-            print(f"    - Render API polling exception: {e}")
-            time.sleep(30)
+        res_status = _check_single_render_deploy(url, headers)
+        if res_status is not None:
+            return res_status
+        time.sleep(30)
             
     return False
 
+def _quarantine_failed_build(tmp_dir):
+    print("  [!] Render build explicitly failed after 3 attempts. Executing Quarantine Protocol.")
+    list_path = os.path.join(tmp_dir, "list.json")
+    if not os.path.exists(list_path):
+        return
+        
+    with open(list_path, 'r') as f:
+        candidates = json.load(f)
+        
+    quarantined_files = False
+    import re
+    for article in candidates:
+        scope = article.get("scope", "").lower()
+        if scope not in ['local', 'national', 'global']:
+            print(f"  [!] Invalid scope '{scope}' for candidate. Skipping.")
+            continue
+            
+        raw_slug = article.get("slug", "")
+        slug = re.sub(r'[^a-zA-Z0-9_\-]', '', os.path.basename(raw_slug))
+        if not slug:
+            print("  [!] Invalid empty slug. Skipping.")
+            continue
+            
+        content_markdown_dir = os.path.join(website_repo_path, "markdown", scope)
+        quarantine_dir = os.path.join(website_repo_path, "quarantine", "render", scope)
+        os.makedirs(quarantine_dir, exist_ok=True)
+        
+        filepath = os.path.join(content_markdown_dir, f"{slug}.md")
+        
+        # Path traversal safety check
+        abs_content_dir = os.path.abspath(content_markdown_dir)
+        abs_filepath = os.path.abspath(filepath)
+        abs_quarantine_dir = os.path.abspath(quarantine_dir)
+        abs_destpath = os.path.abspath(os.path.join(quarantine_dir, f"{slug}.md"))
+        
+        if not abs_filepath.startswith(abs_content_dir + os.sep) or not abs_destpath.startswith(abs_quarantine_dir + os.sep):
+            print("  [!] Path validation failed (traversal attempt detected). Skipping.")
+            continue
+            
+        if os.path.exists(filepath):
+            shutil.move(filepath, os.path.join(quarantine_dir, f"{slug}.md"))
+            print(f"  [-] Quarantined {slug}.md from {scope}")
+            quarantined_files = True
+            
+    if quarantined_files:
+        print("  [+] Running update_indices.py to generate pristine indices...")
+        update_script = os.path.join(current_dir, "..", "maintenance", "update_indices.py")
+        subprocess.run([sys.executable, update_script, website_repo_path])
+        
+        print("  [+] Committing and pushing quarantine state to GitHub...")
+        subprocess.run(["git", "config", "user.name", "github-actions[bot]"], cwd=website_repo_path)
+        subprocess.run(["git", "config", "user.email", "github-actions[bot]@users.noreply.github.com"], cwd=website_repo_path)
+        subprocess.run(["git", "add", "-A"], cwd=website_repo_path)
+        subprocess.run(["git", "commit", "-m", "Auto-quarantined Render build failures & updated indices"], cwd=website_repo_path)
+        subprocess.run(["git", "pull", "--rebase", "origin", "master"], cwd=website_repo_path)
+        subprocess.run(["git", "push", "origin", "master"], cwd=website_repo_path)
 
+def _sync_pristine_git_state():
+    print("  [+] Running update_indices.py to generate pristine indices...")
+    update_script = os.path.join(current_dir, "..", "maintenance", "update_indices.py")
+    subprocess.run([sys.executable, update_script, website_repo_path])
+    
+    print("  [+] Committing and pushing final state to GitHub...")
+    subprocess.run(["git", "config", "user.name", "github-actions[bot]"], cwd=website_repo_path)
+    subprocess.run(["git", "config", "user.email", "github-actions[bot]@users.noreply.github.com"], cwd=website_repo_path)
+    subprocess.run(["git", "add", "-A"], cwd=website_repo_path)
+    subprocess.run(["git", "commit", "-m", "Auto-updated indices after successful Render QA"], cwd=website_repo_path)
+    subprocess.run(["git", "pull", "--rebase", "origin", "master"], cwd=website_repo_path)
+    subprocess.run(["git", "push", "origin", "master"], cwd=website_repo_path)
+
+def _attempt_render_deploy(max_retries):
+    build_success = False
+    for attempt in range(1, max_retries + 1):
+        print(f"  - Render Trigger Attempt {attempt}/{max_retries}")
+        triggered = trigger_render_deploy()
+        if not triggered:
+            print("  [!] Deploy hook call failed. Skipping status poll for this attempt.")
+            if attempt < max_retries:
+                time.sleep(30)
+            continue
+        status = wait_for_render_build_live(timeout_minutes=15)
+        
+        if status is True:
+            build_success = True
+            break
+        elif status is False:
+            print("  [!] Render build explicitly failed (build_failed/canceled).")
+            if attempt < max_retries:
+                time.sleep(30)
+        else:
+            print("  [!] Render API timeout. Aborting retries.")
+            break
+    return build_success
 
 def main():
     print(">>> Starting Unified Publisher Workflow")
@@ -130,81 +224,16 @@ def main():
         
     # 2. Trigger Render & Monitor (QA Gatekeeper)
     print("\n>>> Step 2: Render QA Gatekeeper")
-    build_success = False
     max_retries = 3
-    for attempt in range(1, max_retries + 1):
-        print(f"  - Render Trigger Attempt {attempt}/{max_retries}")
-        triggered = trigger_render_deploy()
-        if not triggered:
-            print("  [!] Deploy hook call failed. Skipping status poll for this attempt.")
-            if attempt < max_retries:
-                time.sleep(30)
-            continue
-        status = wait_for_render_build_live(timeout_minutes=15)
-        
-        if status is True:
-            build_success = True
-            break
-        elif status is False:
-            print("  [!] Render build explicitly failed (build_failed/canceled).")
-            if attempt < max_retries:
-                time.sleep(30)
-        else:
-            print("  [!] Render API timeout. Aborting retries.")
-            break
+    build_success = _attempt_render_deploy(max_retries)
             
     if not build_success:
-        print("  [!] Render build explicitly failed after 3 attempts. Executing Quarantine Protocol.")
-        
-        # Load candidates to figure out which ones to quarantine
-        list_path = os.path.join(tmp_dir, "list.json")
-        if os.path.exists(list_path):
-            with open(list_path, 'r') as f:
-                candidates = json.load(f)
-                
-            quarantined_files = False
-            for article in candidates:
-                scope = article["scope"]
-                slug = article["slug"]
-                
-                content_markdown_dir = os.path.join(website_repo_path, "markdown", scope)
-                quarantine_dir = os.path.join(website_repo_path, "quarantine", "render", scope)
-                os.makedirs(quarantine_dir, exist_ok=True)
-                
-                filepath = os.path.join(content_markdown_dir, f"{slug}.md")
-                if os.path.exists(filepath):
-                    shutil.move(filepath, os.path.join(quarantine_dir, f"{slug}.md"))
-                    print(f"  [-] Quarantined {slug}.md from {scope}")
-                    quarantined_files = True
-                    
-            if quarantined_files:
-                print("  [+] Running update_indices.py to generate pristine indices...")
-                update_script = os.path.join(current_dir, "..", "maintenance", "update_indices.py")
-                subprocess.run([sys.executable, update_script, website_repo_path])
-                
-                print("  [+] Committing and pushing quarantine state to GitHub...")
-                subprocess.run(["git", "config", "user.name", "github-actions[bot]"], cwd=website_repo_path)
-                subprocess.run(["git", "config", "user.email", "github-actions[bot]@users.noreply.github.com"], cwd=website_repo_path)
-                subprocess.run(["git", "add", "-A"], cwd=website_repo_path)
-                subprocess.run(["git", "commit", "-m", "Auto-quarantined Render build failures & updated indices"], cwd=website_repo_path)
-                subprocess.run(["git", "pull", "--rebase", "origin", "master"], cwd=website_repo_path)
-                subprocess.run(["git", "push", "origin", "master"], cwd=website_repo_path)
-                
+        _quarantine_failed_build(tmp_dir)
         print("  [!] Quarantine complete. Aborting Facebook queue scheduling.")
         sys.exit(0)
         
     print("  [+] Render build completed successfully.")
-    print("  [+] Running update_indices.py to generate pristine indices...")
-    update_script = os.path.join(current_dir, "..", "maintenance", "update_indices.py")
-    subprocess.run([sys.executable, update_script, website_repo_path])
-    
-    print("  [+] Committing and pushing final state to GitHub...")
-    subprocess.run(["git", "config", "user.name", "github-actions[bot]"], cwd=website_repo_path)
-    subprocess.run(["git", "config", "user.email", "github-actions[bot]@users.noreply.github.com"], cwd=website_repo_path)
-    subprocess.run(["git", "add", "-A"], cwd=website_repo_path)
-    subprocess.run(["git", "commit", "-m", "Auto-updated indices after successful Render QA"], cwd=website_repo_path)
-    subprocess.run(["git", "pull", "--rebase", "origin", "master"], cwd=website_repo_path)
-    subprocess.run(["git", "push", "origin", "master"], cwd=website_repo_path)
+    _sync_pristine_git_state()
     
     print("  [+] Sleeping for 1 minute before social scheduling...")
     time.sleep(60)
@@ -224,9 +253,6 @@ def main():
     if os.path.exists(fb_script):
         subprocess.run([sys.executable, fb_script], check=True)
     
-    # Future-proofing: When you build publish_to_x.py or publish_to_instagram.py, 
-    # you simply add the subprocess calls right here!
-
     print("\n>>> Unified Publisher Workflow Complete!")
 
 if __name__ == "__main__":

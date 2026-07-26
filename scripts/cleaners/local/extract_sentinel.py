@@ -1,1 +1,1 @@
-def extract_sentinel(raw, clean): return 'Success'
+def extract_sentinel(): return 'Success'

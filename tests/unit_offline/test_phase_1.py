@@ -4,7 +4,7 @@ import unittest
 import tempfile
 import shutil
 import json
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 from datetime import datetime, timedelta
 
 # Inject mock API key early to prevent client initialization crashes during imports
@@ -28,9 +28,7 @@ class TestPhase1Sourcing(unittest.TestCase):
     @patch('requests.get')
     def test_scope_isolation(self, mock_get):
         """Verify that get_rss only fetches feeds matching the category scope."""
-        # Setup scope.txt
-        with open(os.path.join(self.tmp_workspace, "scope.txt"), "w") as f:
-            f.write("Local\n")
+        os.environ["SCOUT_SCOPE"] = "local"
             
         mock_sources = {
             "sentinel": {
@@ -66,7 +64,7 @@ class TestPhase1Sourcing(unittest.TestCase):
         mock_get.return_value.content = mock_rss_xml.encode('utf-8')
 
         # Write sources.json
-        sources_path = os.path.join(self.tmp_workspace, 'data/1/1/sources.json')
+        sources_path = os.path.join(self.tmp_workspace, 'data/local/sources.json')
         os.makedirs(os.path.dirname(sources_path), exist_ok=True)
         with open(sources_path, 'w', encoding='utf-8') as f:
             json.dump(mock_sources, f)
@@ -81,7 +79,7 @@ class TestPhase1Sourcing(unittest.TestCase):
             get_rss.main()
 
         # Check discovered_urls.json output
-        discovered_path = os.path.join(self.tmp_workspace, "tmp/discovered_urls.json")
+        discovered_path = os.path.join(self.tmp_workspace, "tmp/local/discovered_urls.json")
         self.assertTrue(os.path.exists(discovered_path))
         with open(discovered_path, "r") as f:
             discovered = json.load(f)
@@ -223,9 +221,7 @@ class TestPhase1Sourcing(unittest.TestCase):
     @patch('requests.get')
     def test_cleaner_script_mismatch_fallback(self, mock_get):
         """Verify get_rss skips a source if its cleaner file does not exist."""
-        # Setup scope
-        with open(os.path.join(self.tmp_workspace, "scope.txt"), "w") as f:
-            f.write("Local\n")
+        os.environ["SCOUT_SCOPE"] = "local"
             
         mock_sources = {
             "unsupported_feed": {
@@ -236,7 +232,7 @@ class TestPhase1Sourcing(unittest.TestCase):
             }
         }
         
-        sources_path = os.path.join(self.tmp_workspace, 'data/1/1/sources.json')
+        sources_path = os.path.join(self.tmp_workspace, 'data/local/sources.json')
         os.makedirs(os.path.dirname(sources_path), exist_ok=True)
         with open(sources_path, 'w', encoding='utf-8') as f:
             json.dump(mock_sources, f)
@@ -246,7 +242,7 @@ class TestPhase1Sourcing(unittest.TestCase):
         get_rss.main()
         
         # Output discovered_urls.json should be empty
-        discovered_path = os.path.join(self.tmp_workspace, "tmp/discovered_urls.json")
+        discovered_path = os.path.join(self.tmp_workspace, "tmp/local/discovered_urls.json")
         with open(discovered_path, "r") as f:
             discovered = json.load(f)
         self.assertEqual(discovered, [])

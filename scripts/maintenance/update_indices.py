@@ -9,7 +9,12 @@ def parse_frontmatter(filepath):
     title = ""
     description = ""
     try:
-        with open(filepath, 'r', encoding='utf-8') as f:
+        # Path injection validation
+        abs_path = os.path.abspath(filepath)
+        if not abs_path.endswith(".md") or not os.path.isfile(abs_path) or "markdown" not in abs_path:
+            return "", "", "Uncategorized"
+            
+        with open(abs_path, 'r', encoding='utf-8') as f:
             content = f.read()
 
         title_match = re.search(r'^title:\s*(?:"(.*)"|\'(.*)\'|(.*))', content, re.MULTILINE)
@@ -35,6 +40,45 @@ def parse_frontmatter(filepath):
         
     return title, description, major_tag
 
+def _generate_covered_and_topics(scope_dir, history_dir, md_files):
+    from datetime import timezone
+    # Generate 48-hour covered.json
+    now_naive = datetime.now()
+    limit_date = now_naive - timedelta(hours=48)
+    
+    recent_covered = []
+    topic_counts = {}
+    
+    for slug, filename in md_files:
+        # Match YYYY-MM-DD at the start of filename
+        date_match = re.match(r'^(\d{4})-(\d{2})-(\d{2})', filename)
+        if date_match:
+            try:
+                file_date = datetime.strptime(date_match.group(0), '%Y-%m-%d')
+                # If file date is within the last 48 hours (comparing days)
+                if file_date >= limit_date:
+                    filepath = os.path.join(scope_dir, filename)
+                    title, description, major_tag = parse_frontmatter(filepath)
+                    recent_covered.append({
+                        "title": title or slug.replace("-", " ").title(),
+                        "slug": slug,
+                        "description": description
+                    })
+                    topic_counts[major_tag] = topic_counts.get(major_tag, 0) + 1
+            except Exception as e:
+                print(f"  [!] Date parsing failed for {filename}: {e}")
+
+    covered_path = os.path.join(history_dir, "covered.json")
+    with open(covered_path, 'w', encoding='utf-8') as f:
+        json.dump(recent_covered, f, indent=4)
+        
+    print(f"  [+] Generated covered.json with {len(recent_covered)} recent articles (48h window).")
+
+    topics_path = os.path.join(history_dir, "topics.json")
+    with open(topics_path, 'w', encoding='utf-8') as f:
+        json.dump(topic_counts, f, indent=4)
+    print("  [+] Generated topics.json with category counts.")
+
 def update_scope_indices(content_dir, scope):
     print(f"\n>>> Updating indices for scope: {scope.upper()}")
     
@@ -48,7 +92,6 @@ def update_scope_indices(content_dir, scope):
     history_dir = os.path.join(content_dir, "history", scope)
     os.makedirs(history_dir, exist_ok=True)
     articles_path = os.path.join(history_dir, "articles.json")
-    covered_path = os.path.join(history_dir, "covered.json")
 
     # 1. Load existing articles.json
     existing_articles = []
@@ -77,7 +120,7 @@ def update_scope_indices(content_dir, scope):
 
     if new_slugs:
         # Append new slugs maintaining chronological sort (sorted by YYYY-MM-DD prefix)
-        updated_articles = sorted(list(existing_set.union(new_slugs)))
+        updated_articles = sorted(existing_set.union(new_slugs))
         with open(articles_path, 'w', encoding='utf-8') as f:
             json.dump(updated_articles, f, indent=4)
         print(f"  [+] Added {len(new_slugs)} new articles to articles.json")
@@ -88,48 +131,26 @@ def update_scope_indices(content_dir, scope):
             json.dump(updated_articles, f, indent=4)
         print(f"  [+] Regenerated articles.json with {len(updated_articles)} items.")
 
-    # 4. Generate 48-hour covered.json
-    # Filter files within the last 48 hours based on filename prefix (YYYY-MM-DD)
-    now = datetime.utcnow()
-    limit_date = now - timedelta(hours=48)
-    
-    recent_covered = []
-    topic_counts = {}
-    
-    for slug, filename in md_files:
-        # Match YYYY-MM-DD at the start of filename
-        date_match = re.match(r'^(\d{4})-(\d{2})-(\d{2})', filename)
-        if date_match:
-            try:
-                file_date = datetime.strptime(date_match.group(0), '%Y-%m-%d')
-                # If file date is within the last 48 hours (comparing days)
-                if file_date >= limit_date:
-                    filepath = os.path.join(scope_dir, filename)
-                    title, description, major_tag = parse_frontmatter(filepath)
-                    recent_covered.append({
-                        "title": title or slug.replace("-", " ").title(),
-                        "slug": slug,
-                        "description": description
-                    })
-                    topic_counts[major_tag] = topic_counts.get(major_tag, 0) + 1
-            except Exception as e:
-                print(f"  [!] Date parsing failed for {filename}: {e}")
-
-    with open(covered_path, 'w', encoding='utf-8') as f:
-        json.dump(recent_covered, f, indent=4)
-        
-    print(f"  [+] Generated covered.json with {len(recent_covered)} recent articles (48h window).")
-
-    topics_path = os.path.join(history_dir, "topics.json")
-    with open(topics_path, 'w', encoding='utf-8') as f:
-        json.dump(topic_counts, f, indent=4)
-    print(f"  [+] Generated topics.json with category counts.")
+    _generate_covered_and_topics(scope_dir, history_dir, md_files)
 
 def main():
     import sys
+    import tempfile
     # Resolve the directory of the content repository dynamically
     if len(sys.argv) > 1:
-        content_dir = os.path.abspath(sys.argv[1])
+        if not re.match(r'^[\w\.\/\-]+$', sys.argv[1]):
+            print("[CRITICAL] Content directory path contains invalid characters.", file=sys.stderr)
+            sys.exit(1)
+        content_dir = os.path.realpath(sys.argv[1])
+        scripts_dir = os.path.dirname(os.path.abspath(__file__))
+        trusted_base = os.path.dirname(os.path.dirname(scripts_dir)) # websites/theHmars
+        temp_base = tempfile.gettempdir()
+        if not (content_dir.startswith(trusted_base) or content_dir.startswith(temp_base)):
+            print(f"[CRITICAL] Content directory {content_dir} is outside trusted paths.", file=sys.stderr)
+            sys.exit(1)
+        if not os.path.isdir(content_dir):
+            print(f"[CRITICAL] Content directory does not exist or is not a directory: {content_dir}", file=sys.stderr)
+            sys.exit(1)
     else:
         scripts_dir = os.path.dirname(os.path.abspath(__file__))
         # Resolve sibling content directory if script is in engine/scripts/maintenance/

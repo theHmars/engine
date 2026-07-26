@@ -1,9 +1,12 @@
 #!/usr/bin/env python3
 import os
+import re
 import sys
 import time
 import subprocess
 from datetime import datetime
+
+SEPARATOR = "========================================"
 
 def run_phase(command, cwd):
     """Executes a pipeline phase as a subprocess, ensuring isolated namespace and proper error handling."""
@@ -20,7 +23,7 @@ def run_phase(command, cwd):
         print(f"\n[CRITICAL FAILURE] Unexpected error launching phase: {e}")
         return False
 
-def main():
+def _parse_and_sanitize_arguments():
     import argparse
     parser = argparse.ArgumentParser()
     parser.add_argument('--workspace', default=os.environ.get('SCOUT_WORKSPACE', os.getcwd()), help='Path to scout workspace')
@@ -28,23 +31,55 @@ def main():
     parser.add_argument('--limit', type=int, default=None, help='Max articles to produce')
     args = parser.parse_known_args()[0]
     
-    workspace_dir = os.path.abspath(args.workspace)
+    # Sanitize and validate workspace path characters to prevent path traversal/command injection
+    if not re.match(r'^[\w\.\/\-]+$', args.workspace):
+        print("[CRITICAL] Workspace path contains invalid characters.", file=sys.stderr)
+        sys.exit(1)
+        
+    workspace_dir = os.path.realpath(args.workspace)
+    if not os.path.isdir(workspace_dir):
+        print(f"[CRITICAL] Workspace path does not exist or is not a directory: {workspace_dir}", file=sys.stderr)
+        sys.exit(1)
+        
     scope = args.scope.lower()
+    if scope not in ('local', 'national', 'global'):
+        print(f"[CRITICAL] Invalid scope: {scope}", file=sys.stderr)
+        sys.exit(1)
+        
+    if args.limit is not None and args.limit <= 0:
+        print(f"[CRITICAL] Limit must be a positive integer: {args.limit}", file=sys.stderr)
+        sys.exit(1)
+        
     os.environ['SCOUT_WORKSPACE'] = workspace_dir
     os.environ['SCOUT_SCOPE'] = scope
+    return workspace_dir, scope, args.limit
 
-    print("========================================")
-    print(f" NEWS AUTOMATION PIPELINE - STARTED")
+def main():
+    workspace_dir, scope, limit = _parse_and_sanitize_arguments()
+
+    print(SEPARATOR)
+    print(" NEWS AUTOMATION PIPELINE - STARTED")
     print(f" Workspace: {workspace_dir}")
     print(f" Scope:     {scope.upper()}")
     print(f" {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-    print("========================================\n")
+    print(SEPARATOR + "\n")
     
     start_time = time.time()
     local_dir = os.path.dirname(os.path.abspath(__file__))
     python_bin = os.path.join(workspace_dir, ".venv/bin/python3")
     if not os.path.exists(python_bin):
-        python_bin = sys.executable # Fallback to current runner python
+        # Try the directory containing main.py (for CI where SCOUT_WORKSPACE may differ)
+        python_bin = os.path.join(local_dir, ".venv/bin/python3")
+    if not os.path.exists(python_bin):
+        python_bin = sys.executable  # Final fallback to current runner python
+        print(f"[WARN] .venv not found in workspace or local dir, using system python: {python_bin}", file=sys.stderr)
+    else:
+        # Keep the venv symlink path — resolving realpath breaks venv site-packages
+        print(f"[INFO] Using python binary: {python_bin}")
+        
+    if not re.match(r'^[\w\.\/\-]+$', python_bin) or not os.path.isfile(python_bin) or not os.access(python_bin, os.X_OK):
+        print(f"[CRITICAL] Invalid or non-executable python binary: {python_bin}", file=sys.stderr)
+        sys.exit(1)
         
     # Write the pipeline start time so subsequent scripts synchronize their timeout triggers
     os.makedirs(os.path.join(workspace_dir, "tmp", scope), exist_ok=True)
@@ -67,8 +102,8 @@ def main():
         
     # Build produce phase command dynamically based on limit config
     produce_cmd = [python_bin, os.path.join(local_dir, "scripts/phases/produce.py"), "--start-time", str(start_time)]
-    if args.limit is not None:
-        produce_cmd.extend(["--limit", str(args.limit)])
+    if limit is not None:
+        produce_cmd.extend(["--limit", str(limit)])
 
     # Define phase sequence with absolute paths to the scripts in the engine repo
     is_mock = os.environ.get("TEST_MODE_MOCK_DATA") == "true"
@@ -92,15 +127,15 @@ def main():
     
     for command in phases:
         if not run_phase(command, workspace_dir):
-            print("\n========================================")
+            print("\n" + SEPARATOR)
             print(" PIPELINE RUN FAILED")
-            print("========================================")
+            print(SEPARATOR)
             sys.exit(1)
             
     elapsed = (time.time() - start_time) / 60
-    print("\n========================================")
+    print("\n" + SEPARATOR)
     print(f" PIPELINE COMPLETE (Duration: {elapsed:.2f} mins)")
-    print("========================================")
+    print(SEPARATOR)
 
 if __name__ == "__main__":
     main()

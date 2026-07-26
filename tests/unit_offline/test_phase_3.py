@@ -4,7 +4,7 @@ import unittest
 import tempfile
 import shutil
 import json
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 
 # Ensure scripts package is importable
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../../scripts')))

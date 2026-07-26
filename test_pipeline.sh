@@ -9,10 +9,11 @@ LOG_FILE="tmp/test_run_$(date +%s).log"
 exec > >(tee -i "$LOG_FILE") 2>&1
 export PYTHONUNBUFFERED=1
 
-echo "========================================="
+SEPARATOR="========================================="
+echo "$SEPARATOR"
 echo " CONSTRUCTING PHYSICAL SANDBOX ENVIRONMENT"
 echo " (Logs are being saved to $LOG_FILE)"
-echo "========================================="
+echo "$SEPARATOR"
 
 # 1. Build Physical Sandbox Directory Structure
 rm -rf tmp/mock_test 2>/dev/null || true
@@ -60,13 +61,13 @@ export FRONTEND_REPO_PATH="$(pwd)/tmp/mock_test/frontend"
 export ENGINE_STATE_DIR="$(pwd)/tmp/mock_test/workspace_state"
 
 # 3. Inject Mock Data
-if [ "$TEST_MODE_MOCK_DATA" == "true" ] && [ "$TEST_MODE_AGENTS" == "true" ]; then
+if [[ "$TEST_MODE_MOCK_DATA" == "true" ]] && [[ "$TEST_MODE_AGENTS" == "true" ]]; then
     echo "[*] Injecting fake 'covered.json'..."
     cp ../mock-data/covered.json "$WEBSITE_REPO_PATH/history/covered.json"
     
     echo "[*] Injecting perfectly crafted mock semantic duplicates into pipeline state..."
     scopes=()
-    if [ "$PIPELINE_SCOPE" == "all" ]; then
+    if [[ "$PIPELINE_SCOPE" == "all" ]]; then
         scopes=("local" "national" "global")
     else
         scopes=("$PIPELINE_SCOPE")
@@ -115,14 +116,14 @@ else
 fi
 
 
-echo "========================================="
+echo "$SEPARATOR"
 echo " EXECUTING ENGINE WITHIN PHYSICAL SANDBOX"
-echo "========================================="
+echo "$SEPARATOR"
 cd "$SCOUT_WORKSPACE"
 
 # 4. Run Engine Pipeline
-if [ "$TEST_MODE_AGENTS" == "true" ]; then
-    if [ "$PIPELINE_SCOPE" == "all" ]; then
+if [[ "$TEST_MODE_AGENTS" == "true" ]]; then
+    if [[ "$PIPELINE_SCOPE" == "all" ]]; then
         .venv/bin/python3 main.py --scope local --limit $ARTICLES_PER_SCOPE
         .venv/bin/python3 main.py --scope national --limit $ARTICLES_PER_SCOPE
         .venv/bin/python3 main.py --scope global --limit $ARTICLES_PER_SCOPE
@@ -132,7 +133,7 @@ if [ "$TEST_MODE_AGENTS" == "true" ]; then
 else
     echo "[*] TEST_MODE_AGENTS=false. Injecting FAKE markdown articles..."
     scopes=()
-    if [ "$PIPELINE_SCOPE" == "all" ]; then
+    if [[ "$PIPELINE_SCOPE" == "all" ]]; then
         scopes=("local" "national" "global")
     else
         scopes=("$PIPELINE_SCOPE")
@@ -179,7 +180,7 @@ shopt -u nullglob
 echo ""
 echo "[*] Validating generated markdown..."
 cd "$FRONTEND_REPO_PATH"
-npm ci > /dev/null 2>&1
+npm ci --ignore-scripts > /dev/null 2>&1
 cd "$SCOUT_WORKSPACE"
 .venv/bin/python3 scripts/utils/validate_markdown.py
 
@@ -198,7 +199,7 @@ echo "[*] Running Publisher Orchestrator against Sandbox..."
 .venv/bin/python3 scripts/social/publisher.py
 
 echo ""
-echo "========================================="
+echo "$SEPARATOR"
 echo " SANDBOX TEST COMPLETE"
 echo " Inspect 'engine/tmp/mock_test/content' to verify git quarantine commits."
-echo "========================================="
+echo "$SEPARATOR"

@@ -21,7 +21,9 @@ class HistoryManager:
         self.archive_path = os.path.join(content_repo, f"history/{scope}/archive.json")
 
     def _get_history_path(self, source_key: str) -> str:
-        return os.path.join(self.history_dir, f"sources/{source_key}_processed.json")
+        import re
+        safe_key = re.sub(r'[^a-zA-Z0-9_\-]', '', os.path.basename(source_key))
+        return os.path.join(self.history_dir, f"sources/{safe_key}_processed.json")
 
     def load_source_history(self, source_key: str) -> list:
         path = self._get_history_path(source_key)
@@ -76,7 +78,8 @@ class HistoryManager:
             try:
                 with open(self.archive_path, 'r', encoding='utf-8') as f:
                     existing_archive = json.load(f)
-            except:
+            except Exception:
+                # Fallback to empty list if archive file is corrupt or unreadable
                 pass
                 
         # Combine lists (indexed by URL to avoid duplication)
@@ -96,7 +99,7 @@ class HistoryManager:
                 cleaned_time = datetime.fromisoformat(art.get("cleaned_at", datetime.now().isoformat()))
                 if cleaned_time >= cutoff:
                     final_archive.append(art)
-            except:
+            except Exception:
                 final_archive.append(art)
                 
         os.makedirs(os.path.dirname(self.archive_path), exist_ok=True)
@@ -104,10 +107,23 @@ class HistoryManager:
             json.dump(final_archive, f, indent=4)
         print(f"  [+] Updated persistent backlog archive with {len(final_archive)} items.")
 
-    def prune(self, url_days_limit=7, topic_days_limit=3):
+    def _prune_source_file(self, source_key: str, now: float, cutoff_seconds: float):
+        """Prunes a single source history file, keeping only entries within the cutoff."""
+        history = self.load_source_history(source_key)
+        new_history = []
+        for art in history:
+            try:
+                proc_time = datetime.fromisoformat(art['processed_at']).timestamp()
+                if now - proc_time < cutoff_seconds:
+                    new_history.append(art)
+            except Exception:
+                new_history.append(art)
+        self.save_source_history(source_key, new_history)
+
+    def prune(self, url_days_limit=7):
         """Prunes historical entries older than the threshold to keep files lightweight."""
         now = time.time()
-        
+
         # 1. Clean URL history
         seconds_to_keep_urls = url_days_limit * 24 * 60 * 60
         sources_dir = os.path.join(self.history_dir, "sources")
@@ -115,15 +131,6 @@ class HistoryManager:
             for filename in os.listdir(sources_dir):
                 if filename.endswith('_processed.json'):
                     source_key = filename.replace('_processed.json', '')
-                    history = self.load_source_history(source_key)
-                    new_history = []
-                    for art in history:
-                        try:
-                            proc_time = datetime.fromisoformat(art['processed_at']).timestamp()
-                            if now - proc_time < seconds_to_keep_urls:
-                                new_history.append(art)
-                        except:
-                            new_history.append(art)
-                    self.save_source_history(source_key, new_history)
+                    self._prune_source_file(source_key, now, seconds_to_keep_urls)
 
 

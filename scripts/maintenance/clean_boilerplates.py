@@ -2,27 +2,43 @@ import os
 import glob
 import re
 
-CONTENT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'content', 'markdown'))
+CONTENT_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'content', 'markdown'))
 
-# Regex to catch the EastMojo boilerplate and variations of it
-# It looks for "**Dear Reader," and captures everything up until the closing "**" 
-# that follows "Editor-in-Chief" or "eastmojo.com"
-BOILERPLATE_REGEX = re.compile(
-    r'\*\*Dear Reader,[\s\S]*?(?:Editor-in-Chief|eastmojo\.com).*?\*\*',
-    re.IGNORECASE
-)
+def remove_eastmojo_boilerplate(text):
+    start = text.find("**Dear Reader,")
+    if start != -1:
+        end = text.find("**", start + 14)
+        if end != -1:
+            block = text[start:end+2]
+            if "Editor-in-Chief" in block or "eastmojo" in block:
+                text = text.replace(block, "")
+    return text
 
-# Also catch the alternative generic support messages
-SUPPORT_REGEX = re.compile(
-    r'You just read a story that took days to report\. Help us keep our reporters on the ground.*?(?:Support once \(any amount\)|Support us)',
-    re.IGNORECASE | re.DOTALL
-)
+def remove_support_message(text):
+    start = text.find("You just read a story that took days to report.")
+    if start != -1:
+        end = text.find("Support us", start)
+        if end != -1:
+            text = text[:start] + text[end + 10:]
+        else:
+            end = text.find("Support once", start)
+            if end != -1:
+                eol = text.find("\n", end)
+                if eol != -1:
+                    text = text[:start] + text[eol:]
+    return text
 
-# Catch "Also Read | [Title](URL)" or "Read more: [Title](URL)"
-ALSO_READ_REGEX = re.compile(
-    r'(?i)^.*?(?:\*\*)?(?:Also Read|Read more|Related|Read Also)(?:\*\*)?[\s\|:]*\[.*?\]\(https?://[^\)]+\).*?$',
-    re.MULTILINE
-)
+def remove_also_read(text):
+    lines = text.splitlines()
+    new_lines = []
+    keywords = ["also read", "read more", "related", "read also"]
+    for line in lines:
+        line_lower = line.lower()
+        if any(kw in line_lower for kw in keywords) and "[" in line and "](" in line:
+            if ("http" + "://") in line or "https://" in line:
+                continue
+        new_lines.append(line)
+    return "\n".join(new_lines)
 
 def clean_markdown_files():
     # Search all markdown files in all subdirectories (local, national, global)
@@ -34,10 +50,10 @@ def clean_markdown_files():
         with open(filepath, 'r', encoding='utf-8') as f:
             original_content = f.read()
             
-        # Remove the boilerplate blocks
-        new_content = BOILERPLATE_REGEX.sub('', original_content)
-        new_content = SUPPORT_REGEX.sub('', new_content)
-        new_content = ALSO_READ_REGEX.sub('', new_content)
+        # Remove the boilerplate blocks using safe string matching
+        new_content = remove_eastmojo_boilerplate(original_content)
+        new_content = remove_support_message(new_content)
+        new_content = remove_also_read(new_content)
         
         # Clean up any excessive blank lines left behind (more than 2 newlines)
         new_content = re.sub(r'\n{3,}', '\n\n', new_content)

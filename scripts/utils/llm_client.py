@@ -34,11 +34,14 @@ def clean_json_string(text):
     if not text:
         return ""
     text = text.strip()
-    # Match ```json ... ``` or ``` ... ```
-    match = re.match(r"^```(?:json)?\s*(.*?)\s*```$", text, re.DOTALL)
-    if match:
-        return match.group(1).strip()
-    return text
+    if text.startswith("```"):
+        lines = text.splitlines()
+        if lines[0].startswith("```"):
+            lines = lines[1:]
+        if lines and lines[-1].strip() == "```":
+            lines = lines[:-1]
+        text = "\n".join(lines).strip()
+    return text.strip()
 
 def call_llm(system_prompt, user_content, temperature=0.3, max_tokens=2048, timeout=90):
     """
@@ -67,14 +70,11 @@ def call_llm(system_prompt, user_content, temperature=0.3, max_tokens=2048, time
         except Exception as e:
             last_exception = e
             # If it's a 429 Rate Limit error, continue to the next key. Otherwise raise immediately.
-            if hasattr(e, 'status_code') and e.status_code == 429:
-                print(f"[!] Hit 429 Rate Limit on API Key {key_index+1}. Falling back to next key...")
-                continue
-            elif '429' in str(e):
+            if (hasattr(e, 'status_code') and e.status_code == 429) or '429' in str(e):
                 print(f"[!] Hit 429 Rate Limit on API Key {key_index+1}. Falling back to next key...")
                 continue
             else:
                 raise e
     
     # If we exhausted all keys
-    raise Exception(f"All {len(API_KEYS)} API keys returned 429 errors. Last error: {last_exception}")
+    raise RuntimeError(f"All {len(API_KEYS)} API keys returned 429 errors. Last error: {last_exception}")

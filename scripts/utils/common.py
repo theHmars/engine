@@ -82,6 +82,18 @@ def save_source_history(source_key, history_list):
 
 
 
+def _filter_recent_entries(history: list, now: float, seconds_to_keep: float) -> list:
+    """Returns entries from history whose processed_at is within the cutoff window."""
+    result = []
+    for art in history:
+        try:
+            proc_time = datetime.fromisoformat(art['processed_at']).timestamp()
+            if now - proc_time < seconds_to_keep:
+                result.append(art)
+        except Exception:
+            result.append(art)
+    return result
+
 def cleanup_history(days_to_keep=7):
     """Removes entries older than X days from both history files."""
     now = time.time()
@@ -95,14 +107,7 @@ def cleanup_history(days_to_keep=7):
             if filename.endswith('_processed.json'):
                 source_key = filename.replace('_processed.json', '')
                 history = load_source_history(source_key)
-                new_articles = []
-                for art in history:
-                    try:
-                        proc_time = datetime.fromisoformat(art['processed_at']).timestamp()
-                        if now - proc_time < seconds_to_keep:
-                            new_articles.append(art)
-                    except:
-                        new_articles.append(art)
+                new_articles = _filter_recent_entries(history, now, seconds_to_keep)
                 save_source_history(source_key, new_articles)
 
 def load_topics(category="local"):
@@ -115,6 +120,6 @@ def load_topics(category="local"):
             with open(path, 'r', encoding='utf-8') as f:
                 data = json.load(f)
                 return {"topics": list(data.keys())} if isinstance(data, dict) else {"topics": []}
-        except:
+        except Exception:
             pass
     return {"topics": []}
