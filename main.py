@@ -5,6 +5,8 @@ import time
 import subprocess
 from datetime import datetime
 
+SEPARATOR = "========================================"
+
 def run_phase(command, cwd):
     """Executes a pipeline phase as a subprocess, ensuring isolated namespace and proper error handling."""
     print(f"\n>> Executing: {' '.join(command)}")
@@ -33,12 +35,12 @@ def main():
     os.environ['SCOUT_WORKSPACE'] = workspace_dir
     os.environ['SCOUT_SCOPE'] = scope
 
-    print("========================================")
+    print(SEPARATOR)
     print(f" NEWS AUTOMATION PIPELINE - STARTED")
     print(f" Workspace: {workspace_dir}")
     print(f" Scope:     {scope.upper()}")
     print(f" {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
-    print("========================================\n")
+    print(SEPARATOR + "\n")
     
     start_time = time.time()
     local_dir = os.path.dirname(os.path.abspath(__file__))
@@ -92,15 +94,15 @@ def main():
     
     for command in phases:
         if not run_phase(command, workspace_dir):
-            print("\n========================================")
+            print("\n" + SEPARATOR)
             print(" PIPELINE RUN FAILED")
-            print("========================================")
+            print(SEPARATOR)
             sys.exit(1)
             
     elapsed = (time.time() - start_time) / 60
-    print("\n========================================")
+    print("\n" + SEPARATOR)
     print(f" PIPELINE COMPLETE (Duration: {elapsed:.2f} mins)")
-    print("========================================")
+    print(SEPARATOR)
 
 if __name__ == "__main__":
     main()

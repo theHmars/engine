@@ -29,7 +29,7 @@ def extract_thehindu(html_path, output_path):
         title = title_tag.get_text().strip()
     
     if title == "N/A" or not title:
-        title_meta = soup.find('meta', property='og:title') or soup.find('meta', name='title')
+        title_meta = soup.find('meta', property='og:title') or soup.find('meta', attrs={'name': 'title'})
         if title_meta:
             title = title_meta.get('content', "N/A")
 
@@ -39,7 +39,7 @@ def extract_thehindu(html_path, output_path):
     if date_tag:
         date_str = re.sub(r'\s+', ' ', date_tag.get_text()).strip()
     else:
-        date_meta = soup.find('meta', property='article:published_time') or soup.find('meta', name='publish-date')
+        date_meta = soup.find('meta', property='article:published_time') or soup.find('meta', attrs={'name': 'publish-date'})
         if date_meta:
             date_str = date_meta.get('content', "N/A")
 

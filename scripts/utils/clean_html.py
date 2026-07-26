@@ -45,7 +45,8 @@ def load_extractors(root_dir):
 
 def clean_article(cand, root_dir, hm):
     """Downloads raw HTML and runs the cleaner extractor. Returns clean JSON data or None."""
-    s_key = cand["source_key"]
+    import re
+    s_key = re.sub(r'[^a-zA-Z0-9_\-]', '', os.path.basename(cand["source_key"]))
     title = cand["title"]
     url = cand["url"]
     

@@ -21,7 +21,9 @@ class HistoryManager:
         self.archive_path = os.path.join(content_repo, f"history/{scope}/archive.json")
 
     def _get_history_path(self, source_key: str) -> str:
-        return os.path.join(self.history_dir, f"sources/{source_key}_processed.json")
+        import re
+        safe_key = re.sub(r'[^a-zA-Z0-9_\-]', '', os.path.basename(source_key))
+        return os.path.join(self.history_dir, f"sources/{safe_key}_processed.json")
 
     def load_source_history(self, source_key: str) -> list:
         path = self._get_history_path(source_key)

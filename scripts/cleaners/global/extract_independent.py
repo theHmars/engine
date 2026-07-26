@@ -24,7 +24,7 @@ def extract_independent(html_path, output_path):
 
     # 1. Title
     title = "N/A"
-    title_meta = soup.find('meta', property='og:title') or soup.find('meta', name='twitter:title')
+    title_meta = soup.find('meta', property='og:title') or soup.find('meta', attrs={'name': 'twitter:title'})
     if title_meta:
         title = title_meta['content']
     else:
@@ -34,7 +34,7 @@ def extract_independent(html_path, output_path):
 
     # 2. Date
     date_str = "N/A"
-    date_meta = soup.find('meta', property='article:published_time') or soup.find('meta', name='date')
+    date_meta = soup.find('meta', property='article:published_time') or soup.find('meta', attrs={'name': 'date'})
     if date_meta:
         date_str = date_meta['content']
     else:
@@ -43,7 +43,7 @@ def extract_independent(html_path, output_path):
             date_str = time_tag['datetime']
 
     # 3. Featured Image
-    img_meta = soup.find('meta', property='og:image') or soup.find('meta', name='twitter:image')
+    img_meta = soup.find('meta', property='og:image') or soup.find('meta', attrs={'name': 'twitter:image'})
     featured_image = img_meta['content'] if img_meta else "N/A"
 
     # 4. Content Body
