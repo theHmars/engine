@@ -26,6 +26,13 @@ ACCESS_TOKEN = os.environ.get("FB_PAGE_ACCESS_TOKEN")
 API_VERSION = "v20.0"
 BASE_URL = f"https://graph.facebook.com/{API_VERSION}"
 
+def is_old_domain_url(value):
+    try:
+        host = (urlparse(value).hostname or "").lower()
+    except Exception:
+        return False
+    return host == "thehmars.onrender.com" or host.endswith(".thehmars.onrender.com")
+
 def check_published():
     parser = argparse.ArgumentParser(description="Export published FB feed to JSON")
     parser.add_argument("--all", action="store_true", help="Include legacy posts with thehmars.onrender.com URLs")
@@ -59,16 +66,9 @@ def check_published():
                         attachments = post.get("attachments", {}).get("data", [])
                         for att in attachments:
                             att_url = att.get("unshimmed_url", "") or att.get("url", "") or att.get("target", {}).get("url", "")
-                            if att_url:
-                                try:
-                                    parsed = urlparse(att_url)
-                                    if parsed.netloc == "thehmars.onrender.com" or parsed.netloc.endswith(".thehmars.onrender.com"):
-                                        has_old_url = True
-                                        break
-                                except Exception:
-                                    if "thehmars.onrender.com" in att_url:
-                                        has_old_url = True
-                                        break
+                            if att_url and is_old_domain_url(att_url):
+                                has_old_url = True
+                                break
                                 
                         # Check message body
                         if not has_old_url and "thehmars.onrender.com" in post.get("message", ""):
